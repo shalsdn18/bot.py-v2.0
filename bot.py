@@ -23,29 +23,29 @@ if not TELEGRAM_TOKEN or not CHAT_ID:
 RSI_OVERSOLD = 30
 RSI_OVERBOUGHT = 70
 
-STOP_LOSS_PCT     = 0.05   # -5%
-TARGET1_PCT       = 0.10   # +10%
-TARGET2_PCT       = 0.20   # +20%
-TRAIL_START_PCT   = 0.15   # +15% 이상에서 트레일링 시작 가정
-TRAIL_GAP_PCT     = 0.03   # 고점 대비 -3% 하락 시 트레일링 스탑
+STOP_LOSS_PCT   = 0.05   # -5%
+TARGET1_PCT     = 0.10   # +10%
+TARGET2_PCT     = 0.20   # +20%
+TRAIL_START_PCT = 0.15   # +15% 이상에서 트레일링 시작 가정
+TRAIL_GAP_PCT   = 0.03   # (지금은 참고용 숫자만 표시)
 
 # ==============================
 # [Target List] 감시할 종목 리스트
 # ==============================
 TARGETS = [
-    # KOREA
-    {'ticker': '005930.KS', 'name': '삼성전자',         'market': 'KR'},
-    {'ticker': '000660.KS', 'name': 'SK하이닉스',       'market': 'KR'},
-    {'ticker': '009150.KS', 'name': '삼성전기',         'market': 'KR'},
-    {'ticker': '373220.KS', 'name': 'LG에너지솔루션',   'market': 'KR'},
-    {'ticker': '066570.KS', 'name': 'LG전자',           'market': 'KR'},
-    {'ticker': '035420.KS', 'name': 'NAVER',            'market': 'KR'},
-    {'ticker': '000270.KS', 'name': '기아',             'market': 'KR'},
-    {'ticker': '079550.KS', 'name': 'LIG넥스원',        'market': 'KR'},
-    {'ticker': '012450.KS', 'name': '한화에어로스페이스','market': 'KR'},
+    # KOREA – 반도체/AI/방산/인프라
+    {'ticker': '005930.KS', 'name': '삼성전자',           'market': 'KR'},
+    {'ticker': '000660.KS', 'name': 'SK하이닉스',         'market': 'KR'},
+    {'ticker': '009150.KS', 'name': '삼성전기',           'market': 'KR'},
+    {'ticker': '373220.KS', 'name': 'LG에너지솔루션',     'market': 'KR'},
+    {'ticker': '066570.KS', 'name': 'LG전자',             'market': 'KR'},
+    {'ticker': '035420.KS', 'name': 'NAVER',              'market': 'KR'},
+    {'ticker': '000270.KS', 'name': '기아',               'market': 'KR'},
+    {'ticker': '079550.KS', 'name': 'LIG넥스원',          'market': 'KR'},
+    {'ticker': '012450.KS', 'name': '한화에어로스페이스', 'market': 'KR'},
     # 선택 감시
-    {'ticker': '011200.KS', 'name': 'HMM',              'market': 'KR'},
-    {'ticker': '034220.KS', 'name': 'LG디스플레이',     'market': 'KR'},
+    {'ticker': '011200.KS', 'name': 'HMM',                'market': 'KR'},
+    {'ticker': '034220.KS', 'name': 'LG디스플레이',       'market': 'KR'},
 
     # USA – AI/반도체/빅테크
     {'ticker': 'NVDA', 'name': 'NVIDIA',    'market': 'US'},
@@ -59,9 +59,9 @@ TARGETS = [
     {'ticker': 'TSLA', 'name': 'Tesla',     'market': 'US'},
 
     # Dividend / Cash-flow
-    {'ticker': 'SCHD', 'name': 'SCHD ETF',         'market': 'US'},
-    {'ticker': 'VYM',  'name': 'VYM ETF',          'market': 'US'},
-    {'ticker': 'O',    'name': 'Realty Income',    'market': 'US'},
+    {'ticker': 'SCHD', 'name': 'SCHD ETF',      'market': 'US'},
+    {'ticker': 'VYM',  'name': 'VYM ETF',       'market': 'US'},
+    {'ticker': 'O',    'name': 'Realty Income', 'market': 'US'},
 
     # Crypto (시장 컨디션 관찰용)
     {'ticker': 'BTC-USD', 'name': 'Bitcoin',  'market': 'COIN'},
@@ -72,6 +72,7 @@ TARGETS = [
 # [Module 1] 뉴스 수집
 # ==========================================
 def get_latest_news(query: str) -> str:
+    """구글 뉴스 RSS에서 관련 키워드 최신 뉴스 3개 가져오기"""
     try:
         url = (
             "https://news.google.com/rss/search?"
@@ -120,16 +121,36 @@ def get_market_risk():
     """
     VIX, 달러(UUP), 미10년(^TNX)를 이용해
     시장 위험 레벨을 Low/Normal/High/Extreme로 분류
+    + NaN 안전 처리
     """
     try:
         tickers = ['^VIX', 'UUP', '^TNX']
-        data = yf.download(tickers, period="1mo", progress=False)['Close']
+        raw = yf.download(tickers, period="3mo", progress=False)
 
-        vix  = float(data['^VIX'].iloc[-1])
-        uup  = float(data['UUP'].iloc[-1])
-        tnx  = float(data['^TNX'].iloc[-1])
+        if raw.empty:
+            raise ValueError("지표 데이터 수신 실패")
 
-        uup_ma20 = float(data['UUP'].rolling(window=20).mean().iloc[-1])
+        data = raw['Close']
+
+        # NaN → 직전값으로 보정
+        data = data.ffill().dropna(how="all")
+
+        vix_series = data['^VIX'].dropna()
+        uup_series = data['UUP'].dropna()
+        tnx_series = data['^TNX'].dropna()
+
+        if vix_series.empty or uup_series.empty or tnx_series.empty:
+            raise ValueError("지표 데이터 부족")
+
+        vix = float(vix_series.iloc[-1])
+        uup = float(uup_series.iloc[-1])
+        tnx = float(tnx_series.iloc[-1])
+
+        uup_ma20_series = uup_series.rolling(window=20).mean().dropna()
+        if uup_ma20_series.empty:
+            uup_ma20 = uup
+        else:
+            uup_ma20 = float(uup_ma20_series.iloc[-1])
 
         # VIX 레벨
         if vix < 15:
@@ -155,7 +176,7 @@ def get_market_risk():
         else:
             dollar_level = "Neutral"
 
-        # 위험 점수화
+        # 위험 점수화 (단순 가중)
         score = 50
         if vol_level == "Low":
             score += 5
@@ -194,11 +215,14 @@ def get_market_risk():
 
     except Exception as e:
         print(f"[Market Risk Error] {e}")
-        return {"level": "Unknown", "score": 50,
-                "summary": "시장 위험도: Unknown (지표 수집 실패)"}
+        return {
+            "level": "Unknown",
+            "score": 50,
+            "summary": "시장 위험도: Unknown (지표 수집 실패)"
+        }
 
 # ==========================================
-# [Module 4] 레이팅 계산
+# [Module 4] 종목 레이팅 계산
 # ==========================================
 def rate_stock(curr_price, ma20_val, ma60_val,
                curr_rsi, curr_upper, curr_lower,
@@ -224,18 +248,12 @@ def rate_stock(curr_price, ma20_val, ma60_val,
     else:
         score -= 10
 
-    # 20일선 기울기 (최근 5일)
-    slope = ma20_val  # placeholder, 실제로는 최근 값 차이
-    # 위에서 ma20_val만 쓰고 있어 slope는 단순화
-    # 추세 방향만 추가적인 점수로 고려하려면
-    # analyze 함수 안에서 5일 차이로 계산해 전달해도 됨
-
     # 볼린저 내 위치
     band_mid = (curr_upper + curr_lower) / 2
     if curr_price < band_mid:
-        score += 5   # 상대적 저점
+        score += 5   # 상대적 저가
     else:
-        score -= 5   # 상대적 고점
+        score -= 5   # 상대적 고가
 
     # 시장 위험도
     if market_risk_level == "Low":
@@ -322,7 +340,6 @@ def analyze_market():
             sell_prev = (prev_price > prev_upper) or (prev_rsi > RSI_OVERBOUGHT)
 
             signal = None
-            signal_type = None
 
             if buy_now and not buy_prev:
                 signal = "🚨 *매수(BUY) 신호*"
@@ -330,14 +347,12 @@ def analyze_market():
             elif sell_now and not sell_prev:
                 signal = "💰 *매도(SELL) 신호*"
                 signal_type = "SELL"
-
-            if not signal:
+            else:
                 print(f">> {name}: No New Signal.")
                 continue
 
             # --------------------------
-            # B. 목표가 / 손절 / 트레일링 레벨 계산
-            # (가상의 신규 진입 기준 참고용)
+            # B. 목표가 / 손절 / 트레일링 레벨 (참고용)
             # --------------------------
             stop_loss = curr_price * (1 - STOP_LOSS_PCT)
             target1   = curr_price * (1 + TARGET1_PCT)
@@ -387,4 +402,3 @@ def analyze_market():
 
 if __name__ == "__main__":
     analyze_market()
-
