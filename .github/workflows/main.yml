@@ -1,16 +1,21 @@
-name: Real-time Market Watch
+name: Stock Bot & Daily Briefing
 
 on:
   schedule:
-    # 평일(월~금) 30분마다 실행
+    # 평일 매 30분마다 실행 (UTC 기준)
+    # 00:00 UTC = 09:00 KST → 이 때는 브리핑만 실행
     - cron: "*/30 * * * 1-5"
-  workflow_dispatch: # 수동 실행 버튼 추가
+  workflow_dispatch:
+
+permissions:
+  contents: write  # positions.json 커밋용
 
 jobs:
-  run-bot:
+  run-bot-and-briefing:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v4
         with:
@@ -18,7 +23,35 @@ jobs:
 
       - run: pip install pandas yfinance requests lxml
 
-      - run: python bot.py
+      - name: Run Bot or Daily Report (time-based)
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
+        run: |
+          CURRENT_HOUR=$(date -u +%H)
+          CURRENT_MINUTE=$(date -u +%M)
+
+          echo "UTC now: $CURRENT_HOUR:$CURRENT_MINUTE"
+
+          # 00:00 UTC (= 09:00 KST) 에만 모닝 브리핑
+          if [ "$CURRENT_HOUR" -eq "00" ] && [ "$CURRENT_MINUTE" -eq "00" ]; then
+            echo "Running daily_report.py (Morning Briefing)..."
+            python daily_report.py
+          else
+            echo "Running bot.py (Realtime Watch)..."
+            python bot.py
+          fi
+
+      - name: Commit & Push positions.json if changed
+        run: |
+          git config --global user.name "GitHub Action Bot"
+          git config --global user.email "actions@github.com"
+
+          if [[ -n "$(git status -s positions.json)" ]]; then
+            git add positions.json
+            git commit -m "🤖 Update positions [skip ci]"
+            git push
+            echo "positions.json committed and pushed."
+          else
+            echo "No positions.json changes to commit."
+          fi
