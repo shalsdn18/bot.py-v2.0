@@ -92,7 +92,7 @@
     "COIN": {
         "name": "코인베이스",
         "entry_price": 263.0,
-        "highest_price": 275.43499755859375,
+        "highest_price": 276.7099914550781,
         "opened_at": "2025-12-02"
     },
     "MU": {
@@ -146,7 +146,7 @@
     "PLTR": {
         "name": "팔란티어",
         "entry_price": 168.6493,
-        "highest_price": 174.66000366210938,
+        "highest_price": 175.1981964111328,
         "opened_at": "2025-12-02"
     },
     "MA": {
