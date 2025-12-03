@@ -146,7 +146,7 @@
     "PLTR": {
         "name": "팔란티어",
         "entry_price": 168.6493,
-        "highest_price": 174.32020568847656,
+        "highest_price": 174.66000366210938,
         "opened_at": "2025-12-02"
     },
     "MA": {
@@ -326,7 +326,7 @@
     "SCHD": {
         "name": "SCHD (ETF)",
         "entry_price": 27.6899,
-        "highest_price": 27.795000076293945,
+        "highest_price": 27.815000534057617,
         "opened_at": "2025-12-02"
     },
     "JNJ": {
