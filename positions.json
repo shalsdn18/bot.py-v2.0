@@ -41,12 +41,6 @@
         "highest_price": 183.3000030517578,
         "opened_at": "2025-12-02"
     },
-    "GOOGL": {
-        "name": "알파벳 A",
-        "entry_price": 316.2728,
-        "highest_price": 316.360107421875,
-        "opened_at": "2025-12-02"
-    },
     "META": {
         "name": "메타",
         "entry_price": 644.2133,
@@ -74,7 +68,7 @@
     "TSM": {
         "name": "TSMC(ADR)",
         "entry_price": 291.2236,
-        "highest_price": 292.0899963378906,
+        "highest_price": 293.0299987792969,
         "opened_at": "2025-12-02"
     },
     "SBUX": {
@@ -86,7 +80,7 @@
     "TSLA": {
         "name": "테슬라",
         "entry_price": 431.0543,
-        "highest_price": 437.4731140136719,
+        "highest_price": 441.0199890136719,
         "opened_at": "2025-12-02"
     },
     "ORCL": {
@@ -105,12 +99,6 @@
         "name": "마이크론 테크놀로지",
         "entry_price": 239.6288,
         "highest_price": 239.6288,
-        "opened_at": "2025-12-02"
-    },
-    "GOOG": {
-        "name": "알파벳 C",
-        "entry_price": 316.4435,
-        "highest_price": 316.4435,
         "opened_at": "2025-12-02"
     },
     "COP": {
@@ -134,7 +122,7 @@
     "AXP": {
         "name": "아메리칸 익스프레스",
         "entry_price": 360.3022,
-        "highest_price": 364.57000732421875,
+        "highest_price": 365.6199951171875,
         "opened_at": "2025-12-02"
     },
     "LRCX": {
@@ -158,7 +146,7 @@
     "PLTR": {
         "name": "팔란티어",
         "entry_price": 168.6493,
-        "highest_price": 170.7050018310547,
+        "highest_price": 171.625,
         "opened_at": "2025-12-02"
     },
     "MA": {
@@ -338,7 +326,7 @@
     "SCHD": {
         "name": "SCHD (ETF)",
         "entry_price": 27.6899,
-        "highest_price": 27.695600509643555,
+        "highest_price": 27.696699142456055,
         "opened_at": "2025-12-02"
     },
     "JNJ": {
