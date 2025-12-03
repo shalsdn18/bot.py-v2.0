@@ -80,7 +80,7 @@
     "TSLA": {
         "name": "테슬라",
         "entry_price": 431.0543,
-        "highest_price": 442.8299865722656,
+        "highest_price": 447.86968994140625,
         "opened_at": "2025-12-02"
     },
     "ORCL": {
@@ -122,7 +122,7 @@
     "AXP": {
         "name": "아메리칸 익스프레스",
         "entry_price": 360.3022,
-        "highest_price": 368.9570007324219,
+        "highest_price": 369.6300048828125,
         "opened_at": "2025-12-02"
     },
     "LRCX": {
@@ -326,7 +326,7 @@
     "SCHD": {
         "name": "SCHD (ETF)",
         "entry_price": 27.6899,
-        "highest_price": 27.790000915527344,
+        "highest_price": 27.795000076293945,
         "opened_at": "2025-12-02"
     },
     "JNJ": {
