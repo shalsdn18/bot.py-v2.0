@@ -62,7 +62,7 @@
     "AAPL": {
         "name": "애플",
         "entry_price": 282.6458,
-        "highest_price": 286.19000244140625,
+        "highest_price": 287.55499267578125,
         "opened_at": "2025-12-02"
     },
     "AMZN": {
@@ -86,7 +86,7 @@
     "TSLA": {
         "name": "테슬라",
         "entry_price": 431.0543,
-        "highest_price": 431.0543,
+        "highest_price": 437.4731140136719,
         "opened_at": "2025-12-02"
     },
     "ORCL": {
@@ -98,7 +98,7 @@
     "COIN": {
         "name": "코인베이스",
         "entry_price": 263.0,
-        "highest_price": 263.260009765625,
+        "highest_price": 271.7300109863281,
         "opened_at": "2025-12-02"
     },
     "MU": {
@@ -134,7 +134,7 @@
     "AXP": {
         "name": "아메리칸 익스프레스",
         "entry_price": 360.3022,
-        "highest_price": 360.70001220703125,
+        "highest_price": 364.57000732421875,
         "opened_at": "2025-12-02"
     },
     "LRCX": {
@@ -158,7 +158,7 @@
     "PLTR": {
         "name": "팔란티어",
         "entry_price": 168.6493,
-        "highest_price": 170.69000244140625,
+        "highest_price": 170.7050018310547,
         "opened_at": "2025-12-02"
     },
     "MA": {
@@ -338,7 +338,7 @@
     "SCHD": {
         "name": "SCHD (ETF)",
         "entry_price": 27.6899,
-        "highest_price": 27.6899,
+        "highest_price": 27.695600509643555,
         "opened_at": "2025-12-02"
     },
     "JNJ": {
