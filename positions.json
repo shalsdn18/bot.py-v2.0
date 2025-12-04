@@ -38,7 +38,7 @@
     "NVDA": {
         "name": "엔비디아",
         "entry_price": 181.2297,
-        "highest_price": 183.3000030517578,
+        "highest_price": 183.8249969482422,
         "opened_at": "2025-12-02"
     },
     "MSFT": {
@@ -128,7 +128,7 @@
     "PLTR": {
         "name": "팔란티어",
         "entry_price": 168.6493,
-        "highest_price": 177.73500061035156,
+        "highest_price": 177.92999267578125,
         "opened_at": "2025-12-02"
     },
     "MA": {
