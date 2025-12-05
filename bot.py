@@ -8,15 +8,30 @@ import pandas as pd
 import xml.etree.ElementTree as ET
 from datetime import datetime
 
+# Gemini (선택) ----------------------------
+try:
+    import google.generativeai as genai
+except ImportError:
+    genai = None
+# -----------------------------------------
+
 # ==============================
 # [Config] GitHub Secrets
 # ==============================
-TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
-CHAT_ID = os.environ.get("CHAT_ID")
+TELEGRAM_TOKEN  = os.environ.get("TELEGRAM_TOKEN")
+CHAT_ID         = os.environ.get("CHAT_ID")
+GEMINI_API_KEY  = os.environ.get("GEMINI_API_KEY")  # 선택
 
 if not TELEGRAM_TOKEN or not CHAT_ID:
     print("❌ [Error] 환경변수(TELEGRAM_TOKEN / CHAT_ID) 누락")
     sys.exit(1)
+
+# Gemini 설정
+if GEMINI_API_KEY and genai is not None:
+    genai.configure(api_key=GEMINI_API_KEY)
+    GEMINI_ENABLED = True
+else:
+    GEMINI_ENABLED = False
 
 # ==============================
 # [Files]
@@ -29,11 +44,11 @@ POSITIONS_FILE = "positions.json"
 RSI_OVERSOLD = 30
 RSI_OVERBOUGHT = 70
 
-STOP_LOSS_PCT      = 0.05   # -5% 손절 참고 레벨 (메시지 안내용)
+STOP_LOSS_PCT      = 0.05   # -5% 손절 참고 레벨
 TARGET1_PCT        = 0.10   # +10% 1차 목표
 TARGET2_PCT        = 0.20   # +20% 2차 목표
-TRAIL_START_PCT    = 0.15   # +15%부터 트레일링 감안 (안내용)
-TRAILING_STOP_PCT  = 0.05   # 고점 대비 -5% 트레일링 스탑 발동
+TRAIL_START_PCT    = 0.15   # +15%부터 트레일링 감안
+TRAILING_STOP_PCT  = 0.05   # 고점 대비 -5% 트레일링 스탑
 
 # ==============================
 # [Target List] 실시간 감시 대상
@@ -120,6 +135,27 @@ def get_latest_news(query: str) -> str:
         print(f"[News Error] {query}: {e}")
         return "(뉴스 수집 실패)"
 
+# Gemini용 뉴스 타이틀만 추출 (AI 프롬프트용)
+def get_news_titles_for_ai(query: str):
+    try:
+        url = (
+            "https://news.google.com/rss/search?"
+            f"q={query}&hl=ko&gl=KR&ceid=KR:ko"
+        )
+        resp = requests.get(url, timeout=5)
+        resp.raise_for_status()
+        root = ET.fromstring(resp.content)
+
+        titles = []
+        for item in root.findall("./channel/item")[:3]:
+            title = (item.find("title").text or "").strip()
+            if title:
+                titles.append(title)
+        return titles
+    except Exception as e:
+        print(f"[NewsTitle Error] {query}: {e}")
+        return []
+
 # ==========================================
 # [Module] 텔레그램
 # ==========================================
@@ -135,6 +171,67 @@ def send_telegram(msg: str):
         resp.raise_for_status()
     except Exception as e:
         print(f"[Telegram Error] {e}")
+
+# ==========================================
+# [Module] Gemini AI 코멘트
+# ==========================================
+def get_ai_comment(
+    signal_type: str,
+    name: str,
+    ticker: str,
+    roi: float | None,
+    curr_rsi: float,
+    rating: str,
+    score: int,
+    risk_summary: str,
+    sell_reasons: str | None,
+) -> str:
+    """
+    BUY/SELL 발생 시 간단 3~4줄 코멘트 생성.
+    roi 는 SELL일 때만 값, BUY 때는 None.
+    """
+    if not GEMINI_ENABLED:
+        return "(AI 코멘트 비활성화: GEMINI_API_KEY 없음)"
+
+    try:
+        news_titles = get_news_titles_for_ai(name)
+        titles_text = "\n".join(f"- {t}" for t in news_titles) if news_titles else "(관련 뉴스 제목 없음)"
+
+        base_desc = f"신호 종류: {signal_type}, 종목: {name}({ticker}), RSI={curr_rsi:.1f}, 레이팅={rating}(Score {score}/100)."
+        if roi is not None:
+            base_desc += f" 현재 포지션 수익률은 {roi:.2f}% 입니다."
+        if sell_reasons:
+            base_desc += f" 매도 트리거 사유: {sell_reasons}."
+
+        prompt = f"""
+        당신은 한국어로 답변하는 주식 애널리스트입니다.
+        아래 정보를 바탕으로 간단히 3~4줄 정도로 분석 코멘트를 써주세요.
+
+        [기술 신호/포지션 정보]
+        {base_desc}
+
+        [시장 위험도 요약]
+        {risk_summary}
+
+        [최근 뉴스 제목 목록]
+        {titles_text}
+
+        요구사항:
+        - 반드시 한국어로만 답변
+        - 형식:
+          1) 단기 관점: ...
+          2) 중기 관점: ...
+          3) 장기 관점: ...
+          📌 결론: ... (한 줄 요약)
+        - 개별 가격 목표 제시는 하지 말고, 리스크/기회 위주로만 코멘트.
+        """
+
+        model = genai.GenerativeModel("gemini-1.5-flash")
+        resp = model.generate_content(prompt)
+        text = (resp.text or "").strip()
+        return text if text else "(AI 코멘트 생성 실패)"
+    except Exception as e:
+        return f"(AI 코멘트 오류: {e})"
 
 # ==========================================
 # [Module] 시장 위험도 (VIX / UUP / 10Y)
@@ -240,7 +337,7 @@ def rate_stock(curr_price, ma20_val, ma60_val,
                market_risk_level: str):
     score = 50
 
-    # RSI 기여
+    # RSI
     if curr_rsi < 30:
         score += 15
     elif curr_rsi < 40:
@@ -263,7 +360,7 @@ def rate_stock(curr_price, ma20_val, ma60_val,
     else:
         score -= 5
 
-    # 시장 위험도 반영
+    # 시장 위험도
     if market_risk_level == "Low":
         score += 5
     elif market_risk_level == "High":
@@ -287,12 +384,11 @@ def rate_stock(curr_price, ma20_val, ma60_val,
     return rating, score
 
 # ==========================================
-# [Core] 분석 + 포지션 추적
+# [Core] 분석 + 포지션 추적 + AI 코멘트
 # ==========================================
 def analyze_market():
     print(f"[{datetime.now()}] Market Watch Start...")
 
-    # 시장 위험도
     market_risk = get_market_risk()
     risk_level   = market_risk["level"]
     risk_summary = market_risk["summary"]
@@ -393,6 +489,19 @@ def analyze_market():
                     reason_text = "; ".join(sell_reasons)
                     news_summary = get_latest_news(name)
 
+                    # AI 코멘트
+                    ai_comment = get_ai_comment(
+                        signal_type="SELL",
+                        name=name,
+                        ticker=ticker,
+                        roi=roi,
+                        curr_rsi=curr_rsi,
+                        rating=rating,
+                        score=score,
+                        risk_summary=risk_summary,
+                        sell_reasons=reason_text,
+                    )
+
                     msg = (
                         f"💰 *매도(SELL) 실행*\n"
                         f"--------------------\n"
@@ -406,15 +515,16 @@ def analyze_market():
                         f"레이팅: {rating} (Score {score}/100)\n"
                         f"사유: {reason_text}\n"
                         f"--------------------\n"
-                        f"📰 *관련 뉴스*\n{news_summary}"
+                        f"📰 *관련 뉴스*\n{news_summary}\n"
+                        f"--------------------\n"
+                        f"🧠 *AI 코멘트*\n{ai_comment}"
                     )
                     send_telegram(msg)
                     del positions[ticker]
                     positions_updated = True
                     print(f">> {name}: Position SOLD. ({reason_text})")
-                    continue  # 매도 후 신규 진입 로직은 이번 턴 건너뜀
+                    continue  # 매도 후 신규 진입 로직 건너뜀
 
-                # SELL 조건이 없어도 로그는 남김
                 print(f">> {name}: 보유 중, 수익률 {roi:.2f}% (신규 신호 없음)")
                 continue
 
@@ -422,13 +532,24 @@ def analyze_market():
             # 2) 미보유 종목: 신규 BUY 진입
             # ==================================
             if not pos and event_signal == "BUY":
-                # 리스크/목표 레벨 계산 (참고용)
                 stop_loss   = curr_price * (1 - STOP_LOSS_PCT)
                 target1     = curr_price * (1 + TARGET1_PCT)
                 target2     = curr_price * (1 + TARGET2_PCT)
                 trail_start = curr_price * (1 + TRAIL_START_PCT)
 
                 news_summary = get_latest_news(name)
+
+                ai_comment = get_ai_comment(
+                    signal_type="BUY",
+                    name=name,
+                    ticker=ticker,
+                    roi=None,
+                    curr_rsi=curr_rsi,
+                    rating=rating,
+                    score=score,
+                    risk_summary=risk_summary,
+                    sell_reasons=None,
+                )
 
                 msg = (
                     f"🚨 *매수(BUY) 진입*\n"
@@ -447,7 +568,9 @@ def analyze_market():
                     f"- 트레일링 시작 구간(약 +{int(TRAIL_START_PCT*100)}%): "
                     f"{trail_start:,.2f}\n"
                     f"--------------------\n"
-                    f"📰 *관련 뉴스*\n{news_summary}"
+                    f"📰 *관련 뉴스*\n{news_summary}\n"
+                    f"--------------------\n"
+                    f"🧠 *AI 코멘트*\n{ai_comment}"
                 )
                 send_telegram(msg)
 
