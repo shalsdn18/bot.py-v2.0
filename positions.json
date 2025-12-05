@@ -2,7 +2,7 @@
     "005930.KS": {
         "name": "삼성전자",
         "entry_price": 103397.3467,
-        "highest_price": 105100.0,
+        "highest_price": 107200.0,
         "opened_at": "2025-12-02"
     },
     "000660.KS": {
@@ -32,7 +32,7 @@
     "010120.KS": {
         "name": "LS ELECTRIC",
         "entry_price": 472645.1228,
-        "highest_price": 486500.0,
+        "highest_price": 498000.0,
         "opened_at": "2025-12-02"
     },
     "NVDA": {
