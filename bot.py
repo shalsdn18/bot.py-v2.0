@@ -50,6 +50,9 @@ TARGET2_PCT        = 0.20   # +20% 2차 목표
 TRAIL_START_PCT    = 0.15   # +15%부터 트레일링 감안
 TRAILING_STOP_PCT  = 0.05   # 고점 대비 -5% 트레일링 스탑
 
+# [NEW] 국장 동시 보유 상한
+MAX_KR_POSITIONS   = 4      # 국장 최대 동시 보유 종목 수
+
 # ==============================
 # [Target List] 실시간 감시 대상
 # ==============================
@@ -107,6 +110,21 @@ def save_positions(data):
             json.dump(data, f, indent=4, ensure_ascii=False)
     except Exception as e:
         print(f"[Positions Save Error] {e}")
+
+# [NEW] 마켓별 보유 종목 수 카운트
+def count_positions_by_market(positions, market):
+    cnt = 0
+    for t, pos in positions.items():
+        m = pos.get("market")
+        # 과거 데이터에 market 필드가 없을 수 있으니 티커로 추론
+        if m is None:
+            if t.endswith(".KS") or t.endswith(".KQ"):
+                m = "KR"
+            else:
+                m = "US"
+        if m == market:
+            cnt += 1
+    return cnt
 
 # ==========================================
 # [Module] 뉴스 수집 (Google News RSS)
@@ -197,24 +215,13 @@ def get_ai_comment(
         news_titles = get_news_titles_for_ai(name)
         titles_text = "\n".join(f"- {t}" for t in news_titles) if news_titles else "(관련 뉴스 제목 없음)"
 
-        base_desc = (
-            "신호 종류: {signal_type}, 종목: {name}({ticker}), "
-            "RSI={rsi:.1f}, 레이팅={rating}(Score {score}/100)."
-        ).format(
-            signal_type=signal_type,
-            name=name,
-            ticker=ticker,
-            rsi=curr_rsi,
-            rating=rating,
-            score=score,
-        )
-
+        base_desc = f"신호 종류: {signal_type}, 종목: {name}({ticker}), RSI={curr_rsi:.1f}, 레이팅={rating}(Score {score}/100)."
         if roi is not None:
-            base_desc += " 현재 포지션 수익률은 {:.2f}% 입니다.".format(roi)
+            base_desc += f" 현재 포지션 수익률은 {roi:.2f}% 입니다."
         if sell_reasons:
-            base_desc += " 매도 트리거 사유: {}.".format(sell_reasons)
+            base_desc += f" 매도 트리거 사유: {sell_reasons}."
 
-        prompt = """
+        prompt = f"""
         당신은 한국어로 답변하는 주식 애널리스트입니다.
         아래 정보를 바탕으로 간단히 3~4줄 정도로 분석 코멘트를 써주세요.
 
@@ -235,18 +242,14 @@ def get_ai_comment(
           3) 장기 관점: ...
           📌 결론: ... (한 줄 요약)
         - 개별 가격 목표 제시는 하지 말고, 리스크/기회 위주로만 코멘트.
-        """.format(
-            base_desc=base_desc,
-            risk_summary=risk_summary,
-            titles_text=titles_text,
-        )
+        """
 
         model = genai.GenerativeModel("gemini-1.5-flash")
         resp = model.generate_content(prompt)
         text = (resp.text or "").strip()
         return text if text else "(AI 코멘트 생성 실패)"
     except Exception as e:
-        return "(AI 코멘트 오류: {})".format(e)
+        return f"(AI 코멘트 오류: {e})"
 
 # ==========================================
 # [Module] 시장 위험도 (VIX / UUP / 10Y)
@@ -330,19 +333,10 @@ def get_market_risk():
             level = "Extreme"
 
         summary = (
-            "시장 위험도: {level} (Score {score}/100)\n"
-            "VIX: {vix:.1f} ({vol}), "
-            "10Y: {tnx:.2f}% ({rate}), "
-            "달러(UUP): {uup:.2f} ({usd})"
-        ).format(
-            level=level,
-            score=score,
-            vix=vix,
-            vol=vol_level,
-            tnx=tnx,
-            rate=rate_level,
-            uup=uup,
-            usd=dollar_level,
+            f"시장 위험도: {level} (Score {score}/100)\n"
+            f"VIX: {vix:.1f} ({vol_level}), "
+            f"10Y: {tnx:.2f}% ({rate_level}), "
+            f"달러(UUP): {uup:.2f} ({dollar_level})"
         )
         return {"level": level, "score": score, "summary": summary}
     except Exception as e:
@@ -412,7 +406,6 @@ def rate_stock(curr_price, ma20_val, ma60_val,
 # ==========================================
 def analyze_market():
     print(f"[{datetime.now()}] Market Watch Start...")
-    print(f"[Gemini] enabled={GEMINI_ENABLED}")
 
     market_risk = get_market_risk()
     risk_level   = market_risk["level"]
@@ -425,6 +418,7 @@ def analyze_market():
     for item in TARGETS:
         ticker = item["ticker"]
         name   = item["name"]
+        market = item["market"]  # "KR" / "US"
 
         try:
             df = yf.download(ticker, period="6mo", progress=False)
@@ -505,7 +499,7 @@ def analyze_market():
                 sell_reasons = []
                 if trailing_hit:
                     sell_reasons.append(
-                        "트레일링 스탑 발동 (고점 대비 {:.1f}%)".format(drop_from_high * 100)
+                        f"트레일링 스탑 발동 (고점 대비 {drop_from_high*100:.1f}%)"
                     )
                 if tech_sell_hit:
                     sell_reasons.append("기술적 SELL 신호 (밴드 상단/RSI 과매수)")
@@ -528,48 +522,46 @@ def analyze_market():
                     )
 
                     msg = (
-                        "💰 *매도(SELL) 실행*\n"
-                        "--------------------\n"
-                        "{risk_summary}\n"
-                        "--------------------\n"
-                        "📊 종목: {name} ({ticker})\n"
-                        "✅ 진입가: {entry:,.2f}\n"
-                        "💵 매도가(현재가): {price:,.2f}\n"
-                        "📈 현재 RSI: {rsi:.1f}\n"
-                        "📊 수익률: {roi:.2f}%\n"
-                        "레이팅: {rating} (Score {score}/100)\n"
-                        "사유: {reason}\n"
-                        "--------------------\n"
-                        "📰 *관련 뉴스*\n{news}\n"
-                        "--------------------\n"
-                        "🧠 *AI 코멘트*\n{ai}"
-                    ).format(
-                        risk_summary=risk_summary,
-                        name=name,
-                        ticker=ticker,
-                        entry=entry_price,
-                        price=curr_price,
-                        rsi=curr_rsi,
-                        roi=roi,
-                        rating=rating,
-                        score=score,
-                        reason=reason_text,
-                        news=news_summary,
-                        ai=ai_comment,
+                        f"💰 *매도(SELL) 실행*\n"
+                        f"--------------------\n"
+                        f"{risk_summary}\n"
+                        f"--------------------\n"
+                        f"📊 종목: {name} ({ticker})\n"
+                        f"✅ 진입가: {entry_price:,.2f}\n"
+                        f"💵 매도가(현재가): {curr_price:,.2f}\n"
+                        f"📈 현재 RSI: {curr_rsi:.1f}\n"
+                        f"📊 수익률: {roi:.2f}%\n"
+                        f"레이팅: {rating} (Score {score}/100)\n"
+                        f"사유: {reason_text}\n"
+                        f"--------------------\n"
+                        f"📰 *관련 뉴스*\n{news_summary}\n"
+                        f"--------------------\n"
+                        f"🧠 *AI 코멘트*\n{ai_comment}"
                     )
                     send_telegram(msg)
                     del positions[ticker]
                     positions_updated = True
-                    print(">> {}: Position SOLD. ({})".format(name, reason_text))
+                    print(f">> {name}: Position SOLD. ({reason_text})")
                     continue  # 매도 후 신규 진입 로직 건너뜀
 
-                print(">> {}: 보유 중, 수익률 {:.2f}% (신규 신호 없음)".format(name, roi))
+                print(f">> {name}: 보유 중, 수익률 {roi:.2f}% (신규 신호 없음)")
                 continue
 
             # ==================================
             # 2) 미보유 종목: 신규 BUY 진입
             # ==================================
             if not pos and event_signal == "BUY":
+
+                # [NEW] 국장 포지션 상한 체크
+                if market == "KR":
+                    kr_count = count_positions_by_market(positions, "KR")
+                    if kr_count >= MAX_KR_POSITIONS:
+                        print(
+                            f">> {name}: 국장 포지션 {kr_count}개 이미 보유,"
+                            f" 상한 {MAX_KR_POSITIONS}초과 방지를 위해 신규 진입 스킵"
+                        )
+                        continue
+
                 stop_loss   = curr_price * (1 - STOP_LOSS_PCT)
                 target1     = curr_price * (1 + TARGET1_PCT)
                 target2     = curr_price * (1 + TARGET2_PCT)
@@ -590,55 +582,39 @@ def analyze_market():
                 )
 
                 msg = (
-                    "🚨 *매수(BUY) 진입*\n"
-                    "--------------------\n"
-                    "{risk_summary}\n"
-                    "--------------------\n"
-                    "📊 종목: {name} ({ticker})\n"
-                    "💵 진입가: {price:,.2f}\n"
-                    "📈 RSI: {rsi:.1f}\n"
-                    "레이팅: {rating} (Score {score}/100)\n"
-                    "--------------------\n"
-                    "🎯 리스크/목표 레벨(현재 진입 기준)\n"
-                    "- 손절가(-{sl_pct}%): {sl:,.2f}\n"
-                    "- 1차 목표가(+{t1_pct}%): {t1:,.2f}\n"
-                    "- 2차 목표가(+{t2_pct}%): {t2:,.2f}\n"
-                    "- 트레일링 시작 구간(약 +{ts_pct}%): {ts:,.2f}\n"
-                    "--------------------\n"
-                    "📰 *관련 뉴스*\n{news}\n"
-                    "--------------------\n"
-                    "🧠 *AI 코멘트*\n{ai}"
-                ).format(
-                    risk_summary=risk_summary,
-                    name=name,
-                    ticker=ticker,
-                    price=curr_price,
-                    rsi=curr_rsi,
-                    rating=rating,
-                    score=score,
-                    sl_pct=int(STOP_LOSS_PCT * 100),
-                    sl=stop_loss,
-                    t1_pct=int(TARGET1_PCT * 100),
-                    t1=target1,
-                    t2_pct=int(TARGET2_PCT * 100),
-                    t2=target2,
-                    ts_pct=int(TRAIL_START_PCT * 100),
-                    ts=trail_start,
-                    news=news_summary,
-                    ai=ai_comment,
+                    f"🚨 *매수(BUY) 진입*\n"
+                    f"--------------------\n"
+                    f"{risk_summary}\n"
+                    f"--------------------\n"
+                    f"📊 종목: {name} ({ticker})\n"
+                    f"💵 진입가: {curr_price:,.2f}\n"
+                    f"📈 RSI: {curr_rsi:.1f}\n"
+                    f"레이팅: {rating} (Score {score}/100)\n"
+                    f"--------------------\n"
+                    f"🎯 리스크/목표 레벨(현재 진입 기준)\n"
+                    f"- 손절가(-{int(STOP_LOSS_PCT*100)}%): {stop_loss:,.2f}\n"
+                    f"- 1차 목표가(+{int(TARGET1_PCT*100)}%): {target1:,.2f}\n"
+                    f"- 2차 목표가(+{int(TARGET2_PCT*100)}%): {target2:,.2f}\n"
+                    f"- 트레일링 시작 구간(약 +{int(TRAIL_START_PCT*100)}%): "
+                    f"{trail_start:,.2f}\n"
+                    f"--------------------\n"
+                    f"📰 *관련 뉴스*\n{news_summary}\n"
+                    f"--------------------\n"
+                    f"🧠 *AI 코멘트*\n{ai_comment}"
                 )
                 send_telegram(msg)
 
                 positions[ticker] = {
                     "name": name,
+                    "market": market,  # [NEW] 마켓 정보 저장
                     "entry_price": curr_price,
                     "highest_price": curr_price,
                     "opened_at": datetime.now().strftime("%Y-%m-%d %H:%M")
                 }
                 positions_updated = True
-                print(">> {}: Position OPENED.".format(name))
+                print(f">> {name}: Position OPENED.")
             else:
-                print(">> {}: No New Signal / No Position.".format(name))
+                print(f">> {name}: No New Signal / No Position.")
 
         except Exception as e:
             print(f"[Error] {name} ({ticker}): {e}")
