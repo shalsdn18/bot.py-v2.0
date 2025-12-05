@@ -21,12 +21,14 @@ jobs:
         with:
           python-version: "3.9"
 
-      - run: pip install pandas yfinance requests lxml
+      # 여기 google-generativeai 추가
+      - run: pip install pandas yfinance requests lxml google-generativeai
 
       - name: Run Bot or Daily Report (time-based)
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           CURRENT_HOUR=$(date -u +%H)
           CURRENT_MINUTE=$(date -u +%M)
