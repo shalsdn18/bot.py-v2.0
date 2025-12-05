@@ -50,8 +50,10 @@ TARGET2_PCT        = 0.20   # +20% 2차 목표
 TRAIL_START_PCT    = 0.15   # +15%부터 트레일링 감안
 TRAILING_STOP_PCT  = 0.05   # 고점 대비 -5% 트레일링 스탑
 
-# [NEW] 국장 동시 보유 상한
-MAX_KR_POSITIONS   = 4      # 국장 최대 동시 보유 종목 수
+# === [확장 옵션 A] 시장 과열/우호 구간 기준 ==================
+MIN_RISK_SCORE_FOR_BUY   = 30   # 이하면 신규 매수 차단
+HIGH_RISK_SCORE_FOR_BOOST = 80  # 이 이상이면 우호 구간 플래그
+# ===========================================================
 
 # ==============================
 # [Target List] 실시간 감시 대상
@@ -94,7 +96,7 @@ TARGETS = [
 # ==========================================
 # [Module] 포지션 파일 로드/세이브
 # ==========================================
-def load_positions():
+def load_positions() -> dict:
     try:
         if os.path.exists(POSITIONS_FILE):
             with open(POSITIONS_FILE, "r", encoding="utf-8") as f:
@@ -104,32 +106,17 @@ def load_positions():
         print(f"[Positions Load Error] {e}")
         return {}
 
-def save_positions(data):
+def save_positions(data: dict):
     try:
         with open(POSITIONS_FILE, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=4, ensure_ascii=False)
     except Exception as e:
         print(f"[Positions Save Error] {e}")
 
-# [NEW] 마켓별 보유 종목 수 카운트
-def count_positions_by_market(positions, market):
-    cnt = 0
-    for t, pos in positions.items():
-        m = pos.get("market")
-        # 과거 데이터에 market 필드가 없을 수 있으니 티커로 추론
-        if m is None:
-            if t.endswith(".KS") or t.endswith(".KQ"):
-                m = "KR"
-            else:
-                m = "US"
-        if m == market:
-            cnt += 1
-    return cnt
-
 # ==========================================
 # [Module] 뉴스 수집 (Google News RSS)
 # ==========================================
-def get_latest_news(query):
+def get_latest_news(query: str) -> str:
     try:
         url = (
             "https://news.google.com/rss/search?"
@@ -154,7 +141,7 @@ def get_latest_news(query):
         return "(뉴스 수집 실패)"
 
 # Gemini용 뉴스 타이틀만 추출 (AI 프롬프트용)
-def get_news_titles_for_ai(query):
+def get_news_titles_for_ai(query: str):
     try:
         url = (
             "https://news.google.com/rss/search?"
@@ -177,7 +164,7 @@ def get_news_titles_for_ai(query):
 # ==========================================
 # [Module] 텔레그램
 # ==========================================
-def send_telegram(msg):
+def send_telegram(msg: str):
     try:
         url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
         payload = {
@@ -194,16 +181,16 @@ def send_telegram(msg):
 # [Module] Gemini AI 코멘트
 # ==========================================
 def get_ai_comment(
-    signal_type,
-    name,
-    ticker,
-    roi,
-    curr_rsi,
-    rating,
-    score,
-    risk_summary,
-    sell_reasons,
-):
+    signal_type: str,
+    name: str,
+    ticker: str,
+    roi: float | None,
+    curr_rsi: float,
+    rating: str,
+    score: int,
+    risk_summary: str,
+    sell_reasons: str | None,
+) -> str:
     """
     BUY/SELL 발생 시 간단 3~4줄 코멘트 생성.
     roi 는 SELL일 때만 값, BUY 때는 None.
@@ -352,7 +339,7 @@ def get_market_risk():
 # ==========================================
 def rate_stock(curr_price, ma20_val, ma60_val,
                curr_rsi, curr_upper, curr_lower,
-               market_risk_level):
+               market_risk_level: str):
     score = 50
 
     # RSI
@@ -409,6 +396,7 @@ def analyze_market():
 
     market_risk = get_market_risk()
     risk_level   = market_risk["level"]
+    risk_score   = market_risk["score"]
     risk_summary = market_risk["summary"]
     print(risk_summary)
 
@@ -418,7 +406,6 @@ def analyze_market():
     for item in TARGETS:
         ticker = item["ticker"]
         name   = item["name"]
-        market = item["market"]  # "KR" / "US"
 
         try:
             df = yf.download(ticker, period="6mo", progress=False)
@@ -542,7 +529,7 @@ def analyze_market():
                     del positions[ticker]
                     positions_updated = True
                     print(f">> {name}: Position SOLD. ({reason_text})")
-                    continue  # 매도 후 신규 진입 로직 건너뜀
+                    continue
 
                 print(f">> {name}: 보유 중, 수익률 {roi:.2f}% (신규 신호 없음)")
                 continue
@@ -552,15 +539,13 @@ def analyze_market():
             # ==================================
             if not pos and event_signal == "BUY":
 
-                # [NEW] 국장 포지션 상한 체크
-                if market == "KR":
-                    kr_count = count_positions_by_market(positions, "KR")
-                    if kr_count >= MAX_KR_POSITIONS:
-                        print(
-                            f">> {name}: 국장 포지션 {kr_count}개 이미 보유,"
-                            f" 상한 {MAX_KR_POSITIONS}초과 방지를 위해 신규 진입 스킵"
-                        )
-                        continue
+                # [확장 옵션 A] 시장 점수 낮으면 매수 차단
+                if risk_score <= MIN_RISK_SCORE_FOR_BUY:
+                    print(
+                        f">> {name}: 시장 점수 {risk_score} ≤ "
+                        f"{MIN_RISK_SCORE_FOR_BUY}, 신규 매수 차단."
+                    )
+                    continue
 
                 stop_loss   = curr_price * (1 - STOP_LOSS_PCT)
                 target1     = curr_price * (1 + TARGET1_PCT)
@@ -568,6 +553,14 @@ def analyze_market():
                 trail_start = curr_price * (1 + TRAIL_START_PCT)
 
                 news_summary = get_latest_news(name)
+
+                # 시장 우호 구간 플래그
+                macro_note = ""
+                if risk_score >= HIGH_RISK_SCORE_FOR_BOOST:
+                    macro_note = (
+                        f"\n(시장 점수 {risk_score}/100: "
+                        f"공격적인 매수에도 우호적인 구간)"
+                    )
 
                 ai_comment = get_ai_comment(
                     signal_type="BUY",
@@ -584,7 +577,7 @@ def analyze_market():
                 msg = (
                     f"🚨 *매수(BUY) 진입*\n"
                     f"--------------------\n"
-                    f"{risk_summary}\n"
+                    f"{risk_summary}{macro_note}\n"
                     f"--------------------\n"
                     f"📊 종목: {name} ({ticker})\n"
                     f"💵 진입가: {curr_price:,.2f}\n"
@@ -606,7 +599,6 @@ def analyze_market():
 
                 positions[ticker] = {
                     "name": name,
-                    "market": market,  # [NEW] 마켓 정보 저장
                     "entry_price": curr_price,
                     "highest_price": curr_price,
                     "opened_at": datetime.now().strftime("%Y-%m-%d %H:%M")
