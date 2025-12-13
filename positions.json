@@ -2,14 +2,16 @@
     "000660.KS": {
         "name": "SK하이닉스",
         "entry_price": 558013.7513,
-        "highest_price": 558013.7513,
-        "opened_at": "2025-12-02"
+        "highest_price": 571000.0,
+        "opened_at": "2025-12-02",
+        "market": "KR"
     },
     "079550.KS": {
         "name": "LIG넥스원",
         "entry_price": 364702.9553,
-        "highest_price": 374500.0,
-        "opened_at": "2025-12-02"
+        "highest_price": 383000.0,
+        "opened_at": "2025-12-02",
+        "market": "KR"
     },
     "570090.KS": {
         "name": "한투 KIS CD금리투자 ETN",
@@ -20,8 +22,9 @@
     "068270.KS": {
         "name": "셀트리온",
         "entry_price": 184197.8722,
-        "highest_price": 184197.8722,
-        "opened_at": "2025-12-02"
+        "highest_price": 186800.0,
+        "opened_at": "2025-12-02",
+        "market": "KR"
     },
     "NVDA": {
         "name": "엔비디아",
@@ -77,12 +80,6 @@
         "highest_price": 90.2224,
         "opened_at": "2025-12-02"
     },
-    "AMD": {
-        "name": "AMD",
-        "entry_price": 221.1015,
-        "highest_price": 222.33990478515625,
-        "opened_at": "2025-12-02"
-    },
     "UBER": {
         "name": "우버",
         "entry_price": 86.8309,
@@ -92,8 +89,9 @@
     "AXP": {
         "name": "아메리칸 익스프레스",
         "entry_price": 360.3022,
-        "highest_price": 372.80499267578125,
-        "opened_at": "2025-12-02"
+        "highest_price": 382.55999755859375,
+        "opened_at": "2025-12-02",
+        "market": "US"
     },
     "LRCX": {
         "name": "램 리서치",
@@ -116,8 +114,9 @@
     "PLTR": {
         "name": "팔란티어",
         "entry_price": 168.6493,
-        "highest_price": 177.92999267578125,
-        "opened_at": "2025-12-02"
+        "highest_price": 183.57000732421875,
+        "opened_at": "2025-12-02",
+        "market": "US"
     },
     "MA": {
         "name": "마스터카드",
@@ -233,12 +232,6 @@
         "highest_price": 681.1102,
         "opened_at": "2025-12-02"
     },
-    "AVGO": {
-        "name": "브로드컴",
-        "entry_price": 389.8973,
-        "highest_price": 389.8973,
-        "opened_at": "2025-12-02"
-    },
     "KO": {
         "name": "코카콜라",
         "entry_price": 71.8739,
@@ -290,8 +283,9 @@
     "GLD": {
         "name": "GLD (ETF)",
         "entry_price": 389.3127,
-        "highest_price": 389.3127,
-        "opened_at": "2025-12-02"
+        "highest_price": 395.44000244140625,
+        "opened_at": "2025-12-02",
+        "market": "US"
     },
     "SCHD": {
         "name": "SCHD (ETF)",
