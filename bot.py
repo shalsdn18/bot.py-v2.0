@@ -7,6 +7,7 @@ import yfinance as yf
 import pandas as pd
 import xml.etree.ElementTree as ET
 from datetime import datetime
+from typing import Optional
 
 # Gemini (선택) ----------------------------
 try:
@@ -18,9 +19,9 @@ except ImportError:
 # ==============================
 # [Config] GitHub Secrets
 # ==============================
-TELEGRAM_TOKEN  = os.environ.get("TELEGRAM_TOKEN")
-CHAT_ID         = os.environ.get("CHAT_ID")
-GEMINI_API_KEY  = os.environ.get("GEMINI_API_KEY")  # 선택
+TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
+CHAT_ID = os.environ.get("CHAT_ID")
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")  # 선택
 
 if not TELEGRAM_TOKEN or not CHAT_ID:
     print("❌ [Error] 환경변수(TELEGRAM_TOKEN / CHAT_ID) 누락")
@@ -44,16 +45,18 @@ POSITIONS_FILE = "positions.json"
 RSI_OVERSOLD = 30
 RSI_OVERBOUGHT = 70
 
-STOP_LOSS_PCT      = 0.05   # -5% 손절 참고 레벨
-TARGET1_PCT        = 0.10   # +10% 1차 목표
-TARGET2_PCT        = 0.20   # +20% 2차 목표
-TRAIL_START_PCT    = 0.15   # +15%부터 트레일링 감안
-TRAILING_STOP_PCT  = 0.05   # 고점 대비 -5% 트레일링 스탑
+STOP_LOSS_PCT = 0.05   # -5% 손절 참고 레벨
+TARGET1_PCT = 0.10     # +10% 1차 목표
+TARGET2_PCT = 0.20     # +20% 2차 목표
+TRAIL_START_PCT = 0.15 # +15%부터 트레일링 감안
+TRAILING_STOP_PCT = 0.05  # 고점 대비 -5% 트레일링 스탑
 
-# === [확장 옵션 A] 시장 과열/우호 구간 기준 ==================
-MIN_RISK_SCORE_FOR_BUY   = 30   # 이하면 신규 매수 차단
-HIGH_RISK_SCORE_FOR_BOOST = 80  # 이 이상이면 우호 구간 플래그
-# ===========================================================
+# 시장 과열/공포 필터 (확장 옵션 A)
+MARKET_SCORE_BLOCK_BUY = 30   # 이하면 신규 매수 차단
+MARKET_SCORE_STRONG_BOOST = 80  # 이상이면 레이팅 추가 가점
+
+# 국장 포지션 최대 개수
+MAX_KR_POSITIONS = 4
 
 # ==============================
 # [Target List] 실시간 감시 대상
@@ -93,6 +96,9 @@ TARGETS = [
     {'ticker': 'GLD',  'name': 'GLD',  'market': 'US'},
 ]
 
+# ticker -> market 매핑 (백워드 호환용)
+TICKER_MARKET_MAP = {t['ticker']: t['market'] for t in TARGETS}
+
 # ==========================================
 # [Module] 포지션 파일 로드/세이브
 # ==========================================
@@ -112,6 +118,18 @@ def save_positions(data: dict):
             json.dump(data, f, indent=4, ensure_ascii=False)
     except Exception as e:
         print(f"[Positions Save Error] {e}")
+
+def get_position_market(pos_ticker: str, pos_data: dict) -> str:
+    """positions.json에 market이 없으면 TARGETS에서 유추"""
+    if "market" in pos_data:
+        return pos_data["market"]
+    return TICKER_MARKET_MAP.get(pos_ticker, "UNKNOWN")
+
+def count_positions_by_market(positions: dict, market: str) -> int:
+    return sum(
+        1 for t, p in positions.items()
+        if get_position_market(t, p) == market
+    )
 
 # ==========================================
 # [Module] 뉴스 수집 (Google News RSS)
@@ -184,12 +202,12 @@ def get_ai_comment(
     signal_type: str,
     name: str,
     ticker: str,
-    roi: float | None,
+    roi: Optional[float],
     curr_rsi: float,
     rating: str,
     score: int,
     risk_summary: str,
-    sell_reasons: str | None,
+    sell_reasons: Optional[str],
 ) -> str:
     """
     BUY/SELL 발생 시 간단 3~4줄 코멘트 생성.
@@ -316,6 +334,8 @@ def get_market_risk():
             level = "Normal"
         elif score >= 20:
             level = "High"
+            # score < 20 은 Extreme
+
         else:
             level = "Extreme"
 
@@ -337,9 +357,16 @@ def get_market_risk():
 # ==========================================
 # [Module] 레이팅 계산 (Strong Buy ~ Strong Sell)
 # ==========================================
-def rate_stock(curr_price, ma20_val, ma60_val,
-               curr_rsi, curr_upper, curr_lower,
-               market_risk_level: str):
+def rate_stock(
+    curr_price: float,
+    ma20_val: float,
+    ma60_val: float,
+    curr_rsi: float,
+    curr_upper: float,
+    curr_lower: float,
+    market_risk_level: str,
+    market_risk_score: int,
+):
     score = 50
 
     # RSI
@@ -368,6 +395,9 @@ def rate_stock(curr_price, ma20_val, ma60_val,
     # 시장 위험도
     if market_risk_level == "Low":
         score += 5
+        # 과열 아닌데 점수 80 이상(매우 안정)일 때 추가 가점
+        if market_risk_score >= MARKET_SCORE_STRONG_BOOST:
+            score += 5
     elif market_risk_level == "High":
         score -= 10
     elif market_risk_level == "Extreme":
@@ -395,8 +425,8 @@ def analyze_market():
     print(f"[{datetime.now()}] Market Watch Start...")
 
     market_risk = get_market_risk()
-    risk_level   = market_risk["level"]
-    risk_score   = market_risk["score"]
+    risk_level = market_risk["level"]
+    risk_score = market_risk["score"]
     risk_summary = market_risk["summary"]
     print(risk_summary)
 
@@ -405,7 +435,8 @@ def analyze_market():
 
     for item in TARGETS:
         ticker = item["ticker"]
-        name   = item["name"]
+        name = item["name"]
+        market = item["market"]
 
         try:
             df = yf.download(ticker, period="6mo", progress=False)
@@ -425,8 +456,8 @@ def analyze_market():
             curr_price = float(close.iloc[-1])
             prev_price = float(close.iloc[-2])
 
-            curr_ma20  = float(ma20.iloc[-1])
-            curr_ma60  = float(ma60.iloc[-1])
+            curr_ma20 = float(ma20.iloc[-1])
+            curr_ma60 = float(ma60.iloc[-1])
             curr_upper = float(upper.iloc[-1])
             curr_lower = float(lower.iloc[-1])
             prev_upper = float(upper.iloc[-2])
@@ -442,10 +473,10 @@ def analyze_market():
             prev_rsi = float(rsi.iloc[-2])
 
             # ---- A. 중복 신호 방지: 교차 이벤트만 감지 ----
-            buy_now  = (curr_price < curr_lower) or (curr_rsi < RSI_OVERSOLD)
+            buy_now = (curr_price < curr_lower) or (curr_rsi < RSI_OVERSOLD)
             buy_prev = (prev_price < prev_lower) or (prev_rsi < RSI_OVERSOLD)
 
-            sell_now  = (curr_price > curr_upper) or (curr_rsi > RSI_OVERBOUGHT)
+            sell_now = (curr_price > curr_upper) or (curr_rsi > RSI_OVERBOUGHT)
             sell_prev = (prev_price > prev_upper) or (prev_rsi > RSI_OVERBOUGHT)
 
             event_signal = None  # "BUY" / "SELL" / None
@@ -458,7 +489,7 @@ def analyze_market():
             rating, score = rate_stock(
                 curr_price, curr_ma20, curr_ma60,
                 curr_rsi, curr_upper, curr_lower,
-                risk_level
+                risk_level, risk_score
             )
 
             # ---- 포지션 여부 확인 ----
@@ -468,19 +499,20 @@ def analyze_market():
             # 1) 보유 중인 종목: 트레일링/SELL 처리
             # ==================================
             if pos:
-                entry_price   = pos["entry_price"]
+                entry_price = pos["entry_price"]
                 highest_price = pos.get("highest_price", entry_price)
 
                 # 고점 갱신
                 if curr_price > highest_price:
                     highest_price = curr_price
                     pos["highest_price"] = highest_price
+                    pos["market"] = market  # 기존 포지션에도 market 넣어줌
                     positions_updated = True
 
                 roi = (curr_price - entry_price) / entry_price * 100
                 drop_from_high = (curr_price - highest_price) / highest_price
 
-                trailing_hit  = drop_from_high <= -TRAILING_STOP_PCT
+                trailing_hit = drop_from_high <= -TRAILING_STOP_PCT
                 tech_sell_hit = (event_signal == "SELL")
 
                 sell_reasons = []
@@ -529,7 +561,7 @@ def analyze_market():
                     del positions[ticker]
                     positions_updated = True
                     print(f">> {name}: Position SOLD. ({reason_text})")
-                    continue
+                    continue  # 매도 후 신규 진입 로직 건너뜀
 
                 print(f">> {name}: 보유 중, 수익률 {roi:.2f}% (신규 신호 없음)")
                 continue
@@ -538,29 +570,30 @@ def analyze_market():
             # 2) 미보유 종목: 신규 BUY 진입
             # ==================================
             if not pos and event_signal == "BUY":
-
-                # [확장 옵션 A] 시장 점수 낮으면 매수 차단
-                if risk_score <= MIN_RISK_SCORE_FOR_BUY:
+                # (1) 시장 점수 30 이하면 신규 매수 차단
+                if risk_score <= MARKET_SCORE_BLOCK_BUY:
                     print(
-                        f">> {name}: 시장 점수 {risk_score} ≤ "
-                        f"{MIN_RISK_SCORE_FOR_BUY}, 신규 매수 차단."
+                        f">> {name}: BUY 신호 발생했지만 "
+                        f"시장 점수 {risk_score} <= {MARKET_SCORE_BLOCK_BUY}, 매수 차단."
                     )
                     continue
 
-                stop_loss   = curr_price * (1 - STOP_LOSS_PCT)
-                target1     = curr_price * (1 + TARGET1_PCT)
-                target2     = curr_price * (1 + TARGET2_PCT)
+                # (2) 국장 포지션 4개 이상이면 추가 진입 금지 (미장은 제한 없음)
+                if market == "KR":
+                    kr_open = count_positions_by_market(positions, "KR")
+                    if kr_open >= MAX_KR_POSITIONS:
+                        print(
+                            f">> {name}: 현재 국장 포지션 {kr_open}개, "
+                            f"MAX={MAX_KR_POSITIONS} → 매수 스킵."
+                        )
+                        continue
+
+                stop_loss = curr_price * (1 - STOP_LOSS_PCT)
+                target1 = curr_price * (1 + TARGET1_PCT)
+                target2 = curr_price * (1 + TARGET2_PCT)
                 trail_start = curr_price * (1 + TRAIL_START_PCT)
 
                 news_summary = get_latest_news(name)
-
-                # 시장 우호 구간 플래그
-                macro_note = ""
-                if risk_score >= HIGH_RISK_SCORE_FOR_BOOST:
-                    macro_note = (
-                        f"\n(시장 점수 {risk_score}/100: "
-                        f"공격적인 매수에도 우호적인 구간)"
-                    )
 
                 ai_comment = get_ai_comment(
                     signal_type="BUY",
@@ -577,7 +610,7 @@ def analyze_market():
                 msg = (
                     f"🚨 *매수(BUY) 진입*\n"
                     f"--------------------\n"
-                    f"{risk_summary}{macro_note}\n"
+                    f"{risk_summary}\n"
                     f"--------------------\n"
                     f"📊 종목: {name} ({ticker})\n"
                     f"💵 진입가: {curr_price:,.2f}\n"
@@ -601,7 +634,8 @@ def analyze_market():
                     "name": name,
                     "entry_price": curr_price,
                     "highest_price": curr_price,
-                    "opened_at": datetime.now().strftime("%Y-%m-%d %H:%M")
+                    "opened_at": datetime.now().strftime("%Y-%m-%d %H:%M"),
+                    "market": market,
                 }
                 positions_updated = True
                 print(f">> {name}: Position OPENED.")
