@@ -263,7 +263,8 @@ def get_ai_comment(
 def get_market_risk():
     try:
         tickers = ["^VIX", "UUP", "^TNX"]
-        raw = yf.download(tickers, period="3mo", progress=False)
+        raw = yf.download(tickers, period="3mo", progress=False, auto_adjust=False)
+
         if raw.empty:
             raise ValueError("지표 데이터 수신 실패")
 
@@ -440,12 +441,15 @@ def analyze_market():
         market = item["market"]
 
         try:
-            df = yf.download(ticker, period="6mo", progress=False)
+            df = yf.download(ticker, period="6mo", progress=False, auto_adjust=False)
+
             if df.empty or len(df) < 30:
                 print(f">> {name} ({ticker}): 데이터 부족, 건너뜀")
                 continue
 
             close = df["Close"]
+if hasattr(close, "columns"):
+    close = close[ticker]
 
             # 이동평균 / 볼린저
             ma20 = close.rolling(window=20).mean()
@@ -454,15 +458,23 @@ def analyze_market():
             upper = ma20 + (std20 * 2)
             lower = ma20 - (std20 * 2)
 
-            curr_price = float(close.iloc[-1])
-            prev_price = float(close.iloc[-2])
+            def _scalar(x):
+    return float(x.item()) if hasattr(x, "item") else float(x)
 
-            curr_ma20 = float(ma20.iloc[-1])
-            curr_ma60 = float(ma60.iloc[-1])
-            curr_upper = float(upper.iloc[-1])
-            curr_lower = float(lower.iloc[-1])
-            prev_upper = float(upper.iloc[-2])
-            prev_lower = float(lower.iloc[-2])
+curr_price = _scalar(close.iloc[-1])
+prev_price = _scalar(close.iloc[-2])
+
+curr_ma20 = _scalar(ma20.iloc[-1])
+curr_ma60 = _scalar(ma60.iloc[-1])
+
+curr_upper = _scalar(upper.iloc[-1])
+curr_lower = _scalar(lower.iloc[-1])
+prev_upper = _scalar(upper.iloc[-2])
+prev_lower = _scalar(lower.iloc[-2])
+
+curr_rsi = _scalar(rsi.iloc[-1])
+prev_rsi = _scalar(rsi.iloc[-2])
+
 
             # RSI
             delta = close.diff()
