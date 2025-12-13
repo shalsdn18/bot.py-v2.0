@@ -19,9 +19,10 @@ jobs:
 
       - uses: actions/setup-python@v4
         with:
-          python-version: "3.9"
+          # >>> 여기 3.11로 올림
+          python-version: "3.11"
 
-      # 여기 google-generativeai 추가
+      # Gemini 사용을 위해 google-generativeai 추가
       - run: pip install pandas yfinance requests lxml google-generativeai
 
       - name: Run Bot or Daily Report (time-based)
