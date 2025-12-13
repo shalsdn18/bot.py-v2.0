@@ -249,7 +249,8 @@ def get_ai_comment(
         - 개별 가격 목표 제시는 하지 말고, 리스크/기회 위주로만 코멘트.
         """
 
-        model = genai.GenerativeModel("gemini-1.5-flash")
+        model = genai.GenerativeModel("models/gemini-1.5-pro")
+
         resp = model.generate_content(prompt)
         text = (resp.text or "").strip()
         return text if text else "(AI 코멘트 생성 실패)"
