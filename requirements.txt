@@ -2,4 +2,4 @@ pandas
 yfinance
 requests
 lxml
-google-generativeai
+google-genai
