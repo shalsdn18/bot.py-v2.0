@@ -195,8 +195,9 @@ def get_ai_comment(
     risk_summary: str,
     sell_reasons: Optional[str],
 ) -> str:
-    if not GEMINI_ENABLED:
-        return "(AI 코멘트 비활성화: GEMINI_API_KEY 없음)"
+   if GEMINI_CLIENT is None:
+    return "(AI 코멘트 비활성화: GEMINI_CLIENT 초기화 실패 / API 키 확인)"
+
 
     try:
         news_titles = get_news_titles_for_ai(name)
