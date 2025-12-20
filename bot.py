@@ -9,12 +9,13 @@ import xml.etree.ElementTree as ET
 from datetime import datetime
 from typing import Optional
 
-# Gemini (선택) ----------------------------
+  # Gemini (google-genai) -------------------------
 try:
-    import google.generativeai as genai
-except ImportError:
-    genai = None
-# -----------------------------------------
+    from google import genai
+    GEMINI_CLIENT = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
+except Exception as e:
+    GEMINI_CLIENT = None
+
 
 # ==============================
 # [Config] GitHub Secrets
@@ -65,12 +66,7 @@ if not TELEGRAM_TOKEN or not CHAT_ID:
     print("❌ [Error] 환경변수(TELEGRAM_TOKEN / CHAT_ID) 누락")
     sys.exit(1)
 
-# Gemini 설정
-if GEMINI_API_KEY and genai is not None:
-    genai.configure(api_key=GEMINI_API_KEY)
-    GEMINI_ENABLED = True
-else:
-    GEMINI_ENABLED = False
+
 
 # ==============================
 # [Files]
@@ -235,12 +231,22 @@ def get_ai_comment(
 - 개별 가격 목표 제시는 하지 말고, 리스크/기회 위주로만 코멘트.
         """.strip()
 
-        model = genai.GenerativeModel("models/gemini-1.5-pro")
-        resp = model.generate_content(prompt)
-        text = (resp.text or "").strip()
+       # Gemini 코멘트 생성
+def generate_ai_comment(prompt: str) -> str:
+    try:
+        if GEMINI_CLIENT is None:
+            return "(GEMINI_CLIENT 초기화 실패: API 키/패키지 확인)"
+
+        resp = GEMINI_CLIENT.models.generate_content(
+            model="gemini-1.5-pro",   # 필요시 변경
+            contents=prompt
+        )
+
+        text = (getattr(resp, "text", None) or "").strip()
         return text if text else "(AI 코멘트 생성 실패)"
     except Exception as e:
         return f"(AI 코멘트 오류: {e})"
+
 
 
 def get_market_risk():
