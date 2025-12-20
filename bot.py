@@ -96,12 +96,9 @@ TARGETS = [
     {'ticker': 'GLD',  'name': 'GLD',  'market': 'US'},
 ]
 
-# ticker -> market 매핑 (백워드 호환용)
 TICKER_MARKET_MAP = {t['ticker']: t['market'] for t in TARGETS}
 
-# ==========================================
-# [Module] 포지션 파일 로드/세이브
-# ==========================================
+
 def load_positions() -> dict:
     try:
         if os.path.exists(POSITIONS_FILE):
@@ -112,6 +109,7 @@ def load_positions() -> dict:
         print(f"[Positions Load Error] {e}")
         return {}
 
+
 def save_positions(data: dict):
     try:
         with open(POSITIONS_FILE, "w", encoding="utf-8") as f:
@@ -119,21 +117,17 @@ def save_positions(data: dict):
     except Exception as e:
         print(f"[Positions Save Error] {e}")
 
+
 def get_position_market(pos_ticker: str, pos_data: dict) -> str:
-    """positions.json에 market이 없으면 TARGETS에서 유추"""
     if "market" in pos_data:
         return pos_data["market"]
     return TICKER_MARKET_MAP.get(pos_ticker, "UNKNOWN")
 
-def count_positions_by_market(positions: dict, market: str) -> int:
-    return sum(
-        1 for t, p in positions.items()
-        if get_position_market(t, p) == market
-    )
 
-# ==========================================
-# [Module] 뉴스 수집 (Google News RSS)
-# ==========================================
+def count_positions_by_market(positions: dict, market: str) -> int:
+    return sum(1 for t, p in positions.items() if get_position_market(t, p) == market)
+
+
 def get_latest_news(query: str) -> str:
     try:
         url = (
@@ -158,7 +152,7 @@ def get_latest_news(query: str) -> str:
         print(f"[News Error] {query}: {e}")
         return "(뉴스 수집 실패)"
 
-# Gemini용 뉴스 타이틀만 추출 (AI 프롬프트용)
+
 def get_news_titles_for_ai(query: str):
     try:
         url = (
@@ -179,9 +173,7 @@ def get_news_titles_for_ai(query: str):
         print(f"[NewsTitle Error] {query}: {e}")
         return []
 
-# ==========================================
-# [Module] 텔레그램
-# ==========================================
+
 def send_telegram(msg: str):
     try:
         url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
@@ -195,9 +187,7 @@ def send_telegram(msg: str):
     except Exception as e:
         print(f"[Telegram Error] {e}")
 
-# ==========================================
-# [Module] Gemini AI 코멘트
-# ==========================================
+
 def get_ai_comment(
     signal_type: str,
     name: str,
@@ -209,10 +199,6 @@ def get_ai_comment(
     risk_summary: str,
     sell_reasons: Optional[str],
 ) -> str:
-    """
-    BUY/SELL 발생 시 간단 3~4줄 코멘트 생성.
-    roi 는 SELL일 때만 값, BUY 때는 None.
-    """
     if not GEMINI_ENABLED:
         return "(AI 코멘트 비활성화: GEMINI_API_KEY 없음)"
 
@@ -227,44 +213,40 @@ def get_ai_comment(
             base_desc += f" 매도 트리거 사유: {sell_reasons}."
 
         prompt = f"""
-        당신은 한국어로 답변하는 주식 애널리스트입니다.
-        아래 정보를 바탕으로 간단히 3~4줄 정도로 분석 코멘트를 써주세요.
+당신은 한국어로 답변하는 주식 애널리스트입니다.
+아래 정보를 바탕으로 간단히 3~4줄 정도로 분석 코멘트를 써주세요.
 
-        [기술 신호/포지션 정보]
-        {base_desc}
+[기술 신호/포지션 정보]
+{base_desc}
 
-        [시장 위험도 요약]
-        {risk_summary}
+[시장 위험도 요약]
+{risk_summary}
 
-        [최근 뉴스 제목 목록]
-        {titles_text}
+[최근 뉴스 제목 목록]
+{titles_text}
 
-        요구사항:
-        - 반드시 한국어로만 답변
-        - 형식:
-          1) 단기 관점: ...
-          2) 중기 관점: ...
-          3) 장기 관점: ...
-          📌 결론: ... (한 줄 요약)
-        - 개별 가격 목표 제시는 하지 말고, 리스크/기회 위주로만 코멘트.
-        """
+요구사항:
+- 반드시 한국어로만 답변
+- 형식:
+  1) 단기 관점: ...
+  2) 중기 관점: ...
+  3) 장기 관점: ...
+  📌 결론: ... (한 줄 요약)
+- 개별 가격 목표 제시는 하지 말고, 리스크/기회 위주로만 코멘트.
+        """.strip()
 
         model = genai.GenerativeModel("models/gemini-1.5-pro")
-
         resp = model.generate_content(prompt)
         text = (resp.text or "").strip()
         return text if text else "(AI 코멘트 생성 실패)"
     except Exception as e:
         return f"(AI 코멘트 오류: {e})"
 
-# ==========================================
-# [Module] 시장 위험도 (VIX / UUP / 10Y)
-# ==========================================
+
 def get_market_risk():
     try:
         tickers = ["^VIX", "UUP", "^TNX"]
         raw = yf.download(tickers, period="3mo", progress=False, auto_adjust=False)
-
         if raw.empty:
             raise ValueError("지표 데이터 수신 실패")
 
@@ -273,7 +255,6 @@ def get_market_risk():
         vix_series = data["^VIX"].dropna()
         uup_series = data["UUP"].dropna()
         tnx_series = data["^TNX"].dropna()
-
         if vix_series.empty or uup_series.empty or tnx_series.empty:
             raise ValueError("지표 데이터 부족")
 
@@ -282,12 +263,8 @@ def get_market_risk():
         tnx = float(tnx_series.iloc[-1])
 
         uup_ma20_series = uup_series.rolling(window=20).mean().dropna()
-        if uup_ma20_series.empty:
-            uup_ma20 = uup
-        else:
-            uup_ma20 = float(uup_ma20_series.iloc[-1])
+        uup_ma20 = float(uup_ma20_series.iloc[-1]) if not uup_ma20_series.empty else uup
 
-        # VIX 레벨
         if vix < 15:
             vol_level = "Low"
         elif vix < 25:
@@ -295,7 +272,6 @@ def get_market_risk():
         else:
             vol_level = "High"
 
-        # 금리 레벨
         if tnx < 3.5:
             rate_level = "Low"
         elif tnx < 4.5:
@@ -303,7 +279,6 @@ def get_market_risk():
         else:
             rate_level = "High"
 
-        # 달러 레벨
         if uup > uup_ma20 * 1.01:
             dollar_level = "Strong"
         elif uup < uup_ma20 * 0.99:
@@ -311,7 +286,6 @@ def get_market_risk():
         else:
             dollar_level = "Neutral"
 
-        # 스코어링
         score = 50
         if vol_level == "Low":
             score += 5
@@ -336,8 +310,6 @@ def get_market_risk():
             level = "Normal"
         elif score >= 20:
             level = "High"
-            # score < 20 은 Extreme
-
         else:
             level = "Extreme"
 
@@ -350,15 +322,9 @@ def get_market_risk():
         return {"level": level, "score": score, "summary": summary}
     except Exception as e:
         print(f"[Market Risk Error] {e}")
-        return {
-            "level": "Unknown",
-            "score": 50,
-            "summary": "시장 위험도: Unknown (지표 수집 실패)"
-        }
+        return {"level": "Unknown", "score": 50, "summary": "시장 위험도: Unknown (지표 수집 실패)"}
 
-# ==========================================
-# [Module] 레이팅 계산 (Strong Buy ~ Strong Sell)
-# ==========================================
+
 def rate_stock(
     curr_price: float,
     ma20_val: float,
@@ -371,7 +337,6 @@ def rate_stock(
 ):
     score = 50
 
-    # RSI
     if curr_rsi < 30:
         score += 15
     elif curr_rsi < 40:
@@ -381,23 +346,19 @@ def rate_stock(
     elif curr_rsi > 60:
         score -= 5
 
-    # 추세 (20일 vs 60일)
     if ma20_val > ma60_val:
         score += 10
     else:
         score -= 10
 
-    # 볼린저 위치
     band_mid = (curr_upper + curr_lower) / 2
     if curr_price < band_mid:
         score += 5
     else:
         score -= 5
 
-    # 시장 위험도
     if market_risk_level == "Low":
         score += 5
-        # 과열 아닌데 점수 80 이상(매우 안정)일 때 추가 가점
         if market_risk_score >= MARKET_SCORE_STRONG_BOOST:
             score += 5
     elif market_risk_level == "High":
@@ -420,9 +381,7 @@ def rate_stock(
 
     return rating, score
 
-# ==========================================
-# [Core] 분석 + 포지션 추적 + AI 코멘트
-# ==========================================
+
 def analyze_market():
     print(f"[{datetime.now()}] Market Watch Start...")
 
@@ -435,6 +394,9 @@ def analyze_market():
     positions = load_positions()
     positions_updated = False
 
+    def _scalar(x) -> float:
+        return float(x.item()) if hasattr(x, "item") else float(x)
+
     for item in TARGETS:
         ticker = item["ticker"]
         name = item["name"]
@@ -442,14 +404,21 @@ def analyze_market():
 
         try:
             df = yf.download(ticker, period="6mo", progress=False, auto_adjust=False)
-
-            if df.empty or len(df) < 30:
+            if df.empty or len(df) < 60:
                 print(f">> {name} ({ticker}): 데이터 부족, 건너뜀")
                 continue
 
             close = df["Close"]
-if hasattr(close, "columns"):
-    close = close[ticker]
+            # yfinance가 DataFrame으로 주는 케이스(멀티컬럼) 대응
+            if hasattr(close, "columns"):
+                close = close[ticker]
+
+            # RSI 먼저 계산
+            delta = close.diff()
+            gain = delta.clip(lower=0).rolling(window=14).mean()
+            loss = (-delta.clip(upper=0)).rolling(window=14).mean()
+            rs = gain / loss.replace(0, float("nan"))
+            rsi = 100 - (100 / (1 + rs))
 
             # 이동평균 / 볼린저
             ma20 = close.rolling(window=20).mean()
@@ -458,32 +427,20 @@ if hasattr(close, "columns"):
             upper = ma20 + (std20 * 2)
             lower = ma20 - (std20 * 2)
 
-            def _scalar(x):
-    return float(x.item()) if hasattr(x, "item") else float(x)
+            # 최신값 스칼라 변환
+            curr_price = _scalar(close.iloc[-1])
+            prev_price = _scalar(close.iloc[-2])
 
-curr_price = _scalar(close.iloc[-1])
-prev_price = _scalar(close.iloc[-2])
+            curr_ma20 = _scalar(ma20.iloc[-1])
+            curr_ma60 = _scalar(ma60.iloc[-1])
 
-curr_ma20 = _scalar(ma20.iloc[-1])
-curr_ma60 = _scalar(ma60.iloc[-1])
+            curr_upper = _scalar(upper.iloc[-1])
+            curr_lower = _scalar(lower.iloc[-1])
+            prev_upper = _scalar(upper.iloc[-2])
+            prev_lower = _scalar(lower.iloc[-2])
 
-curr_upper = _scalar(upper.iloc[-1])
-curr_lower = _scalar(lower.iloc[-1])
-prev_upper = _scalar(upper.iloc[-2])
-prev_lower = _scalar(lower.iloc[-2])
-
-curr_rsi = _scalar(rsi.iloc[-1])
-prev_rsi = _scalar(rsi.iloc[-2])
-
-
-            # RSI
-            delta = close.diff()
-            gain = delta.clip(lower=0).rolling(window=14).mean()
-            loss = (-delta.clip(upper=0)).rolling(window=14).mean()
-            rs = gain / loss.replace(0, float("nan"))
-            rsi = 100 - (100 / (1 + rs))
-            curr_rsi = float(rsi.iloc[-1])
-            prev_rsi = float(rsi.iloc[-2])
+            curr_rsi = _scalar(rsi.iloc[-1])
+            prev_rsi = _scalar(rsi.iloc[-2])
 
             # ---- A. 중복 신호 방지: 교차 이벤트만 감지 ----
             buy_now = (curr_price < curr_lower) or (curr_rsi < RSI_OVERSOLD)
@@ -492,34 +449,29 @@ prev_rsi = _scalar(rsi.iloc[-2])
             sell_now = (curr_price > curr_upper) or (curr_rsi > RSI_OVERBOUGHT)
             sell_prev = (prev_price > prev_upper) or (prev_rsi > RSI_OVERBOUGHT)
 
-            event_signal = None  # "BUY" / "SELL" / None
+            event_signal = None
             if buy_now and not buy_prev:
                 event_signal = "BUY"
             elif sell_now and not sell_prev:
                 event_signal = "SELL"
 
-            # 레이팅
             rating, score = rate_stock(
                 curr_price, curr_ma20, curr_ma60,
                 curr_rsi, curr_upper, curr_lower,
                 risk_level, risk_score
             )
 
-            # ---- 포지션 여부 확인 ----
             pos = positions.get(ticker)
 
-            # ==================================
-            # 1) 보유 중인 종목: 트레일링/SELL 처리
-            # ==================================
+            # 1) 보유 중: SELL/트레일링 처리
             if pos:
                 entry_price = pos["entry_price"]
                 highest_price = pos.get("highest_price", entry_price)
 
-                # 고점 갱신
                 if curr_price > highest_price:
                     highest_price = curr_price
                     pos["highest_price"] = highest_price
-                    pos["market"] = market  # 기존 포지션에도 market 넣어줌
+                    pos["market"] = market
                     positions_updated = True
 
                 roi = (curr_price - entry_price) / entry_price * 100
@@ -530,9 +482,7 @@ prev_rsi = _scalar(rsi.iloc[-2])
 
                 sell_reasons = []
                 if trailing_hit:
-                    sell_reasons.append(
-                        f"트레일링 스탑 발동 (고점 대비 {drop_from_high*100:.1f}%)"
-                    )
+                    sell_reasons.append(f"트레일링 스탑 발동 (고점 대비 {drop_from_high*100:.1f}%)")
                 if tech_sell_hit:
                     sell_reasons.append("기술적 SELL 신호 (밴드 상단/RSI 과매수)")
 
@@ -540,7 +490,6 @@ prev_rsi = _scalar(rsi.iloc[-2])
                     reason_text = "; ".join(sell_reasons)
                     news_summary = get_latest_news(name)
 
-                    # AI 코멘트
                     ai_comment = get_ai_comment(
                         signal_type="SELL",
                         name=name,
@@ -574,31 +523,21 @@ prev_rsi = _scalar(rsi.iloc[-2])
                     del positions[ticker]
                     positions_updated = True
                     print(f">> {name}: Position SOLD. ({reason_text})")
-                    continue  # 매도 후 신규 진입 로직 건너뜀
+                    continue
 
                 print(f">> {name}: 보유 중, 수익률 {roi:.2f}% (신규 신호 없음)")
                 continue
 
-            # ==================================
-            # 2) 미보유 종목: 신규 BUY 진입
-            # ==================================
-            if not pos and event_signal == "BUY":
-                # (1) 시장 점수 30 이하면 신규 매수 차단
+            # 2) 미보유: 신규 BUY
+            if event_signal == "BUY":
                 if risk_score <= MARKET_SCORE_BLOCK_BUY:
-                    print(
-                        f">> {name}: BUY 신호 발생했지만 "
-                        f"시장 점수 {risk_score} <= {MARKET_SCORE_BLOCK_BUY}, 매수 차단."
-                    )
+                    print(f">> {name}: BUY 신호지만 시장 점수 {risk_score} <= {MARKET_SCORE_BLOCK_BUY}, 매수 차단.")
                     continue
 
-                # (2) 국장 포지션 4개 이상이면 추가 진입 금지 (미장은 제한 없음)
                 if market == "KR":
                     kr_open = count_positions_by_market(positions, "KR")
                     if kr_open >= MAX_KR_POSITIONS:
-                        print(
-                            f">> {name}: 현재 국장 포지션 {kr_open}개, "
-                            f"MAX={MAX_KR_POSITIONS} → 매수 스킵."
-                        )
+                        print(f">> {name}: 국장 포지션 {kr_open}개, MAX={MAX_KR_POSITIONS} → 매수 스킵.")
                         continue
 
                 stop_loss = curr_price * (1 - STOP_LOSS_PCT)
@@ -634,8 +573,7 @@ prev_rsi = _scalar(rsi.iloc[-2])
                     f"- 손절가(-{int(STOP_LOSS_PCT*100)}%): {stop_loss:,.2f}\n"
                     f"- 1차 목표가(+{int(TARGET1_PCT*100)}%): {target1:,.2f}\n"
                     f"- 2차 목표가(+{int(TARGET2_PCT*100)}%): {target2:,.2f}\n"
-                    f"- 트레일링 시작 구간(약 +{int(TRAIL_START_PCT*100)}%): "
-                    f"{trail_start:,.2f}\n"
+                    f"- 트레일링 시작 구간(약 +{int(TRAIL_START_PCT*100)}%): {trail_start:,.2f}\n"
                     f"--------------------\n"
                     f"📰 *관련 뉴스*\n{news_summary}\n"
                     f"--------------------\n"
@@ -663,8 +601,6 @@ prev_rsi = _scalar(rsi.iloc[-2])
         save_positions(positions)
         print(">> positions.json updated.")
 
-# ==========================================
-# main
-# ==========================================
+
 if __name__ == "__main__":
     analyze_market()
