@@ -23,6 +23,44 @@ TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 CHAT_ID = os.environ.get("CHAT_ID")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")  # 선택
 
+# ==============================
+# [Config JSON] targets / params
+# ==============================
+def load_json(path: str, default=None):
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"❌ [Config Error] {path} 로드 실패: {e}")
+        return default if default is not None else {}
+
+TARGETS = load_json("config/targets.json", default=[])
+P = load_json("config/params.json", default={})
+
+if not TARGETS:
+    print("❌ [Error] config/targets.json이 비어있거나 로드 실패")
+    sys.exit(1)
+
+TICKER_MARKET_MAP = {t["ticker"]: t.get("market", "UNKNOWN") for t in TARGETS}
+
+# ==============================
+# [Trading Parameters] (JSON 우선)
+# ==============================
+RSI_OVERSOLD = int(P.get("RSI_OVERSOLD", 30))
+RSI_OVERBOUGHT = int(P.get("RSI_OVERBOUGHT", 70))
+
+STOP_LOSS_PCT = float(P.get("STOP_LOSS_PCT", 0.05))
+TARGET1_PCT = float(P.get("TARGET1_PCT", 0.10))
+TARGET2_PCT = float(P.get("TARGET2_PCT", 0.20))
+TRAIL_START_PCT = float(P.get("TRAIL_START_PCT", 0.15))
+TRAILING_STOP_PCT = float(P.get("TRAILING_STOP_PCT", 0.05))
+
+MARKET_SCORE_BLOCK_BUY = int(P.get("MARKET_SCORE_BLOCK_BUY", 30))
+MARKET_SCORE_STRONG_BOOST = int(P.get("MARKET_SCORE_STRONG_BOOST", 80))
+
+MAX_KR_POSITIONS = int(P.get("MAX_KR_POSITIONS", 4))
+
+
 if not TELEGRAM_TOKEN or not CHAT_ID:
     print("❌ [Error] 환경변수(TELEGRAM_TOKEN / CHAT_ID) 누락")
     sys.exit(1)
@@ -58,45 +96,7 @@ MARKET_SCORE_STRONG_BOOST = 80  # 이상이면 레이팅 추가 가점
 # 국장 포지션 최대 개수
 MAX_KR_POSITIONS = 4
 
-# ==============================
-# [Target List] 실시간 감시 대상
-# ==============================
-TARGETS = [
-    # 🇰🇷 국내 핵심
-    {'ticker': '005930.KS', 'name': '삼성전자',                'market': 'KR'},
-    {'ticker': '000660.KS', 'name': 'SK하이닉스',              'market': 'KR'},
-    {'ticker': '079550.KS', 'name': 'LIG넥스원',               'market': 'KR'},
-    {'ticker': '068270.KS', 'name': '셀트리온',                'market': 'KR'},
-    {'ticker': '010120.KS', 'name': 'LS ELECTRIC',             'market': 'KR'},
-    {'ticker': '570090.KS', 'name': '한투 KIS CD금리투자 ETN', 'market': 'KR'},
 
-    # 🇺🇸 반도체 / AI
-    {'ticker': 'NVDA', 'name': 'NVIDIA',   'market': 'US'},
-    {'ticker': 'TSM',  'name': 'TSMC',     'market': 'US'},
-    {'ticker': 'AMD',  'name': 'AMD',      'market': 'US'},
-    {'ticker': 'AVGO', 'name': 'Broadcom', 'market': 'US'},
-    {'ticker': 'MU',   'name': 'Micron',   'market': 'US'},
-
-    # 빅테크 / 플랫폼
-    {'ticker': 'GOOGL', 'name': 'Alphabet A', 'market': 'US'},
-    {'ticker': 'GOOG',  'name': 'Alphabet C', 'market': 'US'},
-    {'ticker': 'META',  'name': 'Meta',       'market': 'US'},
-    {'ticker': 'MSFT',  'name': 'Microsoft',  'market': 'US'},
-    {'ticker': 'AAPL',  'name': 'Apple',      'market': 'US'},
-    {'ticker': 'AMZN',  'name': 'Amazon',     'market': 'US'},
-    {'ticker': 'TSLA',  'name': 'Tesla',      'market': 'US'},
-
-    # 코인/핀테크/데이터
-    {'ticker': 'COIN', 'name': 'Coinbase',         'market': 'US'},
-    {'ticker': 'PLTR', 'name': 'Palantir',         'market': 'US'},
-    {'ticker': 'AXP',  'name': 'American Express', 'market': 'US'},
-
-    # 배당/방어 ETF
-    {'ticker': 'SCHD', 'name': 'SCHD', 'market': 'US'},
-    {'ticker': 'GLD',  'name': 'GLD',  'market': 'US'},
-]
-
-TICKER_MARKET_MAP = {t['ticker']: t['market'] for t in TARGETS}
 
 
 def load_positions() -> dict:
