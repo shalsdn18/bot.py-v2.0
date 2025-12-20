@@ -1,0 +1,29 @@
+[
+  {"ticker":"005930.KS","name":"삼성전자","market":"KR"},
+  {"ticker":"000660.KS","name":"SK하이닉스","market":"KR"},
+  {"ticker":"079550.KS","name":"LIG넥스원","market":"KR"},
+  {"ticker":"068270.KS","name":"셀트리온","market":"KR"},
+  {"ticker":"010120.KS","name":"LS ELECTRIC","market":"KR"},
+  {"ticker":"570090.KS","name":"한투 KIS CD금리투자 ETN","market":"KR"},
+
+  {"ticker":"NVDA","name":"NVIDIA","market":"US"},
+  {"ticker":"TSM","name":"TSMC","market":"US"},
+  {"ticker":"AMD","name":"AMD","market":"US"},
+  {"ticker":"AVGO","name":"Broadcom","market":"US"},
+  {"ticker":"MU","name":"Micron","market":"US"},
+
+  {"ticker":"GOOGL","name":"Alphabet A","market":"US"},
+  {"ticker":"GOOG","name":"Alphabet C","market":"US"},
+  {"ticker":"META","name":"Meta","market":"US"},
+  {"ticker":"MSFT","name":"Microsoft","market":"US"},
+  {"ticker":"AAPL","name":"Apple","market":"US"},
+  {"ticker":"AMZN","name":"Amazon","market":"US"},
+  {"ticker":"TSLA","name":"Tesla","market":"US"},
+
+  {"ticker":"COIN","name":"Coinbase","market":"US"},
+  {"ticker":"PLTR","name":"Palantir","market":"US"},
+  {"ticker":"AXP","name":"American Express","market":"US"},
+
+  {"ticker":"SCHD","name":"SCHD","market":"US"},
+  {"ticker":"GLD","name":"GLD","market":"US"}
+]
