@@ -242,7 +242,7 @@ def generate_ai_comment(prompt: str) -> str:
             return "(GEMINI_CLIENT 초기화 실패: API 키/패키지 확인)"
 
         resp = GEMINI_CLIENT.models.generate_content(
-            model="gemini-1.5-pro",   # 필요시 변경
+            model="gemini-1.5-flash",   # 필요시 변경
             contents=prompt
         )
 
