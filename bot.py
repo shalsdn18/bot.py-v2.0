@@ -195,9 +195,8 @@ def get_ai_comment(
     risk_summary: str,
     sell_reasons: Optional[str],
 ) -> str:
-   if GEMINI_CLIENT is None:
-    return "(AI 코멘트 비활성화: GEMINI_CLIENT 초기화 실패 / API 키 확인)"
-
+    if GEMINI_CLIENT is None:
+        return "(AI 코멘트 비활성화: GEMINI_CLIENT 초기화 실패 / API 키 확인)"
 
     try:
         news_titles = get_news_titles_for_ai(name)
@@ -232,7 +231,11 @@ def get_ai_comment(
 - 개별 가격 목표 제시는 하지 말고, 리스크/기회 위주로만 코멘트.
         """.strip()
 
-       # Gemini 코멘트 생성
+        return generate_ai_comment(prompt)
+    except Exception as e:
+        return f"(AI 코멘트 오류: {e})"
+
+
 def generate_ai_comment(prompt: str) -> str:
     try:
         if GEMINI_CLIENT is None:
