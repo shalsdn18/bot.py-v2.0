@@ -249,5 +249,12 @@
         "entry_price": 204.2901,
         "highest_price": 204.2901,
         "opened_at": "2025-12-02"
+    },
+    "MSFT": {
+        "name": "Microsoft",
+        "entry_price": 381.8500061035156,
+        "highest_price": 381.8500061035156,
+        "opened_at": "2026-03-23 10:24",
+        "market": "US"
     }
 }
