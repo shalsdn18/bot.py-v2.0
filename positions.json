@@ -2,7 +2,7 @@
     "000660.KS": {
         "name": "SK하이닉스",
         "entry_price": 558013.7513,
-        "highest_price": 571000.0,
+        "highest_price": 933000.0,
         "opened_at": "2025-12-02",
         "market": "KR"
     },
@@ -15,39 +15,16 @@
     "068270.KS": {
         "name": "셀트리온",
         "entry_price": 184197.8722,
-        "highest_price": 186800.0,
+        "highest_price": 188300.0,
         "opened_at": "2025-12-02",
         "market": "KR"
-    },
-    "NVDA": {
-        "name": "엔비디아",
-        "entry_price": 181.2297,
-        "highest_price": 183.8249969482422,
-        "opened_at": "2025-12-02"
-    },
-    "MSFT": {
-        "name": "마이크로소프트",
-        "entry_price": 486.7876,
-        "highest_price": 490.5199890136719,
-        "opened_at": "2025-12-02"
-    },
-    "AAPL": {
-        "name": "애플",
-        "entry_price": 282.6458,
-        "highest_price": 287.55499267578125,
-        "opened_at": "2025-12-02"
-    },
-    "AMZN": {
-        "name": "아마존",
-        "entry_price": 235.7342,
-        "highest_price": 235.7342,
-        "opened_at": "2025-12-02"
     },
     "TSM": {
         "name": "TSMC(ADR)",
         "entry_price": 291.2236,
-        "highest_price": 296.0,
-        "opened_at": "2025-12-02"
+        "highest_price": 329.239990234375,
+        "opened_at": "2025-12-02",
+        "market": "US"
     },
     "SBUX": {
         "name": "스타벅스",
@@ -72,13 +49,6 @@
         "entry_price": 86.8309,
         "highest_price": 86.8309,
         "opened_at": "2025-12-02"
-    },
-    "AXP": {
-        "name": "아메리칸 익스프레스",
-        "entry_price": 360.3022,
-        "highest_price": 382.55999755859375,
-        "opened_at": "2025-12-02",
-        "market": "US"
     },
     "LRCX": {
         "name": "램 리서치",
@@ -263,15 +233,16 @@
     "GLD": {
         "name": "GLD (ETF)",
         "entry_price": 389.3127,
-        "highest_price": 399.0199890136719,
+        "highest_price": 413.3800048828125,
         "opened_at": "2025-12-02",
         "market": "US"
     },
     "SCHD": {
         "name": "SCHD (ETF)",
         "entry_price": 27.6899,
-        "highest_price": 27.815000534057617,
-        "opened_at": "2025-12-02"
+        "highest_price": 30.389999389648438,
+        "opened_at": "2025-12-02",
+        "market": "US"
     },
     "JNJ": {
         "name": "존슨 앤 존슨",
