@@ -22,7 +22,7 @@
     "TSM": {
         "name": "TSMC(ADR)",
         "entry_price": 291.2236,
-        "highest_price": 329.239990234375,
+        "highest_price": 340.5,
         "opened_at": "2025-12-02",
         "market": "US"
     },
@@ -240,7 +240,7 @@
     "SCHD": {
         "name": "SCHD (ETF)",
         "entry_price": 27.6899,
-        "highest_price": 30.389999389648438,
+        "highest_price": 30.70009994506836,
         "opened_at": "2025-12-02",
         "market": "US"
     },
@@ -253,7 +253,7 @@
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 381.8500061035156,
-        "highest_price": 381.8500061035156,
+        "highest_price": 385.3599853515625,
         "opened_at": "2026-03-23 10:24",
         "market": "US"
     }
