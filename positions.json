@@ -1,43 +1,275 @@
 {
-    "NVDA": { "name": "엔비디아", "entry_price": 120.62, "highest_price": 175.89, "opened_at": "2026-03-24", "market": "US" },
-    "GOOGL": { "name": "알파벳 A", "entry_price": 215.03, "highest_price": 301.65, "opened_at": "2026-03-24", "market": "US" },
-    "META": { "name": "메타", "entry_price": 450.65, "highest_price": 603.95, "opened_at": "2026-03-24", "market": "US" },
-    "MU": { "name": "마이크론 테크놀로지", "entry_price": 312.91, "highest_price": 406.30, "opened_at": "2026-03-24", "market": "US" },
-    "TSM": { "name": "TSMC(ADR)", "entry_price": 266.95, "highest_price": 337.81, "opened_at": "2026-03-24", "market": "US" },
-    "BG": { "name": "번지 글로벌", "entry_price": 111.35, "highest_price": 120.82, "opened_at": "2026-03-24", "market": "US" },
-    "AAPL": { "name": "애플", "entry_price": 236.38, "highest_price": 251.50, "opened_at": "2026-03-24", "market": "US" },
-    "LRCX": { "name": "램 리서치", "entry_price": 219.34, "highest_price": 232.43, "opened_at": "2026-03-24", "market": "US" },
-    "AMZN": { "name": "아마존", "entry_price": 201.38, "highest_price": 210.08, "opened_at": "2026-03-24", "market": "US" },
-    "ADM": { "name": "아처 대니얼스 미들랜드", "entry_price": 65.28, "highest_price": 67.94, "opened_at": "2026-03-24", "market": "US" },
-    "TER": { "name": "테라다인", "entry_price": 293.32, "highest_price": 304.99, "opened_at": "2026-03-24", "market": "US" },
-    "CAT": { "name": "캐터필러", "entry_price": 674.38, "highest_price": 700.30, "opened_at": "2026-03-24", "market": "US" },
-    "SBUX": { "name": "스타벅스", "entry_price": 90.46, "highest_price": 93.90, "opened_at": "2026-03-24", "market": "US" },
-    "ASML": { "name": "ASML 홀딩(ADR)", "entry_price": 1317.75, "highest_price": 1365.77, "opened_at": "2026-03-24", "market": "US" },
-    "GOOG": { "name": "알파벳 C", "entry_price": 295.89, "highest_price": 298.74, "opened_at": "2026-03-24", "market": "US" },
-    "SNX": { "name": "TD 시넥스", "entry_price": 157.10, "highest_price": 157.10, "opened_at": "2026-03-24", "market": "US" },
-    "SCHD": { "name": "SCHD", "entry_price": 30.90, "highest_price": 30.90, "opened_at": "2026-03-24", "market": "US" },
-    "KO": { "name": "코카콜라", "entry_price": 76.12, "highest_price": 76.12, "opened_at": "2026-03-24", "market": "US" },
-    "QUAL": { "name": "QUAL (ETF)", "entry_price": 196.71, "highest_price": 196.71, "opened_at": "2026-03-24", "market": "US" },
-    "JNJ": { "name": "존슨 앤 존슨", "entry_price": 240.73, "highest_price": 240.73, "opened_at": "2026-03-24", "market": "US" },
-    "TSLA": { "name": "테슬라", "entry_price": 390.34, "highest_price": 390.34, "opened_at": "2026-03-24", "market": "US" },
-    "VTI": { "name": "VTI (ETF)", "entry_price": 334.05, "highest_price": 334.05, "opened_at": "2026-03-24", "market": "US" },
-    "BRK-B": { "name": "버크셔 해서웨이 B", "entry_price": 495.28, "highest_price": 495.28, "opened_at": "2026-03-24", "market": "US" },
-    "QQQ": { "name": "QQQ (ETF)", "entry_price": 611.35, "highest_price": 611.35, "opened_at": "2026-03-24", "market": "US" },
-    "VOO": { "name": "VOO (ETF)", "entry_price": 627.70, "highest_price": 627.70, "opened_at": "2026-03-24", "market": "US" },
-    "IVV": { "name": "IVV (ETF)", "entry_price": 684.86, "highest_price": 684.86, "opened_at": "2026-03-24", "market": "US" },
-    "SPY": { "name": "SPY (ETF)", "entry_price": 682.74, "highest_price": 682.74, "opened_at": "2026-03-24", "market": "US" },
-    "BRK-A": { "name": "버크셔 해서웨이 A", "entry_price": 757211.82, "highest_price": 757211.82, "opened_at": "2026-03-24", "market": "US" },
-    "CNI": { "name": "캐나디안 내셔널 레일웨이", "entry_price": 106.24, "highest_price": 106.24, "opened_at": "2026-03-24", "market": "US" },
-    "GE": { "name": "GE 에어로스페이스", "entry_price": 307.96, "highest_price": 307.96, "opened_at": "2026-03-24", "market": "US" },
-    "V": { "name": "비자", "entry_price": 327.47, "highest_price": 327.47, "opened_at": "2026-03-24", "market": "US" },
-    "MSFT": { "name": "마이크로소프트", "entry_price": 414.85, "highest_price": 414.85, "opened_at": "2026-03-24", "market": "US" },
-    "MA": { "name": "마스터카드", "entry_price": 540.75, "highest_price": 540.75, "opened_at": "2026-03-24", "market": "US" },
-    "005930.KS": { "name": "삼성전자", "entry_price": 95432, "highest_price": 189700, "opened_at": "2026-03-24", "market": "KR" },
-    "000660.KS": { "name": "SK하이닉스", "entry_price": 693103, "highest_price": 986000, "opened_at": "2026-03-24", "market": "KR" },
-    "068270.KS": { "name": "셀트리온", "entry_price": 191017, "highest_price": 199600, "opened_at": "2026-03-24", "market": "KR" },
-    "079550.KS": { "name": "LIG넥스원", "entry_price": 441600, "highest_price": 641000, "opened_at": "2026-03-24", "market": "KR" },
-    "010120.KS": { "name": "LS ELECTRIC", "entry_price": 589140, "highest_price": 813000, "opened_at": "2026-03-24", "market": "KR" },
-    "012450.KS": { "name": "한화에어로스페이스", "entry_price": 1261526, "highest_price": 1335000, "opened_at": "2026-03-24", "market": "KR" },
-    "311690.KS": { "name": "현대무벡스", "entry_price": 16130, "highest_price": 28250, "opened_at": "2026-03-24", "market": "KR" },
-    "570090.KS": { "name": "한투 KIS CD금리투자 ETN", "entry_price": 53825, "highest_price": 55045, "opened_at": "2026-03-24", "market": "KR" }
+    "NVDA": {
+        "name": "엔비디아",
+        "entry_price": 120.62,
+        "highest_price": 175.89,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "GOOGL": {
+        "name": "알파벳 A",
+        "entry_price": 215.03,
+        "highest_price": 302.05999755859375,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "META": {
+        "name": "메타",
+        "entry_price": 450.65,
+        "highest_price": 604.0599975585938,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "MU": {
+        "name": "마이크론 테크놀로지",
+        "entry_price": 312.91,
+        "highest_price": 406.3,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "TSM": {
+        "name": "TSMC(ADR)",
+        "entry_price": 266.95,
+        "highest_price": 338.45001220703125,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "BG": {
+        "name": "번지 글로벌",
+        "entry_price": 111.35,
+        "highest_price": 120.82,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "AAPL": {
+        "name": "애플",
+        "entry_price": 236.38,
+        "highest_price": 251.5,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "LRCX": {
+        "name": "램 리서치",
+        "entry_price": 219.34,
+        "highest_price": 232.43,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "AMZN": {
+        "name": "아마존",
+        "entry_price": 201.38,
+        "highest_price": 210.13999938964844,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "ADM": {
+        "name": "아처 대니얼스 미들랜드",
+        "entry_price": 65.28,
+        "highest_price": 67.94,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "TER": {
+        "name": "테라다인",
+        "entry_price": 293.32,
+        "highest_price": 304.99,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "CAT": {
+        "name": "캐터필러",
+        "entry_price": 674.38,
+        "highest_price": 700.3,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "SBUX": {
+        "name": "스타벅스",
+        "entry_price": 90.46,
+        "highest_price": 93.9,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "ASML": {
+        "name": "ASML 홀딩(ADR)",
+        "entry_price": 1317.75,
+        "highest_price": 1365.77,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "GOOG": {
+        "name": "알파벳 C",
+        "entry_price": 295.89,
+        "highest_price": 299.0199890136719,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "SNX": {
+        "name": "TD 시넥스",
+        "entry_price": 157.1,
+        "highest_price": 157.1,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "SCHD": {
+        "name": "SCHD",
+        "entry_price": 30.9,
+        "highest_price": 30.9,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "KO": {
+        "name": "코카콜라",
+        "entry_price": 76.12,
+        "highest_price": 76.12,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "QUAL": {
+        "name": "QUAL (ETF)",
+        "entry_price": 196.71,
+        "highest_price": 196.71,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "JNJ": {
+        "name": "존슨 앤 존슨",
+        "entry_price": 240.73,
+        "highest_price": 240.73,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "TSLA": {
+        "name": "테슬라",
+        "entry_price": 390.34,
+        "highest_price": 390.34,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "VTI": {
+        "name": "VTI (ETF)",
+        "entry_price": 334.05,
+        "highest_price": 334.05,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "BRK-B": {
+        "name": "버크셔 해서웨이 B",
+        "entry_price": 495.28,
+        "highest_price": 495.28,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "QQQ": {
+        "name": "QQQ (ETF)",
+        "entry_price": 611.35,
+        "highest_price": 611.35,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "VOO": {
+        "name": "VOO (ETF)",
+        "entry_price": 627.7,
+        "highest_price": 627.7,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "IVV": {
+        "name": "IVV (ETF)",
+        "entry_price": 684.86,
+        "highest_price": 684.86,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "SPY": {
+        "name": "SPY (ETF)",
+        "entry_price": 682.74,
+        "highest_price": 682.74,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "BRK-A": {
+        "name": "버크셔 해서웨이 A",
+        "entry_price": 757211.82,
+        "highest_price": 757211.82,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "CNI": {
+        "name": "캐나디안 내셔널 레일웨이",
+        "entry_price": 106.24,
+        "highest_price": 106.24,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "GE": {
+        "name": "GE 에어로스페이스",
+        "entry_price": 307.96,
+        "highest_price": 307.96,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "V": {
+        "name": "비자",
+        "entry_price": 327.47,
+        "highest_price": 327.47,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "MA": {
+        "name": "마스터카드",
+        "entry_price": 540.75,
+        "highest_price": 540.75,
+        "opened_at": "2026-03-24",
+        "market": "US"
+    },
+    "005930.KS": {
+        "name": "삼성전자",
+        "entry_price": 95432,
+        "highest_price": 189700,
+        "opened_at": "2026-03-24",
+        "market": "KR"
+    },
+    "000660.KS": {
+        "name": "SK하이닉스",
+        "entry_price": 693103,
+        "highest_price": 986000,
+        "opened_at": "2026-03-24",
+        "market": "KR"
+    },
+    "068270.KS": {
+        "name": "셀트리온",
+        "entry_price": 191017,
+        "highest_price": 199600,
+        "opened_at": "2026-03-24",
+        "market": "KR"
+    },
+    "079550.KS": {
+        "name": "LIG넥스원",
+        "entry_price": 441600,
+        "highest_price": 641000,
+        "opened_at": "2026-03-24",
+        "market": "KR"
+    },
+    "012450.KS": {
+        "name": "한화에어로스페이스",
+        "entry_price": 1261526,
+        "highest_price": 1335000,
+        "opened_at": "2026-03-24",
+        "market": "KR"
+    },
+    "311690.KS": {
+        "name": "현대무벡스",
+        "entry_price": 16130,
+        "highest_price": 28250,
+        "opened_at": "2026-03-24",
+        "market": "KR"
+    },
+    "570090.KS": {
+        "name": "한투 KIS CD금리투자 ETN",
+        "entry_price": 53825,
+        "highest_price": 55045,
+        "opened_at": "2026-03-24",
+        "market": "KR"
+    }
 }
