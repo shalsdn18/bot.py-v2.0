@@ -241,7 +241,8 @@ def generate_ai_comment(prompt: str) -> str:
         if GEMINI_CLIENT is None:
             return "(GEMINI_CLIENT 초기화 실패: API 키/패키지 확인)"
 
-        model_name = os.environ.get("GEMINI_MODEL", "models/gemini-1.5-flash")
+        # 🔍 수정 포인트: "models/" 프리픽스를 제거하고 모델명만 입력합니다.
+        model_name = os.environ.get("GEMINI_MODEL", "gemini-1.5-flash")
 
         resp = GEMINI_CLIENT.models.generate_content(
             model=model_name,
