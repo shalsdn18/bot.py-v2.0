@@ -2,7 +2,7 @@
     "NVDA": {
         "name": "엔비디아",
         "entry_price": 120.62,
-        "highest_price": 178.4250030517578,
+        "highest_price": 180.19000244140625,
         "opened_at": "2026-03-24",
         "market": "US"
     },
@@ -23,7 +23,7 @@
     "TSM": {
         "name": "TSMC(ADR)",
         "entry_price": 266.95,
-        "highest_price": 344.8900146484375,
+        "highest_price": 348.4599914550781,
         "opened_at": "2026-03-24",
         "market": "US"
     },
@@ -135,7 +135,7 @@
     "TSLA": {
         "name": "테슬라",
         "entry_price": 390.34,
-        "highest_price": 392.260009765625,
+        "highest_price": 393.1600036621094,
         "opened_at": "2026-03-24",
         "market": "US"
     },
