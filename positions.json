@@ -2,7 +2,7 @@
     "NVDA": {
         "name": "엔비디아",
         "entry_price": 120.62,
-        "highest_price": 175.89,
+        "highest_price": 178.4250030517578,
         "opened_at": "2026-03-24",
         "market": "US"
     },
@@ -20,17 +20,10 @@
         "opened_at": "2026-03-24",
         "market": "US"
     },
-    "MU": {
-        "name": "마이크론 테크놀로지",
-        "entry_price": 312.91,
-        "highest_price": 406.3,
-        "opened_at": "2026-03-24",
-        "market": "US"
-    },
     "TSM": {
         "name": "TSMC(ADR)",
         "entry_price": 266.95,
-        "highest_price": 344.5450134277344,
+        "highest_price": 344.8900146484375,
         "opened_at": "2026-03-24",
         "market": "US"
     },
@@ -58,7 +51,7 @@
     "AMZN": {
         "name": "아마존",
         "entry_price": 201.38,
-        "highest_price": 210.13999938964844,
+        "highest_price": 212.27499389648438,
         "opened_at": "2026-03-24",
         "market": "US"
     },
@@ -142,7 +135,7 @@
     "TSLA": {
         "name": "테슬라",
         "entry_price": 390.34,
-        "highest_price": 390.34,
+        "highest_price": 392.260009765625,
         "opened_at": "2026-03-24",
         "market": "US"
     },
