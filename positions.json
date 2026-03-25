@@ -226,28 +226,28 @@
     "005930.KS": {
         "name": "삼성전자",
         "entry_price": 95432,
-        "highest_price": 189700,
+        "highest_price": 193600.0,
         "opened_at": "2026-03-24",
         "market": "KR"
     },
     "000660.KS": {
         "name": "SK하이닉스",
         "entry_price": 693103,
-        "highest_price": 986000,
+        "highest_price": 1025000.0,
         "opened_at": "2026-03-24",
         "market": "KR"
     },
     "068270.KS": {
         "name": "셀트리온",
         "entry_price": 191017,
-        "highest_price": 199600,
+        "highest_price": 202500.0,
         "opened_at": "2026-03-24",
         "market": "KR"
     },
     "079550.KS": {
         "name": "LIG넥스원",
         "entry_price": 441600,
-        "highest_price": 641000,
+        "highest_price": 664000.0,
         "opened_at": "2026-03-24",
         "market": "KR"
     },
