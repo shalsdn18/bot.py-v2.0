@@ -239,20 +239,20 @@ def get_ai_comment(
 def generate_ai_comment(prompt: str) -> str:
     try:
         if GEMINI_CLIENT is None:
-            return "(GEMINI_CLIENT 초기화 실패: API 키/패키지 확인)"
+            return "(GEMINI_CLIENT 초기화 실패)"
 
-        # 🔍 수정 포인트: "models/" 프리픽스를 제거하고 모델명만 입력합니다.
-        model_name = os.environ.get("GEMINI_MODEL", "gemini-1.5-flash")
+        # 🔍 2026년 가용 모델 리스트 중 최적의 모델로 교체
+        # 'models/'를 포함해야 하는지 여부는 라이브러리 버전에 따라 다르지만, 
+        # 리스트에 뜬 그대로 'models/gemini-2.5-flash'를 넣는 것이 가장 안전합니다.
+        model_name = os.environ.get("GEMINI_MODEL", "models/gemini-2.5-flash")
 
         resp = GEMINI_CLIENT.models.generate_content(
             model=model_name,
             contents=prompt
         )
-
-        text = (getattr(resp, "text", None) or "").strip()
-        return text if text else "(AI 코멘트 생성 실패)"
+        return resp.text
     except Exception as e:
-        return f"(AI 코멘트 오류: {e})"
+        return f"(AI 코멘트 생성 실패: {e})"
 
 
 
