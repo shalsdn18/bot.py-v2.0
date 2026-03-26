@@ -6,13 +6,6 @@
         "opened_at": "2026-03-24",
         "market": "US"
     },
-    "META": {
-        "name": "메타",
-        "entry_price": 450.65,
-        "highest_price": 604.0599975585938,
-        "opened_at": "2026-03-24",
-        "market": "US"
-    },
     "TSM": {
         "name": "TSMC(ADR)",
         "entry_price": 266.95,
@@ -30,7 +23,7 @@
     "AAPL": {
         "name": "애플",
         "entry_price": 236.38,
-        "highest_price": 254.25,
+        "highest_price": 256.5199890136719,
         "opened_at": "2026-03-24",
         "market": "US"
     },
@@ -44,7 +37,7 @@
     "AMZN": {
         "name": "아마존",
         "entry_price": 201.38,
-        "highest_price": 212.33999633789062,
+        "highest_price": 212.5,
         "opened_at": "2026-03-24",
         "market": "US"
     },
