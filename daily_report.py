@@ -129,14 +129,18 @@ def daily_briefing():
         f"💼 *포지션 현황* ({len(positions)}개)\n{pos_block_md}"
     )
 
-    send_telegram(msg)
+    sent = send_telegram(msg)
     logger.info(
         "Daily Telegram stats: success=%d, fallback_success=%d, failed=%d",
         TELEGRAM_SEND_STATS["success"],
         TELEGRAM_SEND_STATS["fallback_success"],
         TELEGRAM_SEND_STATS["failed"],
     )
-    print("Daily briefing sent.")
+    if sent:
+        print("Daily briefing sent.")
+    else:
+        print("Daily briefing failed to send.")
+        logger.warning("Daily briefing message was not delivered")
 
 if __name__ == "__main__":
     daily_briefing()

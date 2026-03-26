@@ -577,10 +577,18 @@ def analyze_market():
                         f"--------------------\n"
                         f"🧠 *AI 코멘트*\n{ai_comment_md}"
                     )
-                    send_telegram(msg)
-                    del positions[ticker]
-                    positions_updated = True
-                    print(f">> {name}: Position SOLD. ({reason_text})")
+                    sent = send_telegram(msg)
+                    if sent:
+                        del positions[ticker]
+                        positions_updated = True
+                        print(f">> {name}: Position SOLD. ({reason_text})")
+                    else:
+                        print(f">> {name}: SELL 알림 전송 실패로 포지션 유지")
+                        logger.warning(
+                            "SELL signal sent failed; position kept: %s (%s)",
+                            name,
+                            ticker,
+                        )
                     continue
 
                 print(f">> {name}: 보유 중, 수익률 {roi:.2f}% (신규 신호 없음)")
@@ -644,17 +652,24 @@ def analyze_market():
                     f"--------------------\n"
                     f"🧠 *AI 코멘트*\n{ai_comment_md}"
                 )
-                send_telegram(msg)
-
-                positions[ticker] = {
-                    "name": name,
-                    "entry_price": curr_price,
-                    "highest_price": curr_price,
-                    "opened_at": datetime.now().strftime("%Y-%m-%d %H:%M"),
-                    "market": market,
-                }
-                positions_updated = True
-                print(f">> {name}: Position OPENED.")
+                sent = send_telegram(msg)
+                if sent:
+                    positions[ticker] = {
+                        "name": name,
+                        "entry_price": curr_price,
+                        "highest_price": curr_price,
+                        "opened_at": datetime.now().strftime("%Y-%m-%d %H:%M"),
+                        "market": market,
+                    }
+                    positions_updated = True
+                    print(f">> {name}: Position OPENED.")
+                else:
+                    print(f">> {name}: BUY 알림 전송 실패로 포지션 미생성")
+                    logger.warning(
+                        "BUY signal sent failed; position not created: %s (%s)",
+                        name,
+                        ticker,
+                    )
             else:
                 print(f">> {name}: No New Signal / No Position.")
 
