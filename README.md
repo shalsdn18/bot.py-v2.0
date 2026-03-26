@@ -114,6 +114,17 @@ python daily_report.py
 - 스케줄러(작업 스케줄러, GitHub Actions, cron 등)로 정기 실행하면 편리합니다.
 - 텔레그램 Markdown 파싱이 깨지지 않도록 종목명/메시지 포맷 변경 시 특수문자를 점검하세요.
 
+## 최근 패치 내역 (2026-03-26)
+
+- README 문서 신규 작성 및 실행/설정 가이드 추가
+- `bot.py`에서 파라미터 하드코딩 재할당 제거
+- `config/params.json` 값이 실제 매매/리스크 파라미터에 반영되도록 수정
+- 텔레그램 전송 안정성 개선
+- Markdown 전송 실패 시 plain text로 자동 재시도(fallback) 추가 (`bot.py`, `daily_report.py`)
+- `daily_report.py` 날짜 기준을 UTC에서 KST(UTC+9)로 변경
+- 동적 문자열만 Telegram Markdown escape 처리
+- 정적 포맷(`*강조*` 등)은 유지하면서 뉴스/AI 코멘트/종목명 등만 안전 처리
+
 ## 문제 해결
 
 - 환경변수 누락 오류:

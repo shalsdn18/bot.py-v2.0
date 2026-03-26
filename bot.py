@@ -73,25 +73,6 @@ if not TELEGRAM_TOKEN or not CHAT_ID:
 # ==============================
 POSITIONS_FILE = "positions.json"
 
-# ==============================
-# [Trading Parameters]
-# ==============================
-RSI_OVERSOLD = 30
-RSI_OVERBOUGHT = 70
-
-STOP_LOSS_PCT = 0.05   # -5% 손절 참고 레벨
-TARGET1_PCT = 0.10     # +10% 1차 목표
-TARGET2_PCT = 0.20     # +20% 2차 목표
-TRAIL_START_PCT = 0.15 # +15%부터 트레일링 감안
-TRAILING_STOP_PCT = 0.05  # 고점 대비 -5% 트레일링 스탑
-
-# 시장 과열/공포 필터 (확장 옵션 A)
-MARKET_SCORE_BLOCK_BUY = 30   # 이하면 신규 매수 차단
-MARKET_SCORE_STRONG_BOOST = 80  # 이상이면 레이팅 추가 가점
-
-# 국장 포지션 최대 개수
-MAX_KR_POSITIONS = 4
-
 
 
 
@@ -122,6 +103,15 @@ def get_position_market(pos_ticker: str, pos_data: dict) -> str:
 
 def count_positions_by_market(positions: dict, market: str) -> int:
     return sum(1 for t, p in positions.items() if get_position_market(t, p) == market)
+
+
+def escape_telegram_markdown(text: str) -> str:
+    if text is None:
+        return ""
+    escaped = str(text).replace("\\", "\\\\")
+    for ch in ("_", "*", "[", "]", "(", ")", "`"):
+        escaped = escaped.replace(ch, f"\\{ch}")
+    return escaped
 
 
 def get_latest_news(query: str) -> str:
@@ -171,17 +161,29 @@ def get_news_titles_for_ai(query: str):
 
 
 def send_telegram(msg: str):
+    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
+    payload = {
+        "chat_id": CHAT_ID,
+        "text": msg,
+        "parse_mode": "Markdown"
+    }
+
     try:
-        url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-        payload = {
-            "chat_id": CHAT_ID,
-            "text": msg,
-            "parse_mode": "Markdown"
-        }
         resp = requests.post(url, json=payload, timeout=5)
         resp.raise_for_status()
     except Exception as e:
-        print(f"[Telegram Error] {e}")
+        print(f"[Telegram Markdown Error] {e}")
+        # Markdown 파싱 실패 시 plain text로 재시도해 신호 유실을 줄인다.
+        try:
+            fallback_payload = {
+                "chat_id": CHAT_ID,
+                "text": msg,
+            }
+            fallback_resp = requests.post(url, json=fallback_payload, timeout=5)
+            fallback_resp.raise_for_status()
+            print("[Telegram] Fallback plain text 전송 성공")
+        except Exception as fallback_e:
+            print(f"[Telegram Error] {fallback_e}")
 
 
 def get_ai_comment(
@@ -517,22 +519,30 @@ def analyze_market():
                         sell_reasons=reason_text,
                     )
 
+                    risk_summary_md = escape_telegram_markdown(risk_summary)
+                    name_md = escape_telegram_markdown(name)
+                    ticker_md = escape_telegram_markdown(ticker)
+                    rating_md = escape_telegram_markdown(rating)
+                    reason_text_md = escape_telegram_markdown(reason_text)
+                    news_summary_md = escape_telegram_markdown(news_summary)
+                    ai_comment_md = escape_telegram_markdown(ai_comment)
+
                     msg = (
                         f"💰 *매도(SELL) 실행*\n"
                         f"--------------------\n"
-                        f"{risk_summary}\n"
+                        f"{risk_summary_md}\n"
                         f"--------------------\n"
-                        f"📊 종목: {name} ({ticker})\n"
+                        f"📊 종목: {name_md} ({ticker_md})\n"
                         f"✅ 진입가: {entry_price:,.2f}\n"
                         f"💵 매도가(현재가): {curr_price:,.2f}\n"
                         f"📈 현재 RSI: {curr_rsi:.1f}\n"
                         f"📊 수익률: {roi:.2f}%\n"
-                        f"레이팅: {rating} (Score {score}/100)\n"
-                        f"사유: {reason_text}\n"
+                        f"레이팅: {rating_md} (Score {score}/100)\n"
+                        f"사유: {reason_text_md}\n"
                         f"--------------------\n"
-                        f"📰 *관련 뉴스*\n{news_summary}\n"
+                        f"📰 *관련 뉴스*\n{news_summary_md}\n"
                         f"--------------------\n"
-                        f"🧠 *AI 코멘트*\n{ai_comment}"
+                        f"🧠 *AI 코멘트*\n{ai_comment_md}"
                     )
                     send_telegram(msg)
                     del positions[ticker]
@@ -574,15 +584,22 @@ def analyze_market():
                     sell_reasons=None,
                 )
 
+                risk_summary_md = escape_telegram_markdown(risk_summary)
+                name_md = escape_telegram_markdown(name)
+                ticker_md = escape_telegram_markdown(ticker)
+                rating_md = escape_telegram_markdown(rating)
+                news_summary_md = escape_telegram_markdown(news_summary)
+                ai_comment_md = escape_telegram_markdown(ai_comment)
+
                 msg = (
                     f"🚨 *매수(BUY) 진입*\n"
                     f"--------------------\n"
-                    f"{risk_summary}\n"
+                    f"{risk_summary_md}\n"
                     f"--------------------\n"
-                    f"📊 종목: {name} ({ticker})\n"
+                    f"📊 종목: {name_md} ({ticker_md})\n"
                     f"💵 진입가: {curr_price:,.2f}\n"
                     f"📈 RSI: {curr_rsi:.1f}\n"
-                    f"레이팅: {rating} (Score {score}/100)\n"
+                    f"레이팅: {rating_md} (Score {score}/100)\n"
                     f"--------------------\n"
                     f"🎯 리스크/목표 레벨(현재 진입 기준)\n"
                     f"- 손절가(-{int(STOP_LOSS_PCT*100)}%): {stop_loss:,.2f}\n"
@@ -590,9 +607,9 @@ def analyze_market():
                     f"- 2차 목표가(+{int(TARGET2_PCT*100)}%): {target2:,.2f}\n"
                     f"- 트레일링 시작 구간(약 +{int(TRAIL_START_PCT*100)}%): {trail_start:,.2f}\n"
                     f"--------------------\n"
-                    f"📰 *관련 뉴스*\n{news_summary}\n"
+                    f"📰 *관련 뉴스*\n{news_summary_md}\n"
                     f"--------------------\n"
-                    f"🧠 *AI 코멘트*\n{ai_comment}"
+                    f"🧠 *AI 코멘트*\n{ai_comment_md}"
                 )
                 send_telegram(msg)
 

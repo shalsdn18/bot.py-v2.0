@@ -2,16 +2,36 @@ import os
 import json
 import requests
 import yfinance as yf
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 CHAT_ID = os.environ.get("CHAT_ID")
 POSITIONS_FILE = "positions.json"
 
+
+def escape_telegram_markdown(text: str) -> str:
+    if text is None:
+        return ""
+    escaped = str(text).replace("\\", "\\\\")
+    for ch in ("_", "*", "[", "]", "(", ")", "`"):
+        escaped = escaped.replace(ch, f"\\{ch}")
+    return escaped
+
 def send_telegram(msg: str):
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     payload = {"chat_id": CHAT_ID, "text": msg, "parse_mode": "Markdown"}
-    requests.post(url, json=payload, timeout=5)
+    try:
+        resp = requests.post(url, json=payload, timeout=5)
+        resp.raise_for_status()
+    except Exception as e:
+        print(f"[Telegram Markdown Error] {e}")
+        try:
+            fallback_payload = {"chat_id": CHAT_ID, "text": msg}
+            fallback_resp = requests.post(url, json=fallback_payload, timeout=5)
+            fallback_resp.raise_for_status()
+            print("[Telegram] Fallback plain text 전송 성공")
+        except Exception as fallback_e:
+            print(f"[Telegram Error] {fallback_e}")
 
 def get_market_overview():
     indices = {
@@ -38,7 +58,8 @@ def load_positions():
         return json.load(f)
 
 def daily_briefing():
-    today = datetime.utcnow().strftime("%Y-%m-%d")
+    kst = timezone(timedelta(hours=9))
+    today = datetime.now(kst).strftime("%Y-%m-%d")
 
     # 1. 시장 요약
     market_text = get_market_overview()
@@ -65,10 +86,14 @@ def daily_briefing():
 
     pos_block = "\n".join(pos_lines) if pos_lines else "보유 종목 없음"
 
+    today_md = escape_telegram_markdown(today)
+    market_text_md = escape_telegram_markdown(market_text)
+    pos_block_md = escape_telegram_markdown(pos_block)
+
     msg = (
-        f"☀️ *{today} 모닝 브리핑*\n\n"
-        f"🌍 *시장 요약*\n{market_text}\n\n"
-        f"💼 *포지션 현황* ({len(positions)}개)\n{pos_block}"
+        f"☀️ *{today_md} 모닝 브리핑*\n\n"
+        f"🌍 *시장 요약*\n{market_text_md}\n\n"
+        f"💼 *포지션 현황* ({len(positions)}개)\n{pos_block_md}"
     )
 
     send_telegram(msg)
