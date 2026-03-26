@@ -239,12 +239,11 @@ def get_ai_comment(
 def generate_ai_comment(prompt: str) -> str:
     try:
         if GEMINI_CLIENT is None:
-            return "(GEMINI_CLIENT 초기화 실패)"
+            return "(AI 비활성화)"
 
-        # 🔍 2026년 가용 모델 리스트 중 최적의 모델로 교체
-        # 'models/'를 포함해야 하는지 여부는 라이브러리 버전에 따라 다르지만, 
-        # 리스트에 뜬 그대로 'models/gemini-2.5-flash'를 넣는 것이 가장 안전합니다.
-        model_name = os.environ.get("GEMINI_MODEL", "models/gemini-2.5-flash")
+        # 🔍 수정: 할당량이 넉넉한 'latest' 별칭 모델로 변경
+        # 이 모델은 리스트에 있는 그대로 'models/gemini-flash-latest'를 사용합니다.
+        model_name = os.environ.get("GEMINI_MODEL", "models/gemini-flash-latest")
 
         resp = GEMINI_CLIENT.models.generate_content(
             model=model_name,
@@ -252,7 +251,10 @@ def generate_ai_comment(prompt: str) -> str:
         )
         return resp.text
     except Exception as e:
-        return f"(AI 코멘트 생성 실패: {e})"
+        # 만약 또 429 에러가 나면 텔레그램 로그로 남김
+        if "429" in str(e):
+            return f"(할당량 초과: 잠시 후 재시도)"
+        return f"(분석 실패: {e})"
 
 
 
