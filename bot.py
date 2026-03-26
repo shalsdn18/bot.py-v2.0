@@ -1,12 +1,14 @@
 import os
 import sys
 import json
+import logging
 import requests
 import traceback
 import yfinance as yf
 import pandas as pd
 import xml.etree.ElementTree as ET
 from datetime import datetime
+from logging.handlers import RotatingFileHandler
 from typing import Optional
 
   # Gemini (google-genai) -------------------------
@@ -72,6 +74,26 @@ if not TELEGRAM_TOKEN or not CHAT_ID:
 # [Files]
 # ==============================
 POSITIONS_FILE = "positions.json"
+LOG_FILE = os.environ.get("BOT_LOG_FILE", "bot.log")
+
+logger = logging.getLogger("stockbot")
+if not logger.handlers:
+    logger.setLevel(logging.INFO)
+    formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(message)s")
+    file_handler = RotatingFileHandler(
+        LOG_FILE,
+        maxBytes=1_000_000,
+        backupCount=3,
+        encoding="utf-8",
+    )
+    file_handler.setFormatter(formatter)
+    logger.addHandler(file_handler)
+
+TELEGRAM_SEND_STATS = {
+    "success": 0,
+    "fallback_success": 0,
+    "failed": 0,
+}
 
 
 
@@ -160,7 +182,7 @@ def get_news_titles_for_ai(query: str):
         return []
 
 
-def send_telegram(msg: str):
+def send_telegram(msg: str) -> bool:
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     payload = {
         "chat_id": CHAT_ID,
@@ -171,8 +193,12 @@ def send_telegram(msg: str):
     try:
         resp = requests.post(url, json=payload, timeout=5)
         resp.raise_for_status()
+        TELEGRAM_SEND_STATS["success"] += 1
+        logger.info("Telegram message sent (markdown)")
+        return True
     except Exception as e:
         print(f"[Telegram Markdown Error] {e}")
+        logger.warning(f"Telegram markdown send failed: {e}")
         # Markdown 파싱 실패 시 plain text로 재시도해 신호 유실을 줄인다.
         try:
             fallback_payload = {
@@ -181,9 +207,15 @@ def send_telegram(msg: str):
             }
             fallback_resp = requests.post(url, json=fallback_payload, timeout=5)
             fallback_resp.raise_for_status()
+            TELEGRAM_SEND_STATS["fallback_success"] += 1
             print("[Telegram] Fallback plain text 전송 성공")
+            logger.info("Telegram message sent via plain text fallback")
+            return True
         except Exception as fallback_e:
+            TELEGRAM_SEND_STATS["failed"] += 1
             print(f"[Telegram Error] {fallback_e}")
+            logger.error(f"Telegram send failed completely: {fallback_e}")
+            return False
 
 
 def get_ai_comment(
@@ -401,6 +433,7 @@ def rate_stock(
 
 def analyze_market():
     print(f"[{datetime.now()}] Market Watch Start...")
+    logger.info("Market watch started")
 
     market_risk = get_market_risk()
     risk_level = market_risk["level"]
@@ -632,6 +665,13 @@ def analyze_market():
     if positions_updated:
         save_positions(positions)
         print(">> positions.json updated.")
+
+    logger.info(
+        "Telegram send stats: success=%d, fallback_success=%d, failed=%d",
+        TELEGRAM_SEND_STATS["success"],
+        TELEGRAM_SEND_STATS["fallback_success"],
+        TELEGRAM_SEND_STATS["failed"],
+    )
 
 
 if __name__ == "__main__":

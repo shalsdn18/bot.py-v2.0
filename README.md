@@ -114,6 +114,19 @@ python daily_report.py
 - 스케줄러(작업 스케줄러, GitHub Actions, cron 등)로 정기 실행하면 편리합니다.
 - 텔레그램 Markdown 파싱이 깨지지 않도록 종목명/메시지 포맷 변경 시 특수문자를 점검하세요.
 
+## 로그/모니터링
+
+- 기본 로그 파일
+  - 메인 신호 분석: `bot.log`
+  - 모닝 브리핑: `daily_report.log`
+- 로그 파일 경로를 바꾸려면 환경변수를 사용하세요.
+  - `BOT_LOG_FILE` (기본: `bot.log`)
+  - `BOT_DAILY_LOG_FILE` (기본: `daily_report.log`)
+- 실행이 끝나면 텔레그램 전송 통계를 로그에 남깁니다.
+  - `success`: Markdown 전송 성공
+  - `fallback_success`: Markdown 실패 후 plain text 전송 성공
+  - `failed`: Markdown/plain text 모두 실패
+
 ## 최근 패치 내역 (2026-03-26)
 
 - README 문서 신규 작성 및 실행/설정 가이드 추가

@@ -1,12 +1,34 @@
 import os
 import json
+import logging
 import requests
 import yfinance as yf
 from datetime import datetime, timezone, timedelta
+from logging.handlers import RotatingFileHandler
 
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 CHAT_ID = os.environ.get("CHAT_ID")
 POSITIONS_FILE = "positions.json"
+LOG_FILE = os.environ.get("BOT_DAILY_LOG_FILE", "daily_report.log")
+
+logger = logging.getLogger("daily_report")
+if not logger.handlers:
+    logger.setLevel(logging.INFO)
+    formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(message)s")
+    file_handler = RotatingFileHandler(
+        LOG_FILE,
+        maxBytes=500_000,
+        backupCount=2,
+        encoding="utf-8",
+    )
+    file_handler.setFormatter(formatter)
+    logger.addHandler(file_handler)
+
+TELEGRAM_SEND_STATS = {
+    "success": 0,
+    "fallback_success": 0,
+    "failed": 0,
+}
 
 
 def escape_telegram_markdown(text: str) -> str:
@@ -17,21 +39,31 @@ def escape_telegram_markdown(text: str) -> str:
         escaped = escaped.replace(ch, f"\\{ch}")
     return escaped
 
-def send_telegram(msg: str):
+def send_telegram(msg: str) -> bool:
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     payload = {"chat_id": CHAT_ID, "text": msg, "parse_mode": "Markdown"}
     try:
         resp = requests.post(url, json=payload, timeout=5)
         resp.raise_for_status()
+        TELEGRAM_SEND_STATS["success"] += 1
+        logger.info("Daily Telegram message sent (markdown)")
+        return True
     except Exception as e:
         print(f"[Telegram Markdown Error] {e}")
+        logger.warning(f"Daily Telegram markdown send failed: {e}")
         try:
             fallback_payload = {"chat_id": CHAT_ID, "text": msg}
             fallback_resp = requests.post(url, json=fallback_payload, timeout=5)
             fallback_resp.raise_for_status()
+            TELEGRAM_SEND_STATS["fallback_success"] += 1
             print("[Telegram] Fallback plain text 전송 성공")
+            logger.info("Daily Telegram message sent via plain text fallback")
+            return True
         except Exception as fallback_e:
+            TELEGRAM_SEND_STATS["failed"] += 1
             print(f"[Telegram Error] {fallback_e}")
+            logger.error(f"Daily Telegram send failed completely: {fallback_e}")
+            return False
 
 def get_market_overview():
     indices = {
@@ -60,6 +92,7 @@ def load_positions():
 def daily_briefing():
     kst = timezone(timedelta(hours=9))
     today = datetime.now(kst).strftime("%Y-%m-%d")
+    logger.info("Daily briefing started")
 
     # 1. 시장 요약
     market_text = get_market_overview()
@@ -97,6 +130,12 @@ def daily_briefing():
     )
 
     send_telegram(msg)
+    logger.info(
+        "Daily Telegram stats: success=%d, fallback_success=%d, failed=%d",
+        TELEGRAM_SEND_STATS["success"],
+        TELEGRAM_SEND_STATS["fallback_success"],
+        TELEGRAM_SEND_STATS["failed"],
+    )
     print("Daily briefing sent.")
 
 if __name__ == "__main__":
