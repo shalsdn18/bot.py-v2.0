@@ -104,13 +104,6 @@
         "opened_at": "2026-03-24",
         "market": "US"
     },
-    "TSLA": {
-        "name": "테슬라",
-        "entry_price": 390.34,
-        "highest_price": 393.1600036621094,
-        "opened_at": "2026-03-24",
-        "market": "US"
-    },
     "VTI": {
         "name": "VTI (ETF)",
         "entry_price": 334.05,
