@@ -2,6 +2,7 @@ import os
 import sys
 import json
 import logging
+import time
 import requests
 import traceback
 import yfinance as yf
@@ -9,7 +10,7 @@ import pandas as pd
 import xml.etree.ElementTree as ET
 from datetime import datetime
 from logging.handlers import RotatingFileHandler
-from typing import Optional
+from typing import Optional, Callable, TypeVar, Any
 
   # Gemini (google-genai) -------------------------
 try:
@@ -95,7 +96,23 @@ TELEGRAM_SEND_STATS = {
     "failed": 0,
 }
 
+T = TypeVar("T")
 
+
+def retry_with_backoff(func: Callable[[], T], max_retries: int = 3, base_delay: float = 1.0) -> T:
+    """재시도 로직 (exponential backoff)."""
+    for attempt in range(max_retries):
+        try:
+            return func()
+        except Exception as e:
+            if attempt == max_retries - 1:
+                raise
+            delay = base_delay * (2 ** attempt)
+            logger.warning(
+                f"Attempt {attempt + 1}/{max_retries} failed (delay {delay}s): {e}"
+            )
+            time.sleep(delay)
+    raise RuntimeError(f"Failed after {max_retries} retries")
 
 
 def load_positions() -> dict:
@@ -137,7 +154,7 @@ def escape_telegram_markdown(text: str) -> str:
 
 
 def get_latest_news(query: str) -> str:
-    try:
+    def _fetch():
         url = (
             "https://news.google.com/rss/search?"
             f"q={query}&hl=ko&gl=KR&ceid=KR:ko"
@@ -149,20 +166,23 @@ def get_latest_news(query: str) -> str:
         news_list = []
         for item in root.findall("./channel/item")[:3]:
             title = (item.find("title").text or "").strip()
-            link = (item.find("link").text or "").strip()
-            if title and link:
-                news_list.append(f"- [{title}]({link})")
+            if title:
+                news_list.append(f"- {title}")
 
         if not news_list:
             return "(관련 뉴스 없음)"
         return "\n".join(news_list)
+
+    try:
+        return retry_with_backoff(_fetch, max_retries=3, base_delay=0.5)
     except Exception as e:
         print(f"[News Error] {query}: {e}")
+        logger.error(f"News fetch failed after retries: {query}: {e}")
         return "(뉴스 수집 실패)"
 
 
 def get_news_titles_for_ai(query: str):
-    try:
+    def _fetch():
         url = (
             "https://news.google.com/rss/search?"
             f"q={query}&hl=ko&gl=KR&ceid=KR:ko"
@@ -177,8 +197,12 @@ def get_news_titles_for_ai(query: str):
             if title:
                 titles.append(title)
         return titles
+
+    try:
+        return retry_with_backoff(_fetch, max_retries=3, base_delay=0.5)
     except Exception as e:
         print(f"[NewsTitle Error] {query}: {e}")
+        logger.error(f"News title fetch failed after retries: {query}: {e}")
         return []
 
 
@@ -453,7 +477,10 @@ def analyze_market():
         market = item["market"]
 
         try:
-            df = yf.download(ticker, period="6mo", progress=False, auto_adjust=False)
+            def _download():
+                return yf.download(ticker, period="6mo", progress=False, auto_adjust=False)
+            
+            df = retry_with_backoff(_download, max_retries=3, base_delay=1.0)
             if df.empty or len(df) < 60:
                 print(f">> {name} ({ticker}): 데이터 부족, 건너뜀")
                 continue

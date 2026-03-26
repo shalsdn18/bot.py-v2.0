@@ -1,10 +1,12 @@
 import os
 import json
 import logging
+import time
 import requests
 import yfinance as yf
 from datetime import datetime, timezone, timedelta
 from logging.handlers import RotatingFileHandler
+from typing import Callable, TypeVar
 
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 CHAT_ID = os.environ.get("CHAT_ID")
@@ -29,6 +31,24 @@ TELEGRAM_SEND_STATS = {
     "fallback_success": 0,
     "failed": 0,
 }
+
+T = TypeVar("T")
+
+
+def retry_with_backoff(func: Callable[[], T], max_retries: int = 3, base_delay: float = 1.0) -> T:
+    """재시도 로직 (exponential backoff)."""
+    for attempt in range(max_retries):
+        try:
+            return func()
+        except Exception as e:
+            if attempt == max_retries - 1:
+                raise
+            delay = base_delay * (2 ** attempt)
+            logger.warning(
+                f"Attempt {attempt + 1}/{max_retries} failed (delay {delay}s): {e}"
+            )
+            time.sleep(delay)
+    raise RuntimeError(f"Failed after {max_retries} retries")
 
 
 def escape_telegram_markdown(text: str) -> str:
@@ -74,12 +94,16 @@ def get_market_overview():
     lines = []
     for name, ticker in indices.items():
         try:
-            df = yf.download(ticker, period="5d", progress=False)
+            def _download():
+                return yf.download(ticker, period="5d", progress=False)
+            
+            df = retry_with_backoff(_download, max_retries=3, base_delay=1.0)
             close = df["Close"].iloc[-1]
             prev  = df["Close"].iloc[-2]
             change = (close - prev) / prev * 100
             lines.append(f"- {name}: {close:,.2f} ({change:+.2f}%)")
         except Exception as e:
+            logger.error(f"Market overview fetch failed for {ticker}: {e}")
             lines.append(f"- {name}: 데이터 오류 ({e})")
     return "\n".join(lines)
 
@@ -104,17 +128,21 @@ def daily_briefing():
         name = info.get("name", ticker)
         entry = info.get("entry_price", None)
         try:
-            price = yf.Ticker(ticker).history(period="1d")["Close"].iloc[-1]
+            def _history():
+                return yf.Ticker(ticker).history(period="1d")["Close"].iloc[-1]
+            
+            price = retry_with_backoff(_history, max_retries=3, base_delay=0.5)
             if entry:
                 roi = (price - entry) / entry * 100
                 pos_lines.append(
-                    f"- {name} ({ticker}): 현재가 {price:,.2f}, 수익률 {roi:+.2f}%"
+                    f"- {name} ({ticker}): 서재가 {price:,.2f}, 수익률 {roi:+.2f}%"
                 )
             else:
                 pos_lines.append(
-                    f"- {name} ({ticker}): 현재가 {price:,.2f}"
+                    f"- {name} ({ticker}): 서재가 {price:,.2f}"
                 )
-        except Exception:
+        except Exception as e:
+            logger.error(f"Price fetch failed for {ticker}: {e}")
             pos_lines.append(f"- {name} ({ticker}): 가격 확인 실패")
 
     pos_block = "\n".join(pos_lines) if pos_lines else "보유 종목 없음"
