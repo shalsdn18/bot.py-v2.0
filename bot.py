@@ -63,6 +63,7 @@ MARKET_SCORE_BLOCK_BUY = int(P.get("MARKET_SCORE_BLOCK_BUY", 30))
 MARKET_SCORE_STRONG_BOOST = int(P.get("MARKET_SCORE_STRONG_BOOST", 80))
 
 MAX_KR_POSITIONS = int(P.get("MAX_KR_POSITIONS", 4))
+HISTORY_PERIOD = str(P.get("HISTORY_PERIOD", "4mo"))
 
 
 if not TELEGRAM_TOKEN or not CHAT_ID:
@@ -455,6 +456,36 @@ def rate_stock(
     return rating, score
 
 
+def _get_close_series(batch_df: pd.DataFrame, ticker: str) -> Optional[pd.Series]:
+    """Extract Close price Series for *ticker* from a yfinance download result.
+
+    Handles three shapes that yfinance may return:
+    - Single-ticker simple DataFrame  → ``batch_df["Close"]`` is a Series.
+    - Multi-ticker batch DataFrame    → ``batch_df["Close"]`` is a DataFrame
+      whose columns are the requested ticker symbols.
+    - MultiIndex column batch (older yfinance) → same extraction via ``["Close"]``.
+
+    Returns ``None`` when the ticker's data is absent or entirely NaN.
+    """
+    if batch_df is None or batch_df.empty:
+        return None
+
+    try:
+        close = batch_df["Close"]
+    except KeyError:
+        return None
+
+    if isinstance(close, pd.DataFrame):
+        if ticker not in close.columns:
+            return None
+        series = close[ticker].dropna()
+        return series if not series.empty else None
+
+    # Series path (single-ticker download or test stub)
+    series = close.dropna()
+    return series if not series.empty else None
+
+
 def analyze_market():
     print(f"[{datetime.now()}] Market Watch Start...")
     logger.info("Market watch started")
@@ -471,24 +502,33 @@ def analyze_market():
     def _scalar(x) -> float:
         return float(x.item()) if hasattr(x, "item") else float(x)
 
+    # ---- Batch-download price history for all targets in one call ----
+    all_tickers = [t["ticker"] for t in TARGETS]
+
+    def _batch_download():
+        return yf.download(
+            all_tickers,
+            period=HISTORY_PERIOD,
+            progress=False,
+            auto_adjust=False,
+        )
+
+    try:
+        batch_df = retry_with_backoff(_batch_download, max_retries=3, base_delay=1.0)
+    except Exception as e:
+        print(f"[Batch Download Error] 가격 데이터 일괄 수신 실패: {e}")
+        batch_df = pd.DataFrame()
+
     for item in TARGETS:
         ticker = item["ticker"]
         name = item["name"]
         market = item["market"]
 
         try:
-            def _download():
-                return yf.download(ticker, period="6mo", progress=False, auto_adjust=False)
-            
-            df = retry_with_backoff(_download, max_retries=3, base_delay=1.0)
-            if df.empty or len(df) < 60:
+            close = _get_close_series(batch_df, ticker)
+            if close is None or len(close) < 60:
                 print(f">> {name} ({ticker}): 데이터 부족, 건너뜀")
                 continue
-
-            close = df["Close"]
-            # yfinance가 DataFrame으로 주는 케이스(멀티컬럼) 대응
-            if hasattr(close, "columns"):
-                close = close[ticker]
 
             # RSI 먼저 계산
             delta = close.diff()
