@@ -212,22 +212,29 @@
     "TSLA": {
         "name": "Tesla",
         "entry_price": 365.625,
-        "highest_price": 365.625,
+        "highest_price": 366.7200012207031,
         "opened_at": "2026-03-27 13:50",
         "market": "US"
     },
     "COIN": {
         "name": "Coinbase",
         "entry_price": 162.33599853515625,
-        "highest_price": 162.33599853515625,
+        "highest_price": 163.05999755859375,
         "opened_at": "2026-03-27 13:51",
         "market": "US"
     },
     "PLTR": {
         "name": "Palantir",
         "entry_price": 143.67990112304688,
-        "highest_price": 143.67990112304688,
+        "highest_price": 145.09500122070312,
         "opened_at": "2026-03-27 14:56",
+        "market": "US"
+    },
+    "AMZN": {
+        "name": "Amazon",
+        "entry_price": 201.2899932861328,
+        "highest_price": 201.2899932861328,
+        "opened_at": "2026-03-27 15:58",
         "market": "US"
     }
 }
