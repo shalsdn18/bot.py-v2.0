@@ -1,11 +1,4 @@
 {
-    "NVDA": {
-        "name": "엔비디아",
-        "entry_price": 120.62,
-        "highest_price": 180.19000244140625,
-        "opened_at": "2026-03-24",
-        "market": "US"
-    },
     "BG": {
         "name": "번지 글로벌",
         "entry_price": 111.35,
@@ -215,5 +208,26 @@
         "highest_price": 55045,
         "opened_at": "2026-03-24",
         "market": "KR"
+    },
+    "AVGO": {
+        "name": "Broadcom",
+        "entry_price": 305.0150146484375,
+        "highest_price": 305.0150146484375,
+        "opened_at": "2026-03-27 13:50",
+        "market": "US"
+    },
+    "TSLA": {
+        "name": "Tesla",
+        "entry_price": 365.625,
+        "highest_price": 365.625,
+        "opened_at": "2026-03-27 13:50",
+        "market": "US"
+    },
+    "COIN": {
+        "name": "Coinbase",
+        "entry_price": 162.33599853515625,
+        "highest_price": 162.33599853515625,
+        "opened_at": "2026-03-27 13:51",
+        "market": "US"
     }
 }
