@@ -212,7 +212,7 @@
     "COIN": {
         "name": "Coinbase",
         "entry_price": 162.33599853515625,
-        "highest_price": 163.63999938964844,
+        "highest_price": 164.02000427246094,
         "opened_at": "2026-03-27 13:51",
         "market": "US"
     },
@@ -226,8 +226,15 @@
     "AMZN": {
         "name": "Amazon",
         "entry_price": 201.2899932861328,
-        "highest_price": 201.2899932861328,
+        "highest_price": 202.91000366210938,
         "opened_at": "2026-03-27 15:58",
+        "market": "US"
+    },
+    "TSM": {
+        "name": "TSMC",
+        "entry_price": 317.6199951171875,
+        "highest_price": 317.6199951171875,
+        "opened_at": "2026-03-30 15:08",
         "market": "US"
     }
 }
