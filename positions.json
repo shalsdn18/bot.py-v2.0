@@ -198,35 +198,35 @@
     "AVGO": {
         "name": "Broadcom",
         "entry_price": 305.0150146484375,
-        "highest_price": 305.0150146484375,
+        "highest_price": 306.6099853515625,
         "opened_at": "2026-03-27 13:50",
         "market": "US"
     },
     "TSLA": {
         "name": "Tesla",
         "entry_price": 365.625,
-        "highest_price": 366.7200012207031,
+        "highest_price": 368.2799987792969,
         "opened_at": "2026-03-27 13:50",
         "market": "US"
     },
     "COIN": {
         "name": "Coinbase",
         "entry_price": 162.33599853515625,
-        "highest_price": 168.1199951171875,
+        "highest_price": 171.82000732421875,
         "opened_at": "2026-03-27 13:51",
         "market": "US"
     },
     "AMZN": {
         "name": "Amazon",
         "entry_price": 201.2899932861328,
-        "highest_price": 206.27999877929688,
+        "highest_price": 208.33999633789062,
         "opened_at": "2026-03-27 15:58",
         "market": "US"
     },
     "TSM": {
         "name": "TSMC",
         "entry_price": 317.6199951171875,
-        "highest_price": 326.6300048828125,
+        "highest_price": 331.9798889160156,
         "opened_at": "2026-03-30 15:08",
         "market": "US"
     },
