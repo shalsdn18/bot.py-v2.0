@@ -198,7 +198,7 @@
     "AVGO": {
         "name": "Broadcom",
         "entry_price": 305.0150146484375,
-        "highest_price": 309.6400146484375,
+        "highest_price": 309.6600036621094,
         "opened_at": "2026-03-27 13:50",
         "market": "US"
     },
@@ -212,7 +212,7 @@
     "COIN": {
         "name": "Coinbase",
         "entry_price": 162.33599853515625,
-        "highest_price": 174.00999450683594,
+        "highest_price": 174.61000061035156,
         "opened_at": "2026-03-27 13:51",
         "market": "US"
     },
@@ -226,14 +226,14 @@
     "TSM": {
         "name": "TSMC",
         "entry_price": 317.6199951171875,
-        "highest_price": 335.4800109863281,
+        "highest_price": 337.9599914550781,
         "opened_at": "2026-03-30 15:08",
         "market": "US"
     },
     "MU": {
         "name": "Micron",
         "entry_price": 330.1600036621094,
-        "highest_price": 333.8800048828125,
+        "highest_price": 337.6650085449219,
         "opened_at": "2026-03-30 16:33",
         "market": "US"
     }
