@@ -198,14 +198,14 @@
     "AVGO": {
         "name": "Broadcom",
         "entry_price": 305.0150146484375,
-        "highest_price": 313.4700012207031,
+        "highest_price": 313.92999267578125,
         "opened_at": "2026-03-27 13:50",
         "market": "US"
     },
     "TSLA": {
         "name": "Tesla",
         "entry_price": 365.625,
-        "highest_price": 381.19000244140625,
+        "highest_price": 381.3900146484375,
         "opened_at": "2026-03-27 13:50",
         "market": "US"
     },
@@ -219,7 +219,7 @@
     "AMZN": {
         "name": "Amazon",
         "entry_price": 201.2899932861328,
-        "highest_price": 211.84500122070312,
+        "highest_price": 212.80999755859375,
         "opened_at": "2026-03-27 15:58",
         "market": "US"
     },
@@ -233,7 +233,7 @@
     "MU": {
         "name": "Micron",
         "entry_price": 330.1600036621094,
-        "highest_price": 371.44000244140625,
+        "highest_price": 373.7900085449219,
         "opened_at": "2026-03-30 16:33",
         "market": "US"
     }
