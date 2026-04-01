@@ -205,35 +205,35 @@
     "TSLA": {
         "name": "Tesla",
         "entry_price": 365.625,
-        "highest_price": 375.510009765625,
+        "highest_price": 381.19000244140625,
         "opened_at": "2026-03-27 13:50",
         "market": "US"
     },
     "COIN": {
         "name": "Coinbase",
         "entry_price": 162.33599853515625,
-        "highest_price": 174.61000061035156,
+        "highest_price": 175.89999389648438,
         "opened_at": "2026-03-27 13:51",
         "market": "US"
     },
     "AMZN": {
         "name": "Amazon",
         "entry_price": 201.2899932861328,
-        "highest_price": 208.97000122070312,
+        "highest_price": 211.84500122070312,
         "opened_at": "2026-03-27 15:58",
         "market": "US"
     },
     "TSM": {
         "name": "TSMC",
         "entry_price": 317.6199951171875,
-        "highest_price": 346.260009765625,
+        "highest_price": 347.7799987792969,
         "opened_at": "2026-03-30 15:08",
         "market": "US"
     },
     "MU": {
         "name": "Micron",
         "entry_price": 330.1600036621094,
-        "highest_price": 350.6700134277344,
+        "highest_price": 371.44000244140625,
         "opened_at": "2026-03-30 16:33",
         "market": "US"
     }
