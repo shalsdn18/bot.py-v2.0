@@ -202,13 +202,6 @@
         "opened_at": "2026-03-27 13:50",
         "market": "US"
     },
-    "TSLA": {
-        "name": "Tesla",
-        "entry_price": 365.625,
-        "highest_price": 381.3900146484375,
-        "opened_at": "2026-03-27 13:50",
-        "market": "US"
-    },
     "COIN": {
         "name": "Coinbase",
         "entry_price": 162.33599853515625,
