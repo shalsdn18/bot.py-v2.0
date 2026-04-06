@@ -9,7 +9,7 @@
     "AAPL": {
         "name": "애플",
         "entry_price": 236.38,
-        "highest_price": 256.5199890136719,
+        "highest_price": 262.068603515625,
         "opened_at": "2026-03-24",
         "market": "US"
     },
@@ -198,7 +198,7 @@
     "COIN": {
         "name": "Coinbase",
         "entry_price": 162.33599853515625,
-        "highest_price": 176.16000366210938,
+        "highest_price": 177.66990661621094,
         "opened_at": "2026-03-27 13:51",
         "market": "US"
     },
@@ -219,8 +219,15 @@
     "MU": {
         "name": "Micron",
         "entry_price": 330.1600036621094,
-        "highest_price": 373.7900085449219,
+        "highest_price": 378.8599853515625,
         "opened_at": "2026-03-30 16:33",
+        "market": "US"
+    },
+    "MSFT": {
+        "name": "Microsoft",
+        "entry_price": 372.8500061035156,
+        "highest_price": 372.8500061035156,
+        "opened_at": "2026-04-06 14:30",
         "market": "US"
     }
 }
