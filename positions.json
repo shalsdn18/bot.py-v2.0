@@ -184,7 +184,7 @@
     "AVGO": {
         "name": "Broadcom",
         "entry_price": 305.0150146484375,
-        "highest_price": 327.3699951171875,
+        "highest_price": 331.2611083984375,
         "opened_at": "2026-03-27 13:50",
         "market": "US"
     },
@@ -226,7 +226,7 @@
     "COIN": {
         "name": "Coinbase",
         "entry_price": 171.9499969482422,
-        "highest_price": 171.9499969482422,
+        "highest_price": 172.30999755859375,
         "opened_at": "2026-04-07 16:12",
         "market": "US"
     }
