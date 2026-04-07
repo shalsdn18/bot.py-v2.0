@@ -6,13 +6,6 @@
         "opened_at": "2026-03-24",
         "market": "US"
     },
-    "AAPL": {
-        "name": "애플",
-        "entry_price": 236.38,
-        "highest_price": 262.068603515625,
-        "opened_at": "2026-03-24",
-        "market": "US"
-    },
     "LRCX": {
         "name": "램 리서치",
         "entry_price": 219.34,
@@ -191,15 +184,8 @@
     "AVGO": {
         "name": "Broadcom",
         "entry_price": 305.0150146484375,
-        "highest_price": 314.54998779296875,
+        "highest_price": 324.0799865722656,
         "opened_at": "2026-03-27 13:50",
-        "market": "US"
-    },
-    "COIN": {
-        "name": "Coinbase",
-        "entry_price": 162.33599853515625,
-        "highest_price": 177.66990661621094,
-        "opened_at": "2026-03-27 13:51",
         "market": "US"
     },
     "AMZN": {
