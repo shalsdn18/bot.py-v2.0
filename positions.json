@@ -184,7 +184,7 @@
     "MU": {
         "name": "Micron",
         "entry_price": 330.1600036621094,
-        "highest_price": 408.44500732421875,
+        "highest_price": 408.9800109863281,
         "opened_at": "2026-03-30 16:33",
         "market": "US"
     },
@@ -205,7 +205,7 @@
     "PLTR": {
         "name": "Palantir",
         "entry_price": 130.41000366210938,
-        "highest_price": 130.41000366210938,
+        "highest_price": 131.85000610351562,
         "opened_at": "2026-04-09 14:20",
         "market": "US"
     }
