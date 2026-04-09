@@ -58,7 +58,7 @@
     "SCHD": {
         "name": "SCHD",
         "entry_price": 30.9,
-        "highest_price": 30.91029930114746,
+        "highest_price": 30.94499969482422,
         "opened_at": "2026-03-24",
         "market": "US"
     },
@@ -184,7 +184,7 @@
     "MU": {
         "name": "Micron",
         "entry_price": 330.1600036621094,
-        "highest_price": 408.9800109863281,
+        "highest_price": 413.8399963378906,
         "opened_at": "2026-03-30 16:33",
         "market": "US"
     },
@@ -207,6 +207,13 @@
         "entry_price": 130.41000366210938,
         "highest_price": 131.85000610351562,
         "opened_at": "2026-04-09 14:20",
+        "market": "US"
+    },
+    "COIN": {
+        "name": "Coinbase",
+        "entry_price": 172.8199005126953,
+        "highest_price": 172.8199005126953,
+        "opened_at": "2026-04-09 17:38",
         "market": "US"
     }
 }
