@@ -208,5 +208,12 @@
         "highest_price": 172.8199005126953,
         "opened_at": "2026-04-09 17:38",
         "market": "US"
+    },
+    "010120.KS": {
+        "name": "LS ELECTRIC",
+        "entry_price": 157600.0,
+        "highest_price": 157600.0,
+        "opened_at": "2026-04-10 19:06",
+        "market": "KR"
     }
 }
