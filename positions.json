@@ -184,28 +184,28 @@
     "MU": {
         "name": "Micron",
         "entry_price": 330.1600036621094,
-        "highest_price": 437.3500061035156,
+        "highest_price": 441.8200988769531,
         "opened_at": "2026-03-30 16:33",
         "market": "US"
     },
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 372.8500061035156,
-        "highest_price": 391.6400146484375,
+        "highest_price": 393.6199951171875,
         "opened_at": "2026-04-06 14:30",
         "market": "US"
     },
     "TSLA": {
         "name": "Tesla",
         "entry_price": 347.5400085449219,
-        "highest_price": 363.06500244140625,
+        "highest_price": 365.8700866699219,
         "opened_at": "2026-04-06 17:52",
         "market": "US"
     },
     "COIN": {
         "name": "Coinbase",
         "entry_price": 172.8199005126953,
-        "highest_price": 185.60000610351562,
+        "highest_price": 186.6199951171875,
         "opened_at": "2026-04-09 17:38",
         "market": "US"
     }
