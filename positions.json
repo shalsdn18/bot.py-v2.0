@@ -181,13 +181,6 @@
         "opened_at": "2026-03-24",
         "market": "KR"
     },
-    "MU": {
-        "name": "Micron",
-        "entry_price": 330.1600036621094,
-        "highest_price": 465.6600036621094,
-        "opened_at": "2026-03-30 16:33",
-        "market": "US"
-    },
     "TSLA": {
         "name": "Tesla",
         "entry_price": 347.5400085449219,
