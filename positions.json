@@ -58,7 +58,7 @@
     "SCHD": {
         "name": "SCHD",
         "entry_price": 30.9,
-        "highest_price": 30.94499969482422,
+        "highest_price": 30.949899673461914,
         "opened_at": "2026-03-24",
         "market": "US"
     },
@@ -180,12 +180,5 @@
         "highest_price": 55045,
         "opened_at": "2026-03-24",
         "market": "KR"
-    },
-    "TSLA": {
-        "name": "Tesla",
-        "entry_price": 347.5400085449219,
-        "highest_price": 394.2699890136719,
-        "opened_at": "2026-04-06 17:52",
-        "market": "US"
     }
 }
