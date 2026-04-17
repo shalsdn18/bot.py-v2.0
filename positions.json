@@ -55,13 +55,6 @@
         "opened_at": "2026-03-24",
         "market": "US"
     },
-    "SCHD": {
-        "name": "SCHD",
-        "entry_price": 30.9,
-        "highest_price": 30.949899673461914,
-        "opened_at": "2026-03-24",
-        "market": "US"
-    },
     "KO": {
         "name": "코카콜라",
         "entry_price": 76.12,
