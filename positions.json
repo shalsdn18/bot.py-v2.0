@@ -184,15 +184,8 @@
     "TSLA": {
         "name": "Tesla",
         "entry_price": 347.5400085449219,
-        "highest_price": 392.1400146484375,
+        "highest_price": 394.2699890136719,
         "opened_at": "2026-04-06 17:52",
-        "market": "US"
-    },
-    "COIN": {
-        "name": "Coinbase",
-        "entry_price": 172.8199005126953,
-        "highest_price": 199.8300018310547,
-        "opened_at": "2026-04-09 17:38",
         "market": "US"
     }
 }
