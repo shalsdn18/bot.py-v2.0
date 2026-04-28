@@ -173,5 +173,12 @@
         "highest_price": 55045,
         "opened_at": "2026-03-24",
         "market": "KR"
+    },
+    "GLD": {
+        "name": "GLD",
+        "entry_price": 420.8299865722656,
+        "highest_price": 420.8299865722656,
+        "opened_at": "2026-04-28 15:59",
+        "market": "US"
     }
 }
