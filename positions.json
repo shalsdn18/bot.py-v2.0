@@ -180,5 +180,12 @@
         "highest_price": 426.1000061035156,
         "opened_at": "2026-04-28 15:59",
         "market": "US"
+    },
+    "META": {
+        "name": "Meta",
+        "entry_price": 603.8049926757812,
+        "highest_price": 603.8049926757812,
+        "opened_at": "2026-05-05 18:00",
+        "market": "US"
     }
 }
