@@ -177,14 +177,14 @@
     "GLD": {
         "name": "GLD",
         "entry_price": 420.8299865722656,
-        "highest_price": 426.1000061035156,
+        "highest_price": 430.7250061035156,
         "opened_at": "2026-04-28 15:59",
         "market": "US"
     },
     "META": {
         "name": "Meta",
         "entry_price": 603.8049926757812,
-        "highest_price": 605.6099853515625,
+        "highest_price": 614.1900024414062,
         "opened_at": "2026-05-05 18:00",
         "market": "US"
     }
