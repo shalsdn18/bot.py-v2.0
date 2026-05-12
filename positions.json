@@ -194,5 +194,12 @@
         "highest_price": 194400.0,
         "opened_at": "2026-05-11 03:57",
         "market": "KR"
+    },
+    "PLTR": {
+        "name": "Palantir",
+        "entry_price": 134.13999938964844,
+        "highest_price": 134.13999938964844,
+        "opened_at": "2026-05-12 15:22",
+        "market": "US"
     }
 }
