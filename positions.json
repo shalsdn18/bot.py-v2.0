@@ -187,12 +187,5 @@
         "highest_price": 136.00999450683594,
         "opened_at": "2026-05-12 15:22",
         "market": "US"
-    },
-    "068270.KS": {
-        "name": "셀트리온",
-        "entry_price": 183200.0,
-        "highest_price": 188800.0,
-        "opened_at": "2026-05-18 08:32",
-        "market": "KR"
     }
 }
