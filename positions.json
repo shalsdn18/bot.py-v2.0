@@ -184,15 +184,8 @@
     "PLTR": {
         "name": "Palantir",
         "entry_price": 134.13999938964844,
-        "highest_price": 137.5,
+        "highest_price": 138.02999877929688,
         "opened_at": "2026-05-12 15:22",
         "market": "US"
-    },
-    "068270.KS": {
-        "name": "셀트리온",
-        "entry_price": 179400.0,
-        "highest_price": 190400.0,
-        "opened_at": "2026-05-20 10:01",
-        "market": "KR"
     }
 }
