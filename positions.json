@@ -177,7 +177,7 @@
     "META": {
         "name": "Meta",
         "entry_price": 603.8049926757812,
-        "highest_price": 635.2550048828125,
+        "highest_price": 635.260009765625,
         "opened_at": "2026-05-05 18:00",
         "market": "US"
     },
@@ -194,5 +194,12 @@
         "highest_price": 408.760009765625,
         "opened_at": "2026-05-27 16:23",
         "market": "US"
+    },
+    "010120.KS": {
+        "name": "LS ELECTRIC",
+        "entry_price": 237500.0,
+        "highest_price": 237500.0,
+        "opened_at": "2026-05-28 04:50",
+        "market": "KR"
     }
 }
