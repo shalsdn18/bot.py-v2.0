@@ -174,24 +174,17 @@
         "opened_at": "2026-03-24",
         "market": "KR"
     },
-    "META": {
-        "name": "Meta",
-        "entry_price": 603.8049926757812,
-        "highest_price": 635.260009765625,
-        "opened_at": "2026-05-05 18:00",
-        "market": "US"
-    },
     "PLTR": {
         "name": "Palantir",
         "entry_price": 134.13999938964844,
-        "highest_price": 138.02999877929688,
+        "highest_price": 139.4250030517578,
         "opened_at": "2026-05-12 15:22",
         "market": "US"
     },
     "GLD": {
         "name": "GLD",
         "entry_price": 407.8211975097656,
-        "highest_price": 408.760009765625,
+        "highest_price": 413.8890075683594,
         "opened_at": "2026-05-27 16:23",
         "market": "US"
     },
