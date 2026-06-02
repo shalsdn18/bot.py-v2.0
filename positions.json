@@ -201,5 +201,12 @@
         "highest_price": 743000.0,
         "opened_at": "2026-06-02 01:59",
         "market": "KR"
+    },
+    "AMZN": {
+        "name": "Amazon",
+        "entry_price": 257.6000061035156,
+        "highest_price": 257.6000061035156,
+        "opened_at": "2026-06-02 19:43",
+        "market": "US"
     }
 }
