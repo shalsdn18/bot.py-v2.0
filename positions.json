@@ -194,5 +194,12 @@
         "highest_price": 372.5799865722656,
         "opened_at": "2026-06-01 16:21",
         "market": "US"
+    },
+    "079550.KS": {
+        "name": "LIG넥스원",
+        "entry_price": 743000.0,
+        "highest_price": 743000.0,
+        "opened_at": "2026-06-02 01:59",
+        "market": "KR"
     }
 }
