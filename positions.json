@@ -208,5 +208,12 @@
         "highest_price": 257.6000061035156,
         "opened_at": "2026-06-02 19:43",
         "market": "US"
+    },
+    "AXP": {
+        "name": "American Express",
+        "entry_price": 303.135009765625,
+        "highest_price": 303.135009765625,
+        "opened_at": "2026-06-03 15:19",
+        "market": "US"
     }
 }
