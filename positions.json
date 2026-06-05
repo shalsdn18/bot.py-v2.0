@@ -174,13 +174,6 @@
         "opened_at": "2026-03-24",
         "market": "KR"
     },
-    "GLD": {
-        "name": "GLD",
-        "entry_price": 407.8211975097656,
-        "highest_price": 418.1050109863281,
-        "opened_at": "2026-05-27 16:23",
-        "market": "US"
-    },
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 375.0,
@@ -221,6 +214,13 @@
         "entry_price": 396.0295104980469,
         "highest_price": 396.0295104980469,
         "opened_at": "2026-06-05 17:59",
+        "market": "US"
+    },
+    "NVDA": {
+        "name": "NVIDIA",
+        "entry_price": 205.10000610351562,
+        "highest_price": 205.10000610351562,
+        "opened_at": "2026-06-05 20:05",
         "market": "US"
     }
 }
