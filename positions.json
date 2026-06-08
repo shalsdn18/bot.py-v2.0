@@ -205,7 +205,7 @@
     "TSLA": {
         "name": "Tesla",
         "entry_price": 396.0295104980469,
-        "highest_price": 399.0400085449219,
+        "highest_price": 409.0050048828125,
         "opened_at": "2026-06-05 17:59",
         "market": "US"
     },
@@ -219,14 +219,14 @@
     "GLD": {
         "name": "GLD",
         "entry_price": 396.239990234375,
-        "highest_price": 397.6600036621094,
+        "highest_price": 397.9849853515625,
         "opened_at": "2026-06-05 21:57",
         "market": "US"
     },
     "068270.KS": {
         "name": "셀트리온",
         "entry_price": 159400.0,
-        "highest_price": 159400.0,
+        "highest_price": 171400.0,
         "opened_at": "2026-06-08 09:12",
         "market": "KR"
     }
