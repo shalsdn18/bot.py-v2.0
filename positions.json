@@ -188,13 +188,6 @@
         "opened_at": "2026-06-01 16:21",
         "market": "US"
     },
-    "079550.KS": {
-        "name": "LIG넥스원",
-        "entry_price": 743000.0,
-        "highest_price": 743000.0,
-        "opened_at": "2026-06-02 01:59",
-        "market": "KR"
-    },
     "AMZN": {
         "name": "Amazon",
         "entry_price": 257.6000061035156,
@@ -229,5 +222,12 @@
         "highest_price": 396.239990234375,
         "opened_at": "2026-06-05 21:57",
         "market": "US"
+    },
+    "068270.KS": {
+        "name": "셀트리온",
+        "entry_price": 159400.0,
+        "highest_price": 159400.0,
+        "opened_at": "2026-06-08 09:12",
+        "market": "KR"
     }
 }
