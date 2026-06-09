@@ -188,17 +188,10 @@
         "opened_at": "2026-06-01 16:21",
         "market": "US"
     },
-    "AMZN": {
-        "name": "Amazon",
-        "entry_price": 257.6000061035156,
-        "highest_price": 257.6000061035156,
-        "opened_at": "2026-06-02 19:43",
-        "market": "US"
-    },
     "AXP": {
         "name": "American Express",
         "entry_price": 303.135009765625,
-        "highest_price": 314.4800109863281,
+        "highest_price": 316.0299987792969,
         "opened_at": "2026-06-03 15:19",
         "market": "US"
     },
@@ -229,5 +222,19 @@
         "highest_price": 221000.0,
         "opened_at": "2026-06-08 19:39",
         "market": "KR"
+    },
+    "AAPL": {
+        "name": "Apple",
+        "entry_price": 291.0050048828125,
+        "highest_price": 291.0050048828125,
+        "opened_at": "2026-06-09 16:06",
+        "market": "US"
+    },
+    "COIN": {
+        "name": "Coinbase",
+        "entry_price": 152.9600067138672,
+        "highest_price": 152.9600067138672,
+        "opened_at": "2026-06-09 16:06",
+        "market": "US"
     }
 }
