@@ -174,13 +174,6 @@
         "opened_at": "2026-03-24",
         "market": "KR"
     },
-    "GOOG": {
-        "name": "Alphabet C",
-        "entry_price": 371.04998779296875,
-        "highest_price": 372.5799865722656,
-        "opened_at": "2026-06-01 16:21",
-        "market": "US"
-    },
     "AXP": {
         "name": "American Express",
         "entry_price": 303.135009765625,
@@ -235,6 +228,13 @@
         "entry_price": 382.05499267578125,
         "highest_price": 382.05499267578125,
         "opened_at": "2026-06-10 19:37",
+        "market": "US"
+    },
+    "GOOGL": {
+        "name": "Alphabet A",
+        "entry_price": 356.3800048828125,
+        "highest_price": 356.3800048828125,
+        "opened_at": "2026-06-10 22:07",
         "market": "US"
     }
 }
