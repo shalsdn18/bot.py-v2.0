@@ -177,7 +177,7 @@
     "AXP": {
         "name": "American Express",
         "entry_price": 303.135009765625,
-        "highest_price": 318.3800048828125,
+        "highest_price": 318.6050109863281,
         "opened_at": "2026-06-03 15:19",
         "market": "US"
     },
@@ -198,21 +198,21 @@
     "AAPL": {
         "name": "Apple",
         "entry_price": 291.0050048828125,
-        "highest_price": 293.4200134277344,
+        "highest_price": 295.6099853515625,
         "opened_at": "2026-06-09 16:06",
         "market": "US"
     },
     "COIN": {
         "name": "Coinbase",
         "entry_price": 152.9600067138672,
-        "highest_price": 157.63999938964844,
+        "highest_price": 160.50999450683594,
         "opened_at": "2026-06-09 16:06",
         "market": "US"
     },
     "AMZN": {
         "name": "Amazon",
         "entry_price": 239.6750030517578,
-        "highest_price": 239.6750030517578,
+        "highest_price": 241.47999572753906,
         "opened_at": "2026-06-10 16:37",
         "market": "US"
     },
@@ -226,28 +226,28 @@
     "TSLA": {
         "name": "Tesla",
         "entry_price": 382.05499267578125,
-        "highest_price": 384.99200439453125,
+        "highest_price": 399.1300048828125,
         "opened_at": "2026-06-10 19:37",
         "market": "US"
     },
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 356.3800048828125,
-        "highest_price": 356.3800048828125,
+        "highest_price": 358.4599914550781,
         "opened_at": "2026-06-10 22:07",
         "market": "US"
     },
     "GOOG": {
         "name": "Alphabet C",
         "entry_price": 353.32000732421875,
-        "highest_price": 353.32000732421875,
+        "highest_price": 357.25,
         "opened_at": "2026-06-10 23:57",
         "market": "US"
     },
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 385.3800048828125,
-        "highest_price": 385.3800048828125,
+        "highest_price": 390.5199890136719,
         "opened_at": "2026-06-11 17:06",
         "market": "US"
     }
