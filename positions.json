@@ -212,7 +212,7 @@
     "TSLA": {
         "name": "Tesla",
         "entry_price": 382.05499267578125,
-        "highest_price": 400.82708740234375,
+        "highest_price": 406.42999267578125,
         "opened_at": "2026-06-10 19:37",
         "market": "US"
     },
@@ -233,7 +233,7 @@
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 385.3800048828125,
-        "highest_price": 390.5199890136719,
+        "highest_price": 390.739990234375,
         "opened_at": "2026-06-11 17:06",
         "market": "US"
     }
