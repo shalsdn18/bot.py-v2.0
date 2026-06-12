@@ -174,13 +174,6 @@
         "opened_at": "2026-03-24",
         "market": "KR"
     },
-    "AXP": {
-        "name": "American Express",
-        "entry_price": 303.135009765625,
-        "highest_price": 318.6050109863281,
-        "opened_at": "2026-06-03 15:19",
-        "market": "US"
-    },
     "NVDA": {
         "name": "NVIDIA",
         "entry_price": 205.10000610351562,
@@ -198,7 +191,7 @@
     "COIN": {
         "name": "Coinbase",
         "entry_price": 152.9600067138672,
-        "highest_price": 160.50999450683594,
+        "highest_price": 160.5198974609375,
         "opened_at": "2026-06-09 16:06",
         "market": "US"
     },
@@ -226,14 +219,14 @@
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 356.3800048828125,
-        "highest_price": 358.4599914550781,
+        "highest_price": 361.8800048828125,
         "opened_at": "2026-06-10 22:07",
         "market": "US"
     },
     "GOOG": {
         "name": "Alphabet C",
         "entry_price": 353.32000732421875,
-        "highest_price": 357.25,
+        "highest_price": 359.8905029296875,
         "opened_at": "2026-06-10 23:57",
         "market": "US"
     },
