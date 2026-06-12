@@ -188,13 +188,6 @@
         "opened_at": "2026-06-05 20:05",
         "market": "US"
     },
-    "010120.KS": {
-        "name": "LS ELECTRIC",
-        "entry_price": 208000.0,
-        "highest_price": 236000.0,
-        "opened_at": "2026-06-08 19:39",
-        "market": "KR"
-    },
     "AAPL": {
         "name": "Apple",
         "entry_price": 291.0050048828125,
