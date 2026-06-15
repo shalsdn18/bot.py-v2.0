@@ -177,63 +177,63 @@
     "NVDA": {
         "name": "NVIDIA",
         "entry_price": 205.10000610351562,
-        "highest_price": 208.65750122070312,
+        "highest_price": 212.30499267578125,
         "opened_at": "2026-06-05 20:05",
         "market": "US"
     },
     "AAPL": {
         "name": "Apple",
         "entry_price": 291.0050048828125,
-        "highest_price": 295.6300048828125,
+        "highest_price": 297.1099853515625,
         "opened_at": "2026-06-09 16:06",
         "market": "US"
     },
     "COIN": {
         "name": "Coinbase",
         "entry_price": 152.9600067138672,
-        "highest_price": 160.5198974609375,
+        "highest_price": 173.5399932861328,
         "opened_at": "2026-06-09 16:06",
         "market": "US"
     },
     "AMZN": {
         "name": "Amazon",
         "entry_price": 239.6750030517578,
-        "highest_price": 241.50999450683594,
+        "highest_price": 245.88999938964844,
         "opened_at": "2026-06-10 16:37",
         "market": "US"
     },
     "META": {
         "name": "Meta",
         "entry_price": 572.4949951171875,
-        "highest_price": 572.4949951171875,
+        "highest_price": 600.114990234375,
         "opened_at": "2026-06-10 19:37",
         "market": "US"
     },
     "TSLA": {
         "name": "Tesla",
         "entry_price": 382.05499267578125,
-        "highest_price": 406.42999267578125,
+        "highest_price": 410.4100036621094,
         "opened_at": "2026-06-10 19:37",
         "market": "US"
     },
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 356.3800048828125,
-        "highest_price": 361.8800048828125,
+        "highest_price": 371.3999938964844,
         "opened_at": "2026-06-10 22:07",
         "market": "US"
     },
     "GOOG": {
         "name": "Alphabet C",
         "entry_price": 353.32000732421875,
-        "highest_price": 359.8905029296875,
+        "highest_price": 369.5899963378906,
         "opened_at": "2026-06-10 23:57",
         "market": "US"
     },
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 385.3800048828125,
-        "highest_price": 390.739990234375,
+        "highest_price": 400.6499938964844,
         "opened_at": "2026-06-11 17:06",
         "market": "US"
     }
