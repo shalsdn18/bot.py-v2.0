@@ -314,14 +314,14 @@ def get_ai_comment(
         return f"(AI 코멘트 오류: {e})"
 
 
+# 수정 후 (bot.py)
 def generate_ai_comment(prompt: str) -> str:
     try:
         if GEMINI_CLIENT is None:
             return "(AI 비활성화)"
 
-        # 🔍 수정: 할당량이 넉넉한 'latest' 별칭 모델로 변경
-        # 이 모델은 리스트에 있는 그대로 'models/gemini-flash-latest'를 사용합니다.
-        model_name = os.environ.get("GEMINI_MODEL", "models/gemini-flash-latest")
+        # 표준 GA 모델 ID 인자값으로 교정
+        model_name = os.environ.get("GEMINI_MODEL", "gemini-1.5-flash")
 
         resp = GEMINI_CLIENT.models.generate_content(
             model=model_name,
