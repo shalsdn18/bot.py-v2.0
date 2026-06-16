@@ -205,7 +205,7 @@
     "META": {
         "name": "Meta",
         "entry_price": 572.4949951171875,
-        "highest_price": 600.114990234375,
+        "highest_price": 600.2100219726562,
         "opened_at": "2026-06-10 19:37",
         "market": "US"
     },
@@ -219,14 +219,14 @@
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 356.3800048828125,
-        "highest_price": 372.989990234375,
+        "highest_price": 373.25,
         "opened_at": "2026-06-10 22:07",
         "market": "US"
     },
     "GOOG": {
         "name": "Alphabet C",
         "entry_price": 353.32000732421875,
-        "highest_price": 370.885009765625,
+        "highest_price": 371.1000061035156,
         "opened_at": "2026-06-10 23:57",
         "market": "US"
     },
