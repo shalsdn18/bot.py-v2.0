@@ -546,11 +546,8 @@ def analyze_market():
             sell_now = (curr_price > curr_upper) or (curr_rsi > RSI_OVERBOUGHT)
             sell_prev = (prev_price > prev_upper) or (prev_rsi > RSI_OVERBOUGHT)
 
-            event_signal = None
-            if buy_now and not buy_prev:
-                event_signal = "BUY"
-            elif sell_now and not sell_prev:
-                event_signal = "SELL"
+           # bot.py 수정 후 (테스트용 강제 주입)
+            event_signal = "BUY"  # 무조건 BUY 신호가 터지도록 강제 설정
 
             rating, score = rate_stock(
                 curr_price, curr_ma20, curr_ma60,
