@@ -184,7 +184,7 @@
     "AAPL": {
         "name": "Apple",
         "entry_price": 291.0050048828125,
-        "highest_price": 297.1099853515625,
+        "highest_price": 299.4100036621094,
         "opened_at": "2026-06-09 16:06",
         "market": "US"
     },
@@ -198,7 +198,7 @@
     "AMZN": {
         "name": "Amazon",
         "entry_price": 239.6750030517578,
-        "highest_price": 246.0970001220703,
+        "highest_price": 246.2100067138672,
         "opened_at": "2026-06-10 16:37",
         "market": "US"
     },
