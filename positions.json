@@ -236,5 +236,68 @@
         "highest_price": 400.6499938964844,
         "opened_at": "2026-06-11 17:06",
         "market": "US"
+    },
+    "005930.KS": {
+        "name": "삼성전자",
+        "entry_price": 343000.0,
+        "highest_price": 343000.0,
+        "opened_at": "2026-06-16 13:05",
+        "market": "KR"
+    },
+    "TSM": {
+        "name": "TSMC",
+        "entry_price": 441.3999938964844,
+        "highest_price": 441.3999938964844,
+        "opened_at": "2026-06-16 13:05",
+        "market": "US"
+    },
+    "AMD": {
+        "name": "AMD",
+        "entry_price": NaN,
+        "highest_price": NaN,
+        "opened_at": "2026-06-16 13:05",
+        "market": "US"
+    },
+    "AVGO": {
+        "name": "Broadcom",
+        "entry_price": NaN,
+        "highest_price": NaN,
+        "opened_at": "2026-06-16 13:05",
+        "market": "US"
+    },
+    "MU": {
+        "name": "Micron",
+        "entry_price": NaN,
+        "highest_price": NaN,
+        "opened_at": "2026-06-16 13:05",
+        "market": "US"
+    },
+    "PLTR": {
+        "name": "Palantir",
+        "entry_price": 134.7100067138672,
+        "highest_price": 134.7100067138672,
+        "opened_at": "2026-06-16 13:05",
+        "market": "US"
+    },
+    "AXP": {
+        "name": "American Express",
+        "entry_price": NaN,
+        "highest_price": NaN,
+        "opened_at": "2026-06-16 13:05",
+        "market": "US"
+    },
+    "SCHD": {
+        "name": "SCHD",
+        "entry_price": NaN,
+        "highest_price": NaN,
+        "opened_at": "2026-06-16 13:05",
+        "market": "US"
+    },
+    "GLD": {
+        "name": "GLD",
+        "entry_price": NaN,
+        "highest_price": NaN,
+        "opened_at": "2026-06-16 13:05",
+        "market": "US"
     }
 }
