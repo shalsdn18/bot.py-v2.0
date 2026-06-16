@@ -26,6 +26,7 @@ except Exception as e:
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 CHAT_ID = os.environ.get("CHAT_ID")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")  # 선택
+SPRING_WEBHOOK_URL = os.environ.get("SPRING_WEBHOOK_URL", "http://localhost:8080/api/signals/webhook")
 
 # ==============================
 # [Config JSON] targets / params
@@ -240,7 +241,26 @@ def send_telegram(msg: str) -> bool:
             print(f"[Telegram Error] {fallback_e}")
             logger.error(f"Telegram send failed completely: {fallback_e}")
             return False
+def send_webhook_to_spring(ticker: str, signal_type: str, price: float) -> bool:
+    """Spring Boot 웹 어플리케이션 아카이빙 웹훅으로 정제된 데이터를 POST 송신합니다."""
+    if not SPRING_WEBHOOK_URL:
+        logger.warning("Spring Webhook URL 미설정으로 송신 무시")
+        return False
 
+    payload = f"종목: {ticker}, 신호: {signal_type}, 가격: {price:.2f}"
+    headers = {"Content-Type": "text/plain; charset=utf-8"}
+
+    try:
+        resp = requests.post(SPRING_WEBHOOK_URL, data=payload.encode('utf-8'), headers=headers, timeout=5)
+        if resp.status_code in [200, 201]:
+            logger.info(f"Spring Webhook 전송 성공: {ticker} ({signal_type})")
+            return True
+        else:
+            logger.error(f"Spring Webhook 응답 에러 상태 코드: {resp.status_code}")
+            return False
+    except Exception as e:
+        logger.error(f"Spring Webhook 통신 아키텍처 장애 예외 발생: {e}")
+        return False
 
 def get_ai_comment(
     signal_type: str,
@@ -606,6 +626,7 @@ def analyze_market():
                     )
                     sent = send_telegram(msg)
                     if sent:
+                        send_webhook_to_spring(ticker=ticker, signal_type="SELL", price=curr_price)
                         del positions[ticker]
                         positions_updated = True
                         print(f">> {name}: Position SOLD. ({reason_text})")
@@ -681,6 +702,7 @@ def analyze_market():
                 )
                 sent = send_telegram(msg)
                 if sent:
+                    send_webhook_to_spring(ticker=ticker, signal_type="BUY", price=curr_price)
                     positions[ticker] = {
                         "name": name,
                         "entry_price": curr_price,
