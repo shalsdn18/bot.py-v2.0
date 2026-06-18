@@ -202,13 +202,6 @@
         "opened_at": "2026-06-10 16:37",
         "market": "US"
     },
-    "TSLA": {
-        "name": "Tesla",
-        "entry_price": 382.05499267578125,
-        "highest_price": 411.1499938964844,
-        "opened_at": "2026-06-10 19:37",
-        "market": "US"
-    },
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 356.3800048828125,
@@ -233,7 +226,7 @@
     "TSM": {
         "name": "TSMC",
         "entry_price": 441.3999938964844,
-        "highest_price": 441.3999938964844,
+        "highest_price": 452.80999755859375,
         "opened_at": "2026-06-16 13:05",
         "market": "US"
     },
@@ -255,13 +248,6 @@
         "name": "Micron",
         "entry_price": NaN,
         "highest_price": NaN,
-        "opened_at": "2026-06-16 13:05",
-        "market": "US"
-    },
-    "PLTR": {
-        "name": "Palantir",
-        "entry_price": 134.7100067138672,
-        "highest_price": 134.91990661621094,
         "opened_at": "2026-06-16 13:05",
         "market": "US"
     },
@@ -296,7 +282,7 @@
     "META": {
         "name": "Meta",
         "entry_price": 567.5800170898438,
-        "highest_price": 567.5800170898438,
+        "highest_price": 571.469970703125,
         "opened_at": "2026-06-17 23:03",
         "market": "US"
     }
