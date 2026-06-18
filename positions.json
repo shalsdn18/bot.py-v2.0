@@ -219,7 +219,7 @@
     "TSM": {
         "name": "TSMC",
         "entry_price": 441.3999938964844,
-        "highest_price": 459.30999755859375,
+        "highest_price": 462.1199951171875,
         "opened_at": "2026-06-16 13:05",
         "market": "US"
     },
@@ -268,29 +268,36 @@
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 378.9100036621094,
-        "highest_price": 378.9100036621094,
+        "highest_price": 379.3999938964844,
         "opened_at": "2026-06-17 21:29",
         "market": "US"
     },
     "META": {
         "name": "Meta",
         "entry_price": 567.5800170898438,
-        "highest_price": 575.0050048828125,
+        "highest_price": 577.219970703125,
         "opened_at": "2026-06-17 23:03",
         "market": "US"
     },
     "TSLA": {
         "name": "Tesla",
         "entry_price": 395.56500244140625,
-        "highest_price": 395.56500244140625,
+        "highest_price": 400.489990234375,
         "opened_at": "2026-06-18 18:14",
         "market": "US"
     },
     "PLTR": {
         "name": "Palantir",
         "entry_price": 128.3502960205078,
-        "highest_price": 128.3502960205078,
+        "highest_price": 128.47000122070312,
         "opened_at": "2026-06-18 18:14",
+        "market": "US"
+    },
+    "COIN": {
+        "name": "Coinbase",
+        "entry_price": 163.25999450683594,
+        "highest_price": 163.25999450683594,
+        "opened_at": "2026-06-18 21:02",
         "market": "US"
     }
 }
