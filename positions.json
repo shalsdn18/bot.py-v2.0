@@ -265,18 +265,32 @@
         "opened_at": "2026-06-18 18:14",
         "market": "US"
     },
-    "PLTR": {
-        "name": "Palantir",
-        "entry_price": 128.3502960205078,
-        "highest_price": 128.47000122070312,
-        "opened_at": "2026-06-18 18:14",
-        "market": "US"
-    },
     "COIN": {
         "name": "Coinbase",
         "entry_price": 163.25999450683594,
         "highest_price": 166.81500244140625,
         "opened_at": "2026-06-18 21:02",
+        "market": "US"
+    },
+    "GOOGL": {
+        "name": "Alphabet A",
+        "entry_price": 349.3599853515625,
+        "highest_price": 349.3599853515625,
+        "opened_at": "2026-06-22 19:26",
+        "market": "US"
+    },
+    "GOOG": {
+        "name": "Alphabet C",
+        "entry_price": 348.7049865722656,
+        "highest_price": 348.7049865722656,
+        "opened_at": "2026-06-22 19:26",
+        "market": "US"
+    },
+    "AMZN": {
+        "name": "Amazon",
+        "entry_price": 233.9600067138672,
+        "highest_price": 233.9600067138672,
+        "opened_at": "2026-06-22 19:26",
         "market": "US"
     }
 }
