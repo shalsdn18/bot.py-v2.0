@@ -188,13 +188,6 @@
         "opened_at": "2026-06-09 16:06",
         "market": "US"
     },
-    "005930.KS": {
-        "name": "삼성전자",
-        "entry_price": 343000.0,
-        "highest_price": 368000.0,
-        "opened_at": "2026-06-16 13:05",
-        "market": "KR"
-    },
     "TSM": {
         "name": "TSMC",
         "entry_price": 441.3999938964844,
@@ -299,5 +292,12 @@
         "highest_price": 119.5,
         "opened_at": "2026-06-22 21:38",
         "market": "US"
+    },
+    "000660.KS": {
+        "name": "SK하이닉스",
+        "entry_price": 2862000.0,
+        "highest_price": 2862000.0,
+        "opened_at": "2026-06-23 01:30",
+        "market": "KR"
     }
 }
