@@ -188,13 +188,6 @@
         "opened_at": "2026-06-09 16:06",
         "market": "US"
     },
-    "TSM": {
-        "name": "TSMC",
-        "entry_price": 441.3999938964844,
-        "highest_price": 467.6700134277344,
-        "opened_at": "2026-06-16 13:05",
-        "market": "US"
-    },
     "AMD": {
         "name": "AMD",
         "entry_price": NaN,
@@ -251,13 +244,6 @@
         "opened_at": "2026-06-17 23:03",
         "market": "US"
     },
-    "TSLA": {
-        "name": "Tesla",
-        "entry_price": 395.56500244140625,
-        "highest_price": 409.8909912109375,
-        "opened_at": "2026-06-18 18:14",
-        "market": "US"
-    },
     "COIN": {
         "name": "Coinbase",
         "entry_price": 163.25999450683594,
@@ -282,7 +268,7 @@
     "AMZN": {
         "name": "Amazon",
         "entry_price": 233.9600067138672,
-        "highest_price": 233.9600067138672,
+        "highest_price": 234.60499572753906,
         "opened_at": "2026-06-22 19:26",
         "market": "US"
     },
