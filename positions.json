@@ -174,13 +174,6 @@
         "opened_at": "2026-03-24",
         "market": "KR"
     },
-    "NVDA": {
-        "name": "NVIDIA",
-        "entry_price": 205.10000610351562,
-        "highest_price": 212.4499969482422,
-        "opened_at": "2026-06-05 20:05",
-        "market": "US"
-    },
     "AAPL": {
         "name": "Apple",
         "entry_price": 291.0050048828125,
@@ -268,7 +261,7 @@
     "AMZN": {
         "name": "Amazon",
         "entry_price": 233.9600067138672,
-        "highest_price": 234.60499572753906,
+        "highest_price": 235.71499633789062,
         "opened_at": "2026-06-22 19:26",
         "market": "US"
     },
@@ -285,5 +278,19 @@
         "highest_price": 819000.0,
         "opened_at": "2026-06-23 06:06",
         "market": "KR"
+    },
+    "TSM": {
+        "name": "TSMC",
+        "entry_price": 439.7650146484375,
+        "highest_price": 439.7650146484375,
+        "opened_at": "2026-06-23 18:19",
+        "market": "US"
+    },
+    "TSLA": {
+        "name": "Tesla",
+        "entry_price": 381.0350036621094,
+        "highest_price": 381.0350036621094,
+        "opened_at": "2026-06-23 18:20",
+        "market": "US"
     }
 }
