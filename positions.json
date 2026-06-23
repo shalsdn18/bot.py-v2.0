@@ -237,13 +237,6 @@
         "opened_at": "2026-06-17 23:03",
         "market": "US"
     },
-    "COIN": {
-        "name": "Coinbase",
-        "entry_price": 163.25999450683594,
-        "highest_price": 166.81500244140625,
-        "opened_at": "2026-06-18 21:02",
-        "market": "US"
-    },
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 349.3599853515625,
@@ -289,8 +282,15 @@
     "TSLA": {
         "name": "Tesla",
         "entry_price": 381.0350036621094,
-        "highest_price": 381.0350036621094,
+        "highest_price": 381.6099853515625,
         "opened_at": "2026-06-23 18:20",
+        "market": "US"
+    },
+    "NVDA": {
+        "name": "NVIDIA",
+        "entry_price": 200.0399932861328,
+        "highest_price": 200.0399932861328,
+        "opened_at": "2026-06-23 20:33",
         "market": "US"
     }
 }
