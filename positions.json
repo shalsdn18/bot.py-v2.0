@@ -240,21 +240,21 @@
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 349.3599853515625,
-        "highest_price": 349.67999267578125,
+        "highest_price": 350.4700012207031,
         "opened_at": "2026-06-22 19:26",
         "market": "US"
     },
     "GOOG": {
         "name": "Alphabet C",
         "entry_price": 348.7049865722656,
-        "highest_price": 348.7799987792969,
+        "highest_price": 349.79998779296875,
         "opened_at": "2026-06-22 19:26",
         "market": "US"
     },
     "AMZN": {
         "name": "Amazon",
         "entry_price": 233.9600067138672,
-        "highest_price": 235.71499633789062,
+        "highest_price": 241.0800018310547,
         "opened_at": "2026-06-22 19:26",
         "market": "US"
     },
@@ -275,21 +275,21 @@
     "TSM": {
         "name": "TSMC",
         "entry_price": 439.7650146484375,
-        "highest_price": 439.7650146484375,
+        "highest_price": 441.07501220703125,
         "opened_at": "2026-06-23 18:19",
         "market": "US"
     },
     "TSLA": {
         "name": "Tesla",
         "entry_price": 381.0350036621094,
-        "highest_price": 381.6099853515625,
+        "highest_price": 381.7349853515625,
         "opened_at": "2026-06-23 18:20",
         "market": "US"
     },
     "NVDA": {
         "name": "NVIDIA",
         "entry_price": 200.0399932861328,
-        "highest_price": 200.0399932861328,
+        "highest_price": 200.7200927734375,
         "opened_at": "2026-06-23 20:33",
         "market": "US"
     },
