@@ -258,13 +258,6 @@
         "opened_at": "2026-06-22 19:26",
         "market": "US"
     },
-    "PLTR": {
-        "name": "Palantir",
-        "entry_price": 119.5,
-        "highest_price": 119.5,
-        "opened_at": "2026-06-22 21:38",
-        "market": "US"
-    },
     "079550.KS": {
         "name": "LIG넥스원",
         "entry_price": 819000.0,
@@ -291,13 +284,6 @@
         "entry_price": 200.0399932861328,
         "highest_price": 200.7200927734375,
         "opened_at": "2026-06-23 20:33",
-        "market": "US"
-    },
-    "COIN": {
-        "name": "Coinbase",
-        "entry_price": 158.17999267578125,
-        "highest_price": 158.17999267578125,
-        "opened_at": "2026-06-23 22:12",
         "market": "US"
     }
 }
