@@ -275,15 +275,29 @@
     "AAPL": {
         "name": "Apple",
         "entry_price": 275.3399963378906,
-        "highest_price": 275.3399963378906,
+        "highest_price": 279.0799865722656,
         "opened_at": "2026-06-25 16:23",
         "market": "US"
     },
     "AMZN": {
         "name": "Amazon",
         "entry_price": 228.17999267578125,
-        "highest_price": 228.17999267578125,
+        "highest_price": 229.92999267578125,
         "opened_at": "2026-06-25 16:23",
+        "market": "US"
+    },
+    "MSFT": {
+        "name": "Microsoft",
+        "entry_price": 356.79998779296875,
+        "highest_price": 356.79998779296875,
+        "opened_at": "2026-06-25 18:32",
+        "market": "US"
+    },
+    "PLTR": {
+        "name": "Palantir",
+        "entry_price": 108.51000213623047,
+        "highest_price": 108.51000213623047,
+        "opened_at": "2026-06-25 18:32",
         "market": "US"
     }
 }
