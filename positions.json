@@ -251,13 +251,6 @@
         "opened_at": "2026-06-23 20:33",
         "market": "US"
     },
-    "COIN": {
-        "name": "Coinbase",
-        "entry_price": 150.2550048828125,
-        "highest_price": 150.2550048828125,
-        "opened_at": "2026-06-24 19:45",
-        "market": "US"
-    },
     "068270.KS": {
         "name": "셀트리온",
         "entry_price": 173100.0,
