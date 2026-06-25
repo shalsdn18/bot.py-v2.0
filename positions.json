@@ -216,13 +216,6 @@
         "opened_at": "2026-06-16 13:05",
         "market": "US"
     },
-    "MSFT": {
-        "name": "Microsoft",
-        "entry_price": 378.9100036621094,
-        "highest_price": 379.3999938964844,
-        "opened_at": "2026-06-17 21:29",
-        "market": "US"
-    },
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 349.3599853515625,
@@ -265,18 +258,32 @@
         "opened_at": "2026-06-24 19:45",
         "market": "US"
     },
-    "PLTR": {
-        "name": "Palantir",
-        "entry_price": 113.70999908447266,
-        "highest_price": 113.70999908447266,
-        "opened_at": "2026-06-24 19:45",
-        "market": "US"
-    },
     "068270.KS": {
         "name": "셀트리온",
         "entry_price": 173100.0,
         "highest_price": 173100.0,
         "opened_at": "2026-06-25 08:22",
         "market": "KR"
+    },
+    "META": {
+        "name": "Meta",
+        "entry_price": 548.1099853515625,
+        "highest_price": 548.1099853515625,
+        "opened_at": "2026-06-25 16:23",
+        "market": "US"
+    },
+    "AAPL": {
+        "name": "Apple",
+        "entry_price": 275.3399963378906,
+        "highest_price": 275.3399963378906,
+        "opened_at": "2026-06-25 16:23",
+        "market": "US"
+    },
+    "AMZN": {
+        "name": "Amazon",
+        "entry_price": 228.17999267578125,
+        "highest_price": 228.17999267578125,
+        "opened_at": "2026-06-25 16:23",
+        "market": "US"
     }
 }
