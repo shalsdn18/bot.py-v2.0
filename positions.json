@@ -174,13 +174,6 @@
         "opened_at": "2026-03-24",
         "market": "KR"
     },
-    "AAPL": {
-        "name": "Apple",
-        "entry_price": 291.0050048828125,
-        "highest_price": 300.2099914550781,
-        "opened_at": "2026-06-09 16:06",
-        "market": "US"
-    },
     "AMD": {
         "name": "AMD",
         "entry_price": NaN,
@@ -230,13 +223,6 @@
         "opened_at": "2026-06-17 21:29",
         "market": "US"
     },
-    "META": {
-        "name": "Meta",
-        "entry_price": 567.5800170898438,
-        "highest_price": 577.219970703125,
-        "opened_at": "2026-06-17 23:03",
-        "market": "US"
-    },
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 349.3599853515625,
@@ -251,17 +237,10 @@
         "opened_at": "2026-06-22 19:26",
         "market": "US"
     },
-    "AMZN": {
-        "name": "Amazon",
-        "entry_price": 233.9600067138672,
-        "highest_price": 241.0800018310547,
-        "opened_at": "2026-06-22 19:26",
-        "market": "US"
-    },
     "TSM": {
         "name": "TSMC",
         "entry_price": 439.7650146484375,
-        "highest_price": 441.07501220703125,
+        "highest_price": 450.0899963378906,
         "opened_at": "2026-06-23 18:19",
         "market": "US"
     },
