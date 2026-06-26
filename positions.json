@@ -261,7 +261,7 @@
     "AAPL": {
         "name": "Apple",
         "entry_price": 275.3399963378906,
-        "highest_price": 279.6099853515625,
+        "highest_price": 281.2799987792969,
         "opened_at": "2026-06-25 16:23",
         "market": "US"
     },
@@ -275,7 +275,7 @@
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 356.79998779296875,
-        "highest_price": 370.875,
+        "highest_price": 373.6451110839844,
         "opened_at": "2026-06-25 18:32",
         "market": "US"
     },
