@@ -261,14 +261,14 @@
     "AAPL": {
         "name": "Apple",
         "entry_price": 275.3399963378906,
-        "highest_price": 281.2799987792969,
+        "highest_price": 283.7799987792969,
         "opened_at": "2026-06-25 16:23",
         "market": "US"
     },
     "AMZN": {
         "name": "Amazon",
         "entry_price": 228.17999267578125,
-        "highest_price": 232.25,
+        "highest_price": 232.69000244140625,
         "opened_at": "2026-06-25 16:23",
         "market": "US"
     },
@@ -289,7 +289,7 @@
     "COIN": {
         "name": "Coinbase",
         "entry_price": 142.52000427246094,
-        "highest_price": 148.60499572753906,
+        "highest_price": 149.05999755859375,
         "opened_at": "2026-06-25 22:21",
         "market": "US"
     },
