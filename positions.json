@@ -219,7 +219,7 @@
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 349.3599853515625,
-        "highest_price": 350.4700012207031,
+        "highest_price": 351.09991455078125,
         "opened_at": "2026-06-22 19:26",
         "market": "US"
     },
@@ -233,14 +233,14 @@
     "TSM": {
         "name": "TSMC",
         "entry_price": 439.7650146484375,
-        "highest_price": 450.0899963378906,
+        "highest_price": 451.3399963378906,
         "opened_at": "2026-06-23 18:19",
         "market": "US"
     },
     "TSLA": {
         "name": "Tesla",
         "entry_price": 381.0350036621094,
-        "highest_price": 386.7799987792969,
+        "highest_price": 402.30999755859375,
         "opened_at": "2026-06-23 18:20",
         "market": "US"
     },
@@ -254,7 +254,7 @@
     "META": {
         "name": "Meta",
         "entry_price": 548.1099853515625,
-        "highest_price": 556.0349731445312,
+        "highest_price": 564.3499755859375,
         "opened_at": "2026-06-25 16:23",
         "market": "US"
     },
@@ -268,7 +268,7 @@
     "AMZN": {
         "name": "Amazon",
         "entry_price": 228.17999267578125,
-        "highest_price": 232.69000244140625,
+        "highest_price": 239.86000061035156,
         "opened_at": "2026-06-25 16:23",
         "market": "US"
     },
@@ -282,7 +282,7 @@
     "PLTR": {
         "name": "Palantir",
         "entry_price": 108.51000213623047,
-        "highest_price": 113.79830169677734,
+        "highest_price": 114.81999969482422,
         "opened_at": "2026-06-25 18:32",
         "market": "US"
     },
