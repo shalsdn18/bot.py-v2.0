@@ -219,28 +219,28 @@
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 349.3599853515625,
-        "highest_price": 352.8399963378906,
+        "highest_price": 353.6499938964844,
         "opened_at": "2026-06-22 19:26",
         "market": "US"
     },
     "GOOG": {
         "name": "Alphabet C",
         "entry_price": 348.7049865722656,
-        "highest_price": 350.7698974609375,
+        "highest_price": 351.2799987792969,
         "opened_at": "2026-06-22 19:26",
         "market": "US"
     },
     "TSM": {
         "name": "TSMC",
         "entry_price": 439.7650146484375,
-        "highest_price": 451.364990234375,
+        "highest_price": 455.1000061035156,
         "opened_at": "2026-06-23 18:19",
         "market": "US"
     },
     "TSLA": {
         "name": "Tesla",
         "entry_price": 381.0350036621094,
-        "highest_price": 409.6629943847656,
+        "highest_price": 411.8399963378906,
         "opened_at": "2026-06-23 18:20",
         "market": "US"
     },
@@ -289,7 +289,7 @@
     "COIN": {
         "name": "Coinbase",
         "entry_price": 142.52000427246094,
-        "highest_price": 150.73170471191406,
+        "highest_price": 151.64999389648438,
         "opened_at": "2026-06-25 22:21",
         "market": "US"
     },
