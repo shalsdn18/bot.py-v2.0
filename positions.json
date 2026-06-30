@@ -233,14 +233,14 @@
     "TSM": {
         "name": "TSMC",
         "entry_price": 439.7650146484375,
-        "highest_price": 468.8800048828125,
+        "highest_price": 474.6000061035156,
         "opened_at": "2026-06-23 18:19",
         "market": "US"
     },
     "TSLA": {
         "name": "Tesla",
         "entry_price": 381.0350036621094,
-        "highest_price": 416.864990234375,
+        "highest_price": 419.9049987792969,
         "opened_at": "2026-06-23 18:20",
         "market": "US"
     },
