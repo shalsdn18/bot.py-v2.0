@@ -219,14 +219,14 @@
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 349.3599853515625,
-        "highest_price": 357.8800048828125,
+        "highest_price": 360.57501220703125,
         "opened_at": "2026-06-22 19:26",
         "market": "US"
     },
     "GOOG": {
         "name": "Alphabet C",
         "entry_price": 348.7049865722656,
-        "highest_price": 354.6499938964844,
+        "highest_price": 357.2699890136719,
         "opened_at": "2026-06-22 19:26",
         "market": "US"
     },
@@ -240,7 +240,7 @@
     "TSLA": {
         "name": "Tesla",
         "entry_price": 381.0350036621094,
-        "highest_price": 420.6000061035156,
+        "highest_price": 425.5299987792969,
         "opened_at": "2026-06-23 18:20",
         "market": "US"
     },
@@ -254,14 +254,14 @@
     "META": {
         "name": "Meta",
         "entry_price": 548.1099853515625,
-        "highest_price": 565.6400146484375,
+        "highest_price": 616.0900268554688,
         "opened_at": "2026-06-25 16:23",
         "market": "US"
     },
     "AAPL": {
         "name": "Apple",
         "entry_price": 275.3399963378906,
-        "highest_price": 289.3599853515625,
+        "highest_price": 292.9599914550781,
         "opened_at": "2026-06-25 16:23",
         "market": "US"
     },
@@ -275,21 +275,21 @@
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 356.79998779296875,
-        "highest_price": 373.6451110839844,
+        "highest_price": 383.0799865722656,
         "opened_at": "2026-06-25 18:32",
         "market": "US"
     },
     "PLTR": {
         "name": "Palantir",
         "entry_price": 108.51000213623047,
-        "highest_price": 117.78500366210938,
+        "highest_price": 124.51000213623047,
         "opened_at": "2026-06-25 18:32",
         "market": "US"
     },
     "COIN": {
         "name": "Coinbase",
         "entry_price": 142.52000427246094,
-        "highest_price": 151.64999389648438,
+        "highest_price": 155.54010009765625,
         "opened_at": "2026-06-25 22:21",
         "market": "US"
     },
