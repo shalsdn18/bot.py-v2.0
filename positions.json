@@ -230,17 +230,10 @@
         "opened_at": "2026-06-22 19:26",
         "market": "US"
     },
-    "TSM": {
-        "name": "TSMC",
-        "entry_price": 439.7650146484375,
-        "highest_price": 477.57000732421875,
-        "opened_at": "2026-06-23 18:19",
-        "market": "US"
-    },
     "TSLA": {
         "name": "Tesla",
         "entry_price": 381.0350036621094,
-        "highest_price": 425.5299987792969,
+        "highest_price": 427.3599853515625,
         "opened_at": "2026-06-23 18:20",
         "market": "US"
     },
@@ -254,42 +247,42 @@
     "META": {
         "name": "Meta",
         "entry_price": 548.1099853515625,
-        "highest_price": 616.0900268554688,
+        "highest_price": 617.7100219726562,
         "opened_at": "2026-06-25 16:23",
         "market": "US"
     },
     "AAPL": {
         "name": "Apple",
         "entry_price": 275.3399963378906,
-        "highest_price": 292.9599914550781,
+        "highest_price": 294.07000732421875,
         "opened_at": "2026-06-25 16:23",
         "market": "US"
     },
     "AMZN": {
         "name": "Amazon",
         "entry_price": 228.17999267578125,
-        "highest_price": 241.75,
+        "highest_price": 243.6750030517578,
         "opened_at": "2026-06-25 16:23",
         "market": "US"
     },
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 356.79998779296875,
-        "highest_price": 383.0799865722656,
+        "highest_price": 386.82000732421875,
         "opened_at": "2026-06-25 18:32",
         "market": "US"
     },
     "PLTR": {
         "name": "Palantir",
         "entry_price": 108.51000213623047,
-        "highest_price": 124.51000213623047,
+        "highest_price": 126.86000061035156,
         "opened_at": "2026-06-25 18:32",
         "market": "US"
     },
     "COIN": {
         "name": "Coinbase",
         "entry_price": 142.52000427246094,
-        "highest_price": 155.54010009765625,
+        "highest_price": 162.67990112304688,
         "opened_at": "2026-06-25 22:21",
         "market": "US"
     },
