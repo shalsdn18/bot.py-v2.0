@@ -254,7 +254,7 @@
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 356.79998779296875,
-        "highest_price": 390.45001220703125,
+        "highest_price": 391.42999267578125,
         "opened_at": "2026-06-25 18:32",
         "market": "US"
     },
@@ -279,18 +279,25 @@
         "opened_at": "2026-07-01 19:17",
         "market": "US"
     },
-    "005930.KS": {
-        "name": "삼성전자",
-        "entry_price": 286000.0,
-        "highest_price": 314500.0,
-        "opened_at": "2026-07-02 08:11",
-        "market": "KR"
-    },
     "TSLA": {
         "name": "Tesla",
         "entry_price": 390.1650085449219,
         "highest_price": 390.1650085449219,
         "opened_at": "2026-07-02 17:46",
+        "market": "US"
+    },
+    "000660.KS": {
+        "name": "SK하이닉스",
+        "entry_price": 2187000.0,
+        "highest_price": 2187000.0,
+        "opened_at": "2026-07-02 19:23",
+        "market": "KR"
+    },
+    "META": {
+        "name": "Meta",
+        "entry_price": 586.4199829101562,
+        "highest_price": 586.4199829101562,
+        "opened_at": "2026-07-02 19:23",
         "market": "US"
     }
 }
