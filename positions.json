@@ -240,7 +240,7 @@
     "AAPL": {
         "name": "Apple",
         "entry_price": 275.3399963378906,
-        "highest_price": 308.04998779296875,
+        "highest_price": 308.6300048828125,
         "opened_at": "2026-06-25 16:23",
         "market": "US"
     },
@@ -282,7 +282,7 @@
     "TSLA": {
         "name": "Tesla",
         "entry_price": 390.1650085449219,
-        "highest_price": 390.1650085449219,
+        "highest_price": 393.45001220703125,
         "opened_at": "2026-07-02 17:46",
         "market": "US"
     },
