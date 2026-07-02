@@ -286,13 +286,6 @@
         "opened_at": "2026-06-25 22:21",
         "market": "US"
     },
-    "010120.KS": {
-        "name": "LS ELECTRIC",
-        "entry_price": 199400.0,
-        "highest_price": 263500.0,
-        "opened_at": "2026-06-26 03:37",
-        "market": "KR"
-    },
     "TSM": {
         "name": "TSMC",
         "entry_price": 447.4800109863281,
