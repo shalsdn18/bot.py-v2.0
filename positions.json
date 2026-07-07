@@ -219,14 +219,14 @@
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 349.3599853515625,
-        "highest_price": 368.3900146484375,
+        "highest_price": 369.54998779296875,
         "opened_at": "2026-06-22 19:26",
         "market": "US"
     },
     "GOOG": {
         "name": "Alphabet C",
         "entry_price": 348.7049865722656,
-        "highest_price": 365.6000061035156,
+        "highest_price": 366.3009033203125,
         "opened_at": "2026-06-22 19:26",
         "market": "US"
     },
@@ -261,7 +261,7 @@
     "PLTR": {
         "name": "Palantir",
         "entry_price": 108.51000213623047,
-        "highest_price": 135.47000122070312,
+        "highest_price": 137.78500366210938,
         "opened_at": "2026-06-25 18:32",
         "market": "US"
     },
@@ -282,15 +282,22 @@
     "META": {
         "name": "Meta",
         "entry_price": 586.4199829101562,
-        "highest_price": 606.844970703125,
+        "highest_price": 607.75,
         "opened_at": "2026-07-02 19:23",
         "market": "US"
     },
     "079550.KS": {
         "name": "LIG넥스원",
         "entry_price": 778000.0,
-        "highest_price": 799000.0,
+        "highest_price": 815000.0,
         "opened_at": "2026-07-07 05:36",
         "market": "KR"
+    },
+    "TSM": {
+        "name": "TSMC",
+        "entry_price": 437.25,
+        "highest_price": 437.25,
+        "opened_at": "2026-07-07 17:33",
+        "market": "US"
     }
 }
