@@ -286,18 +286,18 @@
         "opened_at": "2026-07-02 17:46",
         "market": "US"
     },
-    "000660.KS": {
-        "name": "SK하이닉스",
-        "entry_price": 2187000.0,
-        "highest_price": 2450000.0,
-        "opened_at": "2026-07-02 19:23",
-        "market": "KR"
-    },
     "META": {
         "name": "Meta",
         "entry_price": 586.4199829101562,
         "highest_price": 600.2899780273438,
         "opened_at": "2026-07-02 19:23",
         "market": "US"
+    },
+    "079550.KS": {
+        "name": "LIG넥스원",
+        "entry_price": 778000.0,
+        "highest_price": 778000.0,
+        "opened_at": "2026-07-07 05:36",
+        "market": "KR"
     }
 }
