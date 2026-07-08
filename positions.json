@@ -286,18 +286,18 @@
         "opened_at": "2026-07-02 19:23",
         "market": "US"
     },
-    "079550.KS": {
-        "name": "LIG넥스원",
-        "entry_price": 778000.0,
-        "highest_price": 815000.0,
-        "opened_at": "2026-07-07 05:36",
-        "market": "KR"
-    },
     "TSM": {
         "name": "TSMC",
         "entry_price": 437.25,
         "highest_price": 437.25,
         "opened_at": "2026-07-07 17:33",
         "market": "US"
+    },
+    "068270.KS": {
+        "name": "셀트리온",
+        "entry_price": 179900.0,
+        "highest_price": 179900.0,
+        "opened_at": "2026-07-08 02:56",
+        "market": "KR"
     }
 }
