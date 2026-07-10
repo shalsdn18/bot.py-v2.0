@@ -233,7 +233,7 @@
     "NVDA": {
         "name": "NVIDIA",
         "entry_price": 200.0399932861328,
-        "highest_price": 204.1199951171875,
+        "highest_price": 208.7899932861328,
         "opened_at": "2026-06-23 20:33",
         "market": "US"
     },
@@ -261,7 +261,7 @@
     "META": {
         "name": "Meta",
         "entry_price": 586.4199829101562,
-        "highest_price": 631.47998046875,
+        "highest_price": 672.0250244140625,
         "opened_at": "2026-07-02 19:23",
         "market": "US"
     },
@@ -282,14 +282,14 @@
     "TSLA": {
         "name": "Tesla",
         "entry_price": 393.7300109863281,
-        "highest_price": 406.54998779296875,
+        "highest_price": 409.7850036621094,
         "opened_at": "2026-07-08 16:39",
         "market": "US"
     },
     "COIN": {
         "name": "Coinbase",
         "entry_price": 159.36500549316406,
-        "highest_price": 159.8350067138672,
+        "highest_price": 160.22000122070312,
         "opened_at": "2026-07-08 16:39",
         "market": "US"
     },
