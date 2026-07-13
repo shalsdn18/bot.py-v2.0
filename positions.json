@@ -240,7 +240,7 @@
     "AAPL": {
         "name": "Apple",
         "entry_price": 275.3399963378906,
-        "highest_price": 316.7200012207031,
+        "highest_price": 316.9800109863281,
         "opened_at": "2026-06-25 16:23",
         "market": "US"
     },
@@ -263,13 +263,6 @@
         "entry_price": 586.4199829101562,
         "highest_price": 672.0250244140625,
         "opened_at": "2026-07-02 19:23",
-        "market": "US"
-    },
-    "TSM": {
-        "name": "TSMC",
-        "entry_price": 437.25,
-        "highest_price": 444.2550048828125,
-        "opened_at": "2026-07-07 17:33",
         "market": "US"
     },
     "068270.KS": {
