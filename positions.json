@@ -233,7 +233,7 @@
     "NVDA": {
         "name": "NVIDIA",
         "entry_price": 200.0399932861328,
-        "highest_price": 211.9199981689453,
+        "highest_price": 212.5,
         "opened_at": "2026-06-23 20:33",
         "market": "US"
     },
@@ -261,7 +261,7 @@
     "META": {
         "name": "Meta",
         "entry_price": 586.4199829101562,
-        "highest_price": 677.52001953125,
+        "highest_price": 681.3099975585938,
         "opened_at": "2026-07-02 19:23",
         "market": "US"
     },
