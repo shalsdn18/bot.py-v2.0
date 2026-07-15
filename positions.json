@@ -219,14 +219,14 @@
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 349.3599853515625,
-        "highest_price": 369.54998779296875,
+        "highest_price": 371.80499267578125,
         "opened_at": "2026-06-22 19:26",
         "market": "US"
     },
     "GOOG": {
         "name": "Alphabet C",
         "entry_price": 348.7049865722656,
-        "highest_price": 366.3009033203125,
+        "highest_price": 370.3299865722656,
         "opened_at": "2026-06-22 19:26",
         "market": "US"
     },
@@ -240,28 +240,28 @@
     "AAPL": {
         "name": "Apple",
         "entry_price": 275.3399963378906,
-        "highest_price": 320.9200134277344,
+        "highest_price": 326.17498779296875,
         "opened_at": "2026-06-25 16:23",
         "market": "US"
     },
     "AMZN": {
         "name": "Amazon",
         "entry_price": 228.17999267578125,
-        "highest_price": 251.7949981689453,
+        "highest_price": 255.6300048828125,
         "opened_at": "2026-06-25 16:23",
         "market": "US"
     },
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 356.79998779296875,
-        "highest_price": 393.5400085449219,
+        "highest_price": 396.6600036621094,
         "opened_at": "2026-06-25 18:32",
         "market": "US"
     },
     "META": {
         "name": "Meta",
         "entry_price": 586.4199829101562,
-        "highest_price": 672.0250244140625,
+        "highest_price": 677.52001953125,
         "opened_at": "2026-07-02 19:23",
         "market": "US"
     },
@@ -282,7 +282,7 @@
     "COIN": {
         "name": "Coinbase",
         "entry_price": 159.36500549316406,
-        "highest_price": 162.00509643554688,
+        "highest_price": 164.16000366210938,
         "opened_at": "2026-07-08 16:39",
         "market": "US"
     },
