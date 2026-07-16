@@ -216,20 +216,6 @@
         "opened_at": "2026-06-16 13:05",
         "market": "US"
     },
-    "GOOGL": {
-        "name": "Alphabet A",
-        "entry_price": 349.3599853515625,
-        "highest_price": 374.1600036621094,
-        "opened_at": "2026-06-22 19:26",
-        "market": "US"
-    },
-    "GOOG": {
-        "name": "Alphabet C",
-        "entry_price": 348.7049865722656,
-        "highest_price": 373.8800048828125,
-        "opened_at": "2026-06-22 19:26",
-        "market": "US"
-    },
     "NVDA": {
         "name": "NVIDIA",
         "entry_price": 200.0399932861328,
@@ -296,7 +282,7 @@
     "TSLA": {
         "name": "Tesla",
         "entry_price": 387.2900085449219,
-        "highest_price": 390.1000061035156,
+        "highest_price": 391.05999755859375,
         "opened_at": "2026-07-16 17:46",
         "market": "US"
     }
