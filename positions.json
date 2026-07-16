@@ -240,7 +240,7 @@
     "AAPL": {
         "name": "Apple",
         "entry_price": 275.3399963378906,
-        "highest_price": 330.7449951171875,
+        "highest_price": 330.8500061035156,
         "opened_at": "2026-06-25 16:23",
         "market": "US"
     },
@@ -254,7 +254,7 @@
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 356.79998779296875,
-        "highest_price": 396.8299865722656,
+        "highest_price": 400.1499938964844,
         "opened_at": "2026-06-25 18:32",
         "market": "US"
     },
@@ -271,13 +271,6 @@
         "highest_price": 179900.0,
         "opened_at": "2026-07-08 02:56",
         "market": "KR"
-    },
-    "TSLA": {
-        "name": "Tesla",
-        "entry_price": 393.7300109863281,
-        "highest_price": 409.7850036621094,
-        "opened_at": "2026-07-08 16:39",
-        "market": "US"
     },
     "COIN": {
         "name": "Coinbase",
