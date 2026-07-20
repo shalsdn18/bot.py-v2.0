@@ -268,14 +268,14 @@
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 354.4599914550781,
-        "highest_price": 354.4599914550781,
+        "highest_price": 357.7650146484375,
         "opened_at": "2026-07-16 22:56",
         "market": "US"
     },
     "GOOG": {
         "name": "Alphabet C",
         "entry_price": 353.80999755859375,
-        "highest_price": 353.80999755859375,
+        "highest_price": 357.5299987792969,
         "opened_at": "2026-07-16 22:56",
         "market": "US"
     },
