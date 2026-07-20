@@ -254,7 +254,7 @@
     "PLTR": {
         "name": "Palantir",
         "entry_price": 129.0399932861328,
-        "highest_price": 134.5697021484375,
+        "highest_price": 135.56309509277344,
         "opened_at": "2026-07-08 16:39",
         "market": "US"
     },
@@ -282,21 +282,21 @@
     "TSM": {
         "name": "TSMC",
         "entry_price": 400.82000732421875,
-        "highest_price": 403.69000244140625,
+        "highest_price": 406.4849853515625,
         "opened_at": "2026-07-17 15:55",
         "market": "US"
     },
     "META": {
         "name": "Meta",
         "entry_price": 630.9000244140625,
-        "highest_price": 649.27001953125,
+        "highest_price": 650.6849975585938,
         "opened_at": "2026-07-17 15:55",
         "market": "US"
     },
     "COIN": {
         "name": "Coinbase",
         "entry_price": 156.27999877929688,
-        "highest_price": 159.35000610351562,
+        "highest_price": 162.1699981689453,
         "opened_at": "2026-07-17 15:55",
         "market": "US"
     }
