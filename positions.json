@@ -254,7 +254,7 @@
     "PLTR": {
         "name": "Palantir",
         "entry_price": 129.0399932861328,
-        "highest_price": 135.56309509277344,
+        "highest_price": 136.06910705566406,
         "opened_at": "2026-07-08 16:39",
         "market": "US"
     },
@@ -296,7 +296,7 @@
     "COIN": {
         "name": "Coinbase",
         "entry_price": 156.27999877929688,
-        "highest_price": 162.1699981689453,
+        "highest_price": 162.86500549316406,
         "opened_at": "2026-07-17 15:55",
         "market": "US"
     }
