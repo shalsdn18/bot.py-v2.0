@@ -275,7 +275,7 @@
     "TSM": {
         "name": "TSMC",
         "entry_price": 400.82000732421875,
-        "highest_price": 406.4849853515625,
+        "highest_price": 418.53009033203125,
         "opened_at": "2026-07-17 15:55",
         "market": "US"
     },
@@ -289,14 +289,14 @@
     "COIN": {
         "name": "Coinbase",
         "entry_price": 156.27999877929688,
-        "highest_price": 162.86500549316406,
+        "highest_price": 177.10000610351562,
         "opened_at": "2026-07-17 15:55",
         "market": "US"
     },
     "TSLA": {
         "name": "Tesla",
         "entry_price": 369.57000732421875,
-        "highest_price": 369.57000732421875,
+        "highest_price": 382.0299987792969,
         "opened_at": "2026-07-20 21:43",
         "market": "US"
     }
