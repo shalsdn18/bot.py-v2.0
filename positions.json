@@ -244,13 +244,6 @@
         "opened_at": "2026-06-25 18:32",
         "market": "US"
     },
-    "PLTR": {
-        "name": "Palantir",
-        "entry_price": 129.0399932861328,
-        "highest_price": 136.06910705566406,
-        "opened_at": "2026-07-08 16:39",
-        "market": "US"
-    },
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 354.4599914550781,
