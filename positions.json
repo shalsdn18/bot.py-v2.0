@@ -244,13 +244,6 @@
         "opened_at": "2026-06-25 18:32",
         "market": "US"
     },
-    "068270.KS": {
-        "name": "셀트리온",
-        "entry_price": 179900.0,
-        "highest_price": 179900.0,
-        "opened_at": "2026-07-08 02:56",
-        "market": "KR"
-    },
     "PLTR": {
         "name": "Palantir",
         "entry_price": 129.0399932861328,
@@ -299,5 +292,12 @@
         "highest_price": 382.0299987792969,
         "opened_at": "2026-07-20 21:43",
         "market": "US"
+    },
+    "010120.KS": {
+        "name": "LS ELECTRIC",
+        "entry_price": 190600.0,
+        "highest_price": 190600.0,
+        "opened_at": "2026-07-22 07:33",
+        "market": "KR"
     }
 }
