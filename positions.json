@@ -285,5 +285,19 @@
         "highest_price": 126.91000366210938,
         "opened_at": "2026-07-22 16:19",
         "market": "US"
+    },
+    "AMZN": {
+        "name": "Amazon",
+        "entry_price": 242.7949981689453,
+        "highest_price": 242.7949981689453,
+        "opened_at": "2026-07-22 17:49",
+        "market": "US"
+    },
+    "COIN": {
+        "name": "Coinbase",
+        "entry_price": 169.0399932861328,
+        "highest_price": 169.0399932861328,
+        "opened_at": "2026-07-22 17:49",
+        "market": "US"
     }
 }
