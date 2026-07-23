@@ -292,5 +292,12 @@
         "highest_price": 325.4400939941406,
         "opened_at": "2026-07-23 16:25",
         "market": "US"
+    },
+    "005930.KS": {
+        "name": "삼성전자",
+        "entry_price": 260500.0,
+        "highest_price": 260500.0,
+        "opened_at": "2026-07-23 19:15",
+        "market": "KR"
     }
 }
