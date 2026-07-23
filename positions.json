@@ -230,46 +230,11 @@
         "opened_at": "2026-06-25 16:23",
         "market": "US"
     },
-    "MSFT": {
-        "name": "Microsoft",
-        "entry_price": 356.79998779296875,
-        "highest_price": 403.9700012207031,
-        "opened_at": "2026-06-25 18:32",
-        "market": "US"
-    },
-    "GOOGL": {
-        "name": "Alphabet A",
-        "entry_price": 354.4599914550781,
-        "highest_price": 357.7650146484375,
-        "opened_at": "2026-07-16 22:56",
-        "market": "US"
-    },
-    "GOOG": {
-        "name": "Alphabet C",
-        "entry_price": 353.80999755859375,
-        "highest_price": 357.5299987792969,
-        "opened_at": "2026-07-16 22:56",
-        "market": "US"
-    },
     "TSM": {
         "name": "TSMC",
         "entry_price": 400.82000732421875,
         "highest_price": 424.6650085449219,
         "opened_at": "2026-07-17 15:55",
-        "market": "US"
-    },
-    "META": {
-        "name": "Meta",
-        "entry_price": 630.9000244140625,
-        "highest_price": 650.6849975585938,
-        "opened_at": "2026-07-17 15:55",
-        "market": "US"
-    },
-    "TSLA": {
-        "name": "Tesla",
-        "entry_price": 369.57000732421875,
-        "highest_price": 382.0299987792969,
-        "opened_at": "2026-07-20 21:43",
         "market": "US"
     },
     "010120.KS": {
