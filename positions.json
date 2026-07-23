@@ -237,13 +237,6 @@
         "opened_at": "2026-07-17 15:55",
         "market": "US"
     },
-    "010120.KS": {
-        "name": "LS ELECTRIC",
-        "entry_price": 190600.0,
-        "highest_price": 223500.0,
-        "opened_at": "2026-07-22 07:33",
-        "market": "KR"
-    },
     "PLTR": {
         "name": "Palantir",
         "entry_price": 126.91000366210938,
@@ -282,14 +275,14 @@
     "META": {
         "name": "Meta",
         "entry_price": 604.125,
-        "highest_price": 604.125,
+        "highest_price": 606.9550170898438,
         "opened_at": "2026-07-23 16:25",
         "market": "US"
     },
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 380.8599853515625,
-        "highest_price": 380.8599853515625,
+        "highest_price": 381.2601013183594,
         "opened_at": "2026-07-23 16:25",
         "market": "US"
     },
