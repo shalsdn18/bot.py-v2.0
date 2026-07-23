@@ -264,5 +264,40 @@
         "highest_price": 169.0399932861328,
         "opened_at": "2026-07-22 17:49",
         "market": "US"
+    },
+    "GOOGL": {
+        "name": "Alphabet A",
+        "entry_price": 320.8100891113281,
+        "highest_price": 320.8100891113281,
+        "opened_at": "2026-07-23 16:25",
+        "market": "US"
+    },
+    "GOOG": {
+        "name": "Alphabet C",
+        "entry_price": 320.8500061035156,
+        "highest_price": 320.8500061035156,
+        "opened_at": "2026-07-23 16:25",
+        "market": "US"
+    },
+    "META": {
+        "name": "Meta",
+        "entry_price": 604.125,
+        "highest_price": 604.125,
+        "opened_at": "2026-07-23 16:25",
+        "market": "US"
+    },
+    "MSFT": {
+        "name": "Microsoft",
+        "entry_price": 380.8599853515625,
+        "highest_price": 380.8599853515625,
+        "opened_at": "2026-07-23 16:25",
+        "market": "US"
+    },
+    "TSLA": {
+        "name": "Tesla",
+        "entry_price": 325.4400939941406,
+        "highest_price": 325.4400939941406,
+        "opened_at": "2026-07-23 16:25",
+        "market": "US"
     }
 }
