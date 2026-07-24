@@ -279,13 +279,6 @@
         "opened_at": "2026-07-23 16:25",
         "market": "US"
     },
-    "TSLA": {
-        "name": "Tesla",
-        "entry_price": 325.4400939941406,
-        "highest_price": 325.4400939941406,
-        "opened_at": "2026-07-23 16:25",
-        "market": "US"
-    },
     "000660.KS": {
         "name": "SK하이닉스",
         "entry_price": 1768000.0,
@@ -296,7 +289,7 @@
     "COIN": {
         "name": "Coinbase",
         "entry_price": 157.92999267578125,
-        "highest_price": 157.92999267578125,
+        "highest_price": 158.39500427246094,
         "opened_at": "2026-07-24 15:25",
         "market": "US"
     }
