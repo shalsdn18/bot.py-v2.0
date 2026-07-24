@@ -244,13 +244,6 @@
         "opened_at": "2026-07-22 16:19",
         "market": "US"
     },
-    "AMZN": {
-        "name": "Amazon",
-        "entry_price": 242.7949981689453,
-        "highest_price": 244.85000610351562,
-        "opened_at": "2026-07-22 17:49",
-        "market": "US"
-    },
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 320.8100891113281,
@@ -291,6 +284,13 @@
         "entry_price": 157.92999267578125,
         "highest_price": 158.39500427246094,
         "opened_at": "2026-07-24 15:25",
+        "market": "US"
+    },
+    "TSLA": {
+        "name": "Tesla",
+        "entry_price": 309.8764953613281,
+        "highest_price": 309.8764953613281,
+        "opened_at": "2026-07-24 18:57",
         "market": "US"
     }
 }
