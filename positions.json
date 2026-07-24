@@ -230,13 +230,6 @@
         "opened_at": "2026-06-25 16:23",
         "market": "US"
     },
-    "TSM": {
-        "name": "TSMC",
-        "entry_price": 400.82000732421875,
-        "highest_price": 424.6650085449219,
-        "opened_at": "2026-07-17 15:55",
-        "market": "US"
-    },
     "PLTR": {
         "name": "Palantir",
         "entry_price": 126.91000366210938,
@@ -289,8 +282,15 @@
     "TSLA": {
         "name": "Tesla",
         "entry_price": 309.8764953613281,
-        "highest_price": 309.8764953613281,
+        "highest_price": 313.0299987792969,
         "opened_at": "2026-07-24 18:57",
+        "market": "US"
+    },
+    "AMZN": {
+        "name": "Amazon",
+        "entry_price": 232.11000061035156,
+        "highest_price": 232.11000061035156,
+        "opened_at": "2026-07-24 20:23",
         "market": "US"
     }
 }
