@@ -268,14 +268,14 @@
     "META": {
         "name": "Meta",
         "entry_price": 604.125,
-        "highest_price": 606.9550170898438,
+        "highest_price": 607.469970703125,
         "opened_at": "2026-07-23 16:25",
         "market": "US"
     },
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 380.8599853515625,
-        "highest_price": 383.92999267578125,
+        "highest_price": 385.18499755859375,
         "opened_at": "2026-07-23 16:25",
         "market": "US"
     },
@@ -292,5 +292,12 @@
         "highest_price": 1768000.0,
         "opened_at": "2026-07-24 04:17",
         "market": "KR"
+    },
+    "COIN": {
+        "name": "Coinbase",
+        "entry_price": 157.92999267578125,
+        "highest_price": 157.92999267578125,
+        "opened_at": "2026-07-24 15:25",
+        "market": "US"
     }
 }
