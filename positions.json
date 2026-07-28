@@ -258,13 +258,6 @@
         "opened_at": "2026-07-23 16:25",
         "market": "US"
     },
-    "000660.KS": {
-        "name": "SK하이닉스",
-        "entry_price": 1768000.0,
-        "highest_price": 1817000.0,
-        "opened_at": "2026-07-24 04:17",
-        "market": "KR"
-    },
     "COIN": {
         "name": "Coinbase",
         "entry_price": 157.92999267578125,
@@ -299,5 +292,12 @@
         "highest_price": 197.60000610351562,
         "opened_at": "2026-07-27 17:49",
         "market": "US"
+    },
+    "079550.KS": {
+        "name": "LIG넥스원",
+        "entry_price": 664000.0,
+        "highest_price": 664000.0,
+        "opened_at": "2026-07-28 02:28",
+        "market": "KR"
     }
 }
