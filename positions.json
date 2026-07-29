@@ -286,18 +286,18 @@
         "opened_at": "2026-07-27 17:49",
         "market": "US"
     },
-    "079550.KS": {
-        "name": "LIG넥스원",
-        "entry_price": 664000.0,
-        "highest_price": 697000.0,
-        "opened_at": "2026-07-28 02:28",
-        "market": "KR"
-    },
     "PLTR": {
         "name": "Palantir",
         "entry_price": 124.22000122070312,
         "highest_price": 124.22000122070312,
         "opened_at": "2026-07-28 17:26",
         "market": "US"
+    },
+    "068270.KS": {
+        "name": "셀트리온",
+        "entry_price": 181700.0,
+        "highest_price": 181700.0,
+        "opened_at": "2026-07-29 03:49",
+        "market": "KR"
     }
 }
