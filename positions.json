@@ -219,21 +219,21 @@
     "AAPL": {
         "name": "Apple",
         "entry_price": 275.3399963378906,
-        "highest_price": 342.44000244140625,
+        "highest_price": 342.9849853515625,
         "opened_at": "2026-06-25 16:23",
         "market": "US"
     },
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 320.8100891113281,
-        "highest_price": 335.6600036621094,
+        "highest_price": 338.1400146484375,
         "opened_at": "2026-07-23 16:25",
         "market": "US"
     },
     "GOOG": {
         "name": "Alphabet C",
         "entry_price": 320.8500061035156,
-        "highest_price": 335.0201110839844,
+        "highest_price": 337.24090576171875,
         "opened_at": "2026-07-23 16:25",
         "market": "US"
     },
@@ -282,7 +282,7 @@
     "PLTR": {
         "name": "Palantir",
         "entry_price": 124.22000122070312,
-        "highest_price": 125.29000091552734,
+        "highest_price": 125.78800201416016,
         "opened_at": "2026-07-28 17:26",
         "market": "US"
     },
@@ -292,5 +292,12 @@
         "highest_price": 181700.0,
         "opened_at": "2026-07-29 03:49",
         "market": "KR"
+    },
+    "TSM": {
+        "name": "TSMC",
+        "entry_price": 380.4649963378906,
+        "highest_price": 380.4649963378906,
+        "opened_at": "2026-07-29 17:23",
+        "market": "US"
     }
 }
