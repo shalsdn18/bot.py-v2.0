@@ -237,17 +237,10 @@
         "opened_at": "2026-07-23 16:25",
         "market": "US"
     },
-    "META": {
-        "name": "Meta",
-        "entry_price": 604.125,
-        "highest_price": 607.469970703125,
-        "opened_at": "2026-07-23 16:25",
-        "market": "US"
-    },
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 380.8599853515625,
-        "highest_price": 399.0350036621094,
+        "highest_price": 450.9949951171875,
         "opened_at": "2026-07-23 16:25",
         "market": "US"
     },
@@ -268,7 +261,7 @@
     "AMZN": {
         "name": "Amazon",
         "entry_price": 232.11000061035156,
-        "highest_price": 232.35000610351562,
+        "highest_price": 237.7100067138672,
         "opened_at": "2026-07-24 20:23",
         "market": "US"
     },
@@ -296,7 +289,7 @@
     "TSM": {
         "name": "TSMC",
         "entry_price": 380.4649963378906,
-        "highest_price": 383.57000732421875,
+        "highest_price": 404.3299865722656,
         "opened_at": "2026-07-29 17:23",
         "market": "US"
     }
