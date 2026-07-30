@@ -240,7 +240,7 @@
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 380.8599853515625,
-        "highest_price": 455.1499938964844,
+        "highest_price": 455.69000244140625,
         "opened_at": "2026-07-23 16:25",
         "market": "US"
     },
@@ -279,13 +279,6 @@
         "opened_at": "2026-07-28 17:26",
         "market": "US"
     },
-    "068270.KS": {
-        "name": "셀트리온",
-        "entry_price": 181700.0,
-        "highest_price": 191100.0,
-        "opened_at": "2026-07-29 03:49",
-        "market": "KR"
-    },
     "TSM": {
         "name": "TSMC",
         "entry_price": 380.4649963378906,
@@ -299,5 +292,12 @@
         "highest_price": 532.4749755859375,
         "opened_at": "2026-07-30 16:25",
         "market": "US"
+    },
+    "010120.KS": {
+        "name": "LS ELECTRIC",
+        "entry_price": 163800.0,
+        "highest_price": 163800.0,
+        "opened_at": "2026-07-30 17:56",
+        "market": "KR"
     }
 }
