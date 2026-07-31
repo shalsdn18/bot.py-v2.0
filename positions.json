@@ -219,21 +219,21 @@
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 320.8100891113281,
-        "highest_price": 346.1300048828125,
+        "highest_price": 352.60009765625,
         "opened_at": "2026-07-23 16:25",
         "market": "US"
     },
     "GOOG": {
         "name": "Alphabet C",
         "entry_price": 320.8500061035156,
-        "highest_price": 345.7099914550781,
+        "highest_price": 352.3900146484375,
         "opened_at": "2026-07-23 16:25",
         "market": "US"
     },
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 380.8599853515625,
-        "highest_price": 459.25,
+        "highest_price": 462.7650146484375,
         "opened_at": "2026-07-23 16:25",
         "market": "US"
     },
@@ -247,7 +247,7 @@
     "AMZN": {
         "name": "Amazon",
         "entry_price": 232.11000061035156,
-        "highest_price": 270.2749938964844,
+        "highest_price": 270.95001220703125,
         "opened_at": "2026-07-24 20:23",
         "market": "US"
     },
@@ -268,14 +268,14 @@
     "TSM": {
         "name": "TSMC",
         "entry_price": 380.4649963378906,
-        "highest_price": 404.3299865722656,
+        "highest_price": 404.614990234375,
         "opened_at": "2026-07-29 17:23",
         "market": "US"
     },
     "META": {
         "name": "Meta",
         "entry_price": 532.4749755859375,
-        "highest_price": 543.9199829101562,
+        "highest_price": 548.3801879882812,
         "opened_at": "2026-07-30 16:25",
         "market": "US"
     },
@@ -285,5 +285,19 @@
         "highest_price": 263000.0,
         "opened_at": "2026-07-30 23:33",
         "market": "KR"
+    },
+    "AAPL": {
+        "name": "Apple",
+        "entry_price": 301.9549865722656,
+        "highest_price": 301.9549865722656,
+        "opened_at": "2026-07-31 16:16",
+        "market": "US"
+    },
+    "COIN": {
+        "name": "Coinbase",
+        "entry_price": 142.31500244140625,
+        "highest_price": 142.31500244140625,
+        "opened_at": "2026-07-31 16:16",
+        "market": "US"
     }
 }
