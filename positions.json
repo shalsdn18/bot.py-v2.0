@@ -279,13 +279,6 @@
         "opened_at": "2026-07-30 16:25",
         "market": "US"
     },
-    "005930.KS": {
-        "name": "삼성전자",
-        "entry_price": 207000.0,
-        "highest_price": 263000.0,
-        "opened_at": "2026-07-30 23:33",
-        "market": "KR"
-    },
     "AAPL": {
         "name": "Apple",
         "entry_price": 301.9549865722656,
@@ -299,5 +292,12 @@
         "highest_price": 148.8300018310547,
         "opened_at": "2026-07-31 16:16",
         "market": "US"
+    },
+    "000660.KS": {
+        "name": "SK하이닉스",
+        "entry_price": 1608000.0,
+        "highest_price": 1608000.0,
+        "opened_at": "2026-08-03 02:42",
+        "market": "KR"
     }
 }
