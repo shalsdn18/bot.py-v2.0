@@ -219,42 +219,42 @@
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 320.8100891113281,
-        "highest_price": 356.1300048828125,
+        "highest_price": 374.5816955566406,
         "opened_at": "2026-07-23 16:25",
         "market": "US"
     },
     "GOOG": {
         "name": "Alphabet C",
         "entry_price": 320.8500061035156,
-        "highest_price": 356.6499938964844,
+        "highest_price": 374.2804870605469,
         "opened_at": "2026-07-23 16:25",
         "market": "US"
     },
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 380.8599853515625,
-        "highest_price": 464.7200012207031,
+        "highest_price": 486.8599853515625,
         "opened_at": "2026-07-23 16:25",
         "market": "US"
     },
     "TSLA": {
         "name": "Tesla",
         "entry_price": 309.8764953613281,
-        "highest_price": 313.0299987792969,
+        "highest_price": 323.4649963378906,
         "opened_at": "2026-07-24 18:57",
         "market": "US"
     },
     "AMZN": {
         "name": "Amazon",
         "entry_price": 232.11000061035156,
-        "highest_price": 271.5799865722656,
+        "highest_price": 285.2200012207031,
         "opened_at": "2026-07-24 20:23",
         "market": "US"
     },
     "NVDA": {
         "name": "NVIDIA",
         "entry_price": 196.13999938964844,
-        "highest_price": 200.75,
+        "highest_price": 206.74000549316406,
         "opened_at": "2026-07-27 17:49",
         "market": "US"
     },
@@ -275,7 +275,7 @@
     "META": {
         "name": "Meta",
         "entry_price": 532.4749755859375,
-        "highest_price": 556.7100219726562,
+        "highest_price": 592.7349853515625,
         "opened_at": "2026-07-30 16:25",
         "market": "US"
     },
@@ -289,7 +289,7 @@
     "COIN": {
         "name": "Coinbase",
         "entry_price": 142.31500244140625,
-        "highest_price": 148.8300018310547,
+        "highest_price": 148.89999389648438,
         "opened_at": "2026-07-31 16:16",
         "market": "US"
     },
