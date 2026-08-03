@@ -233,7 +233,7 @@
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 380.8599853515625,
-        "highest_price": 486.8599853515625,
+        "highest_price": 489.2325134277344,
         "opened_at": "2026-07-23 16:25",
         "market": "US"
     },
@@ -254,21 +254,21 @@
     "NVDA": {
         "name": "NVIDIA",
         "entry_price": 196.13999938964844,
-        "highest_price": 206.74000549316406,
+        "highest_price": 208.36000061035156,
         "opened_at": "2026-07-27 17:49",
         "market": "US"
     },
     "PLTR": {
         "name": "Palantir",
         "entry_price": 124.22000122070312,
-        "highest_price": 125.78800201416016,
+        "highest_price": 126.01499938964844,
         "opened_at": "2026-07-28 17:26",
         "market": "US"
     },
     "TSM": {
         "name": "TSMC",
         "entry_price": 380.4649963378906,
-        "highest_price": 406.56500244140625,
+        "highest_price": 407.05499267578125,
         "opened_at": "2026-07-29 17:23",
         "market": "US"
     },
@@ -289,14 +289,14 @@
     "COIN": {
         "name": "Coinbase",
         "entry_price": 142.31500244140625,
-        "highest_price": 148.89999389648438,
+        "highest_price": 152.35000610351562,
         "opened_at": "2026-07-31 16:16",
         "market": "US"
     },
     "000660.KS": {
         "name": "SK하이닉스",
         "entry_price": 1608000.0,
-        "highest_price": 1608000.0,
+        "highest_price": 1718000.0,
         "opened_at": "2026-08-03 02:42",
         "market": "KR"
     }
