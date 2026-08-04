@@ -293,11 +293,11 @@
         "opened_at": "2026-07-31 16:16",
         "market": "US"
     },
-    "000660.KS": {
-        "name": "SK하이닉스",
-        "entry_price": 1608000.0,
-        "highest_price": 1718000.0,
-        "opened_at": "2026-08-03 02:42",
+    "079550.KS": {
+        "name": "LIG넥스원",
+        "entry_price": 699000.0,
+        "highest_price": 699000.0,
+        "opened_at": "2026-08-04 00:13",
         "market": "KR"
     }
 }
