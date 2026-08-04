@@ -240,7 +240,7 @@
     "TSLA": {
         "name": "Tesla",
         "entry_price": 309.8764953613281,
-        "highest_price": 325.7149963378906,
+        "highest_price": 327.3500061035156,
         "opened_at": "2026-07-24 18:57",
         "market": "US"
     },
@@ -254,7 +254,7 @@
     "NVDA": {
         "name": "NVIDIA",
         "entry_price": 196.13999938964844,
-        "highest_price": 211.43499755859375,
+        "highest_price": 211.94000244140625,
         "opened_at": "2026-07-27 17:49",
         "market": "US"
     },
