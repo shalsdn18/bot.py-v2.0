@@ -219,14 +219,14 @@
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 320.8100891113281,
-        "highest_price": 379.1199951171875,
+        "highest_price": 381.489990234375,
         "opened_at": "2026-07-23 16:25",
         "market": "US"
     },
     "GOOG": {
         "name": "Alphabet C",
         "entry_price": 320.8500061035156,
-        "highest_price": 376.2900085449219,
+        "highest_price": 379.0849914550781,
         "opened_at": "2026-07-23 16:25",
         "market": "US"
     },
@@ -254,7 +254,7 @@
     "NVDA": {
         "name": "NVIDIA",
         "entry_price": 196.13999938964844,
-        "highest_price": 211.94000244140625,
+        "highest_price": 218.6649932861328,
         "opened_at": "2026-07-27 17:49",
         "market": "US"
     },
@@ -282,7 +282,7 @@
     "AAPL": {
         "name": "Apple",
         "entry_price": 301.9549865722656,
-        "highest_price": 309.9742126464844,
+        "highest_price": 310.6700134277344,
         "opened_at": "2026-07-31 16:16",
         "market": "US"
     },
