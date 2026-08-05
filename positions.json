@@ -223,13 +223,6 @@
         "opened_at": "2026-07-23 16:25",
         "market": "US"
     },
-    "GOOG": {
-        "name": "Alphabet C",
-        "entry_price": 320.8500061035156,
-        "highest_price": 379.0849914550781,
-        "opened_at": "2026-07-23 16:25",
-        "market": "US"
-    },
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 380.8599853515625,
@@ -282,7 +275,7 @@
     "AAPL": {
         "name": "Apple",
         "entry_price": 301.9549865722656,
-        "highest_price": 310.6700134277344,
+        "highest_price": 311.0,
         "opened_at": "2026-07-31 16:16",
         "market": "US"
     },
