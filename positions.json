@@ -219,7 +219,7 @@
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 380.8599853515625,
-        "highest_price": 499.8599853515625,
+        "highest_price": 502.1099853515625,
         "opened_at": "2026-07-23 16:25",
         "market": "US"
     },
@@ -240,7 +240,7 @@
     "NVDA": {
         "name": "NVIDIA",
         "entry_price": 196.13999938964844,
-        "highest_price": 221.78489685058594,
+        "highest_price": 222.0850067138672,
         "opened_at": "2026-07-27 17:49",
         "market": "US"
     },
@@ -296,7 +296,7 @@
     "PLTR": {
         "name": "Palantir",
         "entry_price": 155.9199981689453,
-        "highest_price": 155.9199981689453,
+        "highest_price": 168.82569885253906,
         "opened_at": "2026-08-07 00:24",
         "market": "US"
     }
