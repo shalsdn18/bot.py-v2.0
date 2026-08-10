@@ -219,7 +219,7 @@
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 380.8599853515625,
-        "highest_price": 508.989990234375,
+        "highest_price": 510.5350036621094,
         "opened_at": "2026-07-23 16:25",
         "market": "US"
     },
@@ -247,7 +247,7 @@
     "TSM": {
         "name": "TSMC",
         "entry_price": 380.4649963378906,
-        "highest_price": 422.2099914550781,
+        "highest_price": 424.6400146484375,
         "opened_at": "2026-07-29 17:23",
         "market": "US"
     },
