@@ -272,13 +272,6 @@
         "opened_at": "2026-07-31 16:16",
         "market": "US"
     },
-    "068270.KS": {
-        "name": "셀트리온",
-        "entry_price": 182200.0,
-        "highest_price": 212000.0,
-        "opened_at": "2026-08-04 18:11",
-        "market": "KR"
-    },
     "GOOG": {
         "name": "Alphabet C",
         "entry_price": 360.1300048828125,
@@ -299,5 +292,12 @@
         "highest_price": 178.7899932861328,
         "opened_at": "2026-08-07 00:24",
         "market": "US"
+    },
+    "010120.KS": {
+        "name": "LS ELECTRIC",
+        "entry_price": 208500.0,
+        "highest_price": 208500.0,
+        "opened_at": "2026-08-11 18:24",
+        "market": "KR"
     }
 }
