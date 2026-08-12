@@ -240,7 +240,7 @@
     "TSM": {
         "name": "TSMC",
         "entry_price": 380.4649963378906,
-        "highest_price": 429.7991943359375,
+        "highest_price": 431.260009765625,
         "opened_at": "2026-07-29 17:23",
         "market": "US"
     },
@@ -296,7 +296,7 @@
     "GOOG": {
         "name": "Alphabet C",
         "entry_price": 340.0899963378906,
-        "highest_price": 341.55828857421875,
+        "highest_price": 341.79998779296875,
         "opened_at": "2026-08-12 16:04",
         "market": "US"
     }
