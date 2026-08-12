@@ -240,7 +240,7 @@
     "TSM": {
         "name": "TSMC",
         "entry_price": 380.4649963378906,
-        "highest_price": 429.6300048828125,
+        "highest_price": 429.7991943359375,
         "opened_at": "2026-07-29 17:23",
         "market": "US"
     },
@@ -265,13 +265,6 @@
         "opened_at": "2026-07-31 16:16",
         "market": "US"
     },
-    "GOOG": {
-        "name": "Alphabet C",
-        "entry_price": 360.1300048828125,
-        "highest_price": 360.13629150390625,
-        "opened_at": "2026-08-05 21:46",
-        "market": "US"
-    },
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 357.75,
@@ -285,5 +278,19 @@
         "highest_price": 209000.0,
         "opened_at": "2026-08-11 18:24",
         "market": "KR"
+    },
+    "AMZN": {
+        "name": "Amazon",
+        "entry_price": 269.2749938964844,
+        "highest_price": 269.2749938964844,
+        "opened_at": "2026-08-12 14:59",
+        "market": "US"
+    },
+    "PLTR": {
+        "name": "Palantir",
+        "entry_price": 168.6999969482422,
+        "highest_price": 168.6999969482422,
+        "opened_at": "2026-08-12 14:59",
+        "market": "US"
     }
 }
