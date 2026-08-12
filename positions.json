@@ -230,13 +230,6 @@
         "opened_at": "2026-07-24 18:57",
         "market": "US"
     },
-    "AMZN": {
-        "name": "Amazon",
-        "entry_price": 232.11000061035156,
-        "highest_price": 285.2200012207031,
-        "opened_at": "2026-07-24 20:23",
-        "market": "US"
-    },
     "NVDA": {
         "name": "NVIDIA",
         "entry_price": 196.13999938964844,
@@ -247,7 +240,7 @@
     "TSM": {
         "name": "TSMC",
         "entry_price": 380.4649963378906,
-        "highest_price": 424.6400146484375,
+        "highest_price": 429.6300048828125,
         "opened_at": "2026-07-29 17:23",
         "market": "US"
     },
@@ -283,13 +276,6 @@
         "name": "Alphabet A",
         "entry_price": 357.75,
         "highest_price": 357.75,
-        "opened_at": "2026-08-07 00:24",
-        "market": "US"
-    },
-    "PLTR": {
-        "name": "Palantir",
-        "entry_price": 155.9199981689453,
-        "highest_price": 178.7899932861328,
         "opened_at": "2026-08-07 00:24",
         "market": "US"
     },
