@@ -226,7 +226,7 @@
     "TSLA": {
         "name": "Tesla",
         "entry_price": 309.8764953613281,
-        "highest_price": 338.55938720703125,
+        "highest_price": 339.0299987792969,
         "opened_at": "2026-07-24 18:57",
         "market": "US"
     },
@@ -289,7 +289,7 @@
     "PLTR": {
         "name": "Palantir",
         "entry_price": 168.6999969482422,
-        "highest_price": 176.02110290527344,
+        "highest_price": 179.34500122070312,
         "opened_at": "2026-08-12 14:59",
         "market": "US"
     },
