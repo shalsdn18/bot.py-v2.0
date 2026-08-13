@@ -233,14 +233,14 @@
     "NVDA": {
         "name": "NVIDIA",
         "entry_price": 196.13999938964844,
-        "highest_price": 224.53500366210938,
+        "highest_price": 226.08999633789062,
         "opened_at": "2026-07-27 17:49",
         "market": "US"
     },
     "TSM": {
         "name": "TSMC",
         "entry_price": 380.4649963378906,
-        "highest_price": 431.260009765625,
+        "highest_price": 435.8399963378906,
         "opened_at": "2026-07-29 17:23",
         "market": "US"
     },
@@ -289,14 +289,14 @@
     "PLTR": {
         "name": "Palantir",
         "entry_price": 168.6999969482422,
-        "highest_price": 172.37989807128906,
+        "highest_price": 175.19500732421875,
         "opened_at": "2026-08-12 14:59",
         "market": "US"
     },
     "GOOG": {
         "name": "Alphabet C",
         "entry_price": 340.0899963378906,
-        "highest_price": 342.5299987792969,
+        "highest_price": 344.96258544921875,
         "opened_at": "2026-08-12 16:04",
         "market": "US"
     }
