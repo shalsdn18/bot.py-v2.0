@@ -237,13 +237,6 @@
         "opened_at": "2026-07-29 17:23",
         "market": "US"
     },
-    "META": {
-        "name": "Meta",
-        "entry_price": 532.4749755859375,
-        "highest_price": 608.75,
-        "opened_at": "2026-07-30 16:25",
-        "market": "US"
-    },
     "AAPL": {
         "name": "Apple",
         "entry_price": 301.9549865722656,
@@ -292,5 +285,12 @@
         "highest_price": 274500.0,
         "opened_at": "2026-08-14 04:07",
         "market": "KR"
+    },
+    "MSFT": {
+        "name": "Microsoft",
+        "entry_price": 482.9700012207031,
+        "highest_price": 482.9700012207031,
+        "opened_at": "2026-08-17 14:54",
+        "market": "US"
     }
 }
