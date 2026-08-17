@@ -226,7 +226,7 @@
     "NVDA": {
         "name": "NVIDIA",
         "entry_price": 196.13999938964844,
-        "highest_price": 226.69979858398438,
+        "highest_price": 227.55999755859375,
         "opened_at": "2026-07-27 17:49",
         "market": "US"
     },
@@ -289,8 +289,15 @@
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 482.9700012207031,
-        "highest_price": 482.9700012207031,
+        "highest_price": 484.44500732421875,
         "opened_at": "2026-08-17 14:54",
+        "market": "US"
+    },
+    "META": {
+        "name": "Meta",
+        "entry_price": 574.9600219726562,
+        "highest_price": 574.9600219726562,
+        "opened_at": "2026-08-17 15:23",
         "market": "US"
     }
 }
