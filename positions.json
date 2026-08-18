@@ -279,13 +279,6 @@
         "opened_at": "2026-08-12 16:04",
         "market": "US"
     },
-    "005930.KS": {
-        "name": "삼성전자",
-        "entry_price": 270000.0,
-        "highest_price": 284250.0,
-        "opened_at": "2026-08-14 04:07",
-        "market": "KR"
-    },
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 482.9700012207031,
@@ -299,5 +292,12 @@
         "highest_price": 574.9600219726562,
         "opened_at": "2026-08-17 15:23",
         "market": "US"
+    },
+    "000660.KS": {
+        "name": "SK하이닉스",
+        "entry_price": 1660000.0,
+        "highest_price": 1660000.0,
+        "opened_at": "2026-08-18 03:42",
+        "market": "KR"
     }
 }
