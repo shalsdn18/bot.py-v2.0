@@ -233,14 +233,14 @@
     "AAPL": {
         "name": "Apple",
         "entry_price": 301.9549865722656,
-        "highest_price": 314.44000244140625,
+        "highest_price": 316.45001220703125,
         "opened_at": "2026-07-31 16:16",
         "market": "US"
     },
     "COIN": {
         "name": "Coinbase",
         "entry_price": 142.31500244140625,
-        "highest_price": 153.91000366210938,
+        "highest_price": 154.55999755859375,
         "opened_at": "2026-07-31 16:16",
         "market": "US"
     },
@@ -289,7 +289,7 @@
     "META": {
         "name": "Meta",
         "entry_price": 544.739990234375,
-        "highest_price": 544.739990234375,
+        "highest_price": 547.1599731445312,
         "opened_at": "2026-08-18 19:49",
         "market": "US"
     },
