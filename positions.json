@@ -279,13 +279,6 @@
         "opened_at": "2026-08-17 14:54",
         "market": "US"
     },
-    "000660.KS": {
-        "name": "SK하이닉스",
-        "entry_price": 1660000.0,
-        "highest_price": 1688000.0,
-        "opened_at": "2026-08-18 03:42",
-        "market": "KR"
-    },
     "TSM": {
         "name": "TSMC",
         "entry_price": 414.0557861328125,
@@ -299,5 +292,12 @@
         "highest_price": 544.739990234375,
         "opened_at": "2026-08-18 19:49",
         "market": "US"
+    },
+    "079550.KS": {
+        "name": "LIG넥스원",
+        "entry_price": 762000.0,
+        "highest_price": 762000.0,
+        "opened_at": "2026-08-19 01:09",
+        "market": "KR"
     }
 }
