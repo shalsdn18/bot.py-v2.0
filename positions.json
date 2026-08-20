@@ -240,15 +240,8 @@
     "COIN": {
         "name": "Coinbase",
         "entry_price": 142.31500244140625,
-        "highest_price": 171.75999450683594,
+        "highest_price": 173.6750030517578,
         "opened_at": "2026-07-31 16:16",
-        "market": "US"
-    },
-    "GOOGL": {
-        "name": "Alphabet A",
-        "entry_price": 357.75,
-        "highest_price": 357.75,
-        "opened_at": "2026-08-07 00:24",
         "market": "US"
     },
     "AMZN": {
