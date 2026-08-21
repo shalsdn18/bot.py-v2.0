@@ -240,7 +240,7 @@
     "COIN": {
         "name": "Coinbase",
         "entry_price": 142.31500244140625,
-        "highest_price": 173.6750030517578,
+        "highest_price": 187.8000030517578,
         "opened_at": "2026-07-31 16:16",
         "market": "US"
     },
@@ -275,7 +275,7 @@
     "TSM": {
         "name": "TSMC",
         "entry_price": 414.0557861328125,
-        "highest_price": 416.7300109863281,
+        "highest_price": 420.25,
         "opened_at": "2026-08-18 15:59",
         "market": "US"
     },
@@ -289,7 +289,7 @@
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 341.014892578125,
-        "highest_price": 341.0450134277344,
+        "highest_price": 342.1000061035156,
         "opened_at": "2026-08-20 16:33",
         "market": "US"
     },
