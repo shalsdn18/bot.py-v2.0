@@ -219,7 +219,7 @@
     "TSLA": {
         "name": "Tesla",
         "entry_price": 309.8764953613281,
-        "highest_price": 364.5799865722656,
+        "highest_price": 365.33990478515625,
         "opened_at": "2026-07-24 18:57",
         "market": "US"
     },
@@ -282,7 +282,7 @@
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 341.014892578125,
-        "highest_price": 345.4100036621094,
+        "highest_price": 345.7900085449219,
         "opened_at": "2026-08-20 16:33",
         "market": "US"
     },
