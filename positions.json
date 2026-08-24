@@ -254,14 +254,14 @@
     "GOOG": {
         "name": "Alphabet C",
         "entry_price": 340.0899963378906,
-        "highest_price": 347.4800109863281,
+        "highest_price": 347.4849853515625,
         "opened_at": "2026-08-12 16:04",
         "market": "US"
     },
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 482.9700012207031,
-        "highest_price": 488.81500244140625,
+        "highest_price": 489.0899963378906,
         "opened_at": "2026-08-17 14:54",
         "market": "US"
     },
@@ -282,7 +282,7 @@
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 341.014892578125,
-        "highest_price": 351.0299987792969,
+        "highest_price": 351.03009033203125,
         "opened_at": "2026-08-20 16:33",
         "market": "US"
     },
