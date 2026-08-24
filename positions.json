@@ -230,13 +230,6 @@
         "opened_at": "2026-07-31 16:16",
         "market": "US"
     },
-    "COIN": {
-        "name": "Coinbase",
-        "entry_price": 142.31500244140625,
-        "highest_price": 188.92999267578125,
-        "opened_at": "2026-07-31 16:16",
-        "market": "US"
-    },
     "AMZN": {
         "name": "Amazon",
         "entry_price": 269.2749938964844,
@@ -275,7 +268,7 @@
     "META": {
         "name": "Meta",
         "entry_price": 544.739990234375,
-        "highest_price": 560.0900268554688,
+        "highest_price": 560.5750122070312,
         "opened_at": "2026-08-18 19:49",
         "market": "US"
     },
