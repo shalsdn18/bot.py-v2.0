@@ -233,7 +233,7 @@
     "COIN": {
         "name": "Coinbase",
         "entry_price": 142.31500244140625,
-        "highest_price": 188.23109436035156,
+        "highest_price": 188.92999267578125,
         "opened_at": "2026-07-31 16:16",
         "market": "US"
     },
@@ -282,7 +282,7 @@
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 341.014892578125,
-        "highest_price": 348.0450134277344,
+        "highest_price": 349.1330871582031,
         "opened_at": "2026-08-20 16:33",
         "market": "US"
     },
