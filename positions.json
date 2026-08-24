@@ -292,5 +292,12 @@
         "highest_price": 216.10000610351562,
         "opened_at": "2026-08-21 15:31",
         "market": "US"
+    },
+    "COIN": {
+        "name": "Coinbase",
+        "entry_price": 179.47999572753906,
+        "highest_price": 179.47999572753906,
+        "opened_at": "2026-08-24 21:00",
+        "market": "US"
     }
 }
