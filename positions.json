@@ -254,7 +254,7 @@
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 482.9700012207031,
-        "highest_price": 489.8699951171875,
+        "highest_price": 490.6600036621094,
         "opened_at": "2026-08-17 14:54",
         "market": "US"
     },
@@ -296,7 +296,7 @@
     "COIN": {
         "name": "Coinbase",
         "entry_price": 179.47999572753906,
-        "highest_price": 188.14999389648438,
+        "highest_price": 188.5,
         "opened_at": "2026-08-24 21:00",
         "market": "US"
     }
