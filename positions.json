@@ -254,7 +254,7 @@
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 482.9700012207031,
-        "highest_price": 490.6600036621094,
+        "highest_price": 491.7099914550781,
         "opened_at": "2026-08-17 14:54",
         "market": "US"
     },
@@ -268,7 +268,7 @@
     "META": {
         "name": "Meta",
         "entry_price": 544.739990234375,
-        "highest_price": 567.3499755859375,
+        "highest_price": 570.0499877929688,
         "opened_at": "2026-08-18 19:49",
         "market": "US"
     },
