@@ -296,7 +296,7 @@
     "COIN": {
         "name": "Coinbase",
         "entry_price": 179.47999572753906,
-        "highest_price": 185.2550048828125,
+        "highest_price": 186.25,
         "opened_at": "2026-08-24 21:00",
         "market": "US"
     }
