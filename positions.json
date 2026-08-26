@@ -216,13 +216,6 @@
         "opened_at": "2026-06-16 13:05",
         "market": "US"
     },
-    "TSLA": {
-        "name": "Tesla",
-        "entry_price": 309.8764953613281,
-        "highest_price": 365.33990478515625,
-        "opened_at": "2026-07-24 18:57",
-        "market": "US"
-    },
     "AAPL": {
         "name": "Apple",
         "entry_price": 301.9549865722656,
@@ -268,7 +261,7 @@
     "META": {
         "name": "Meta",
         "entry_price": 544.739990234375,
-        "highest_price": 570.0499877929688,
+        "highest_price": 575.5449829101562,
         "opened_at": "2026-08-18 19:49",
         "market": "US"
     },
