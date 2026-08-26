@@ -292,5 +292,12 @@
         "highest_price": 188.5,
         "opened_at": "2026-08-24 21:00",
         "market": "US"
+    },
+    "TSLA": {
+        "name": "Tesla",
+        "entry_price": 344.60150146484375,
+        "highest_price": 344.60150146484375,
+        "opened_at": "2026-08-26 16:53",
+        "market": "US"
     }
 }
