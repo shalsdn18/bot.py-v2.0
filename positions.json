@@ -233,7 +233,7 @@
     "PLTR": {
         "name": "Palantir",
         "entry_price": 168.6999969482422,
-        "highest_price": 181.22000122070312,
+        "highest_price": 183.9199981689453,
         "opened_at": "2026-08-12 14:59",
         "market": "US"
     },
@@ -247,21 +247,21 @@
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 482.9700012207031,
-        "highest_price": 496.3699951171875,
+        "highest_price": 497.8900146484375,
         "opened_at": "2026-08-17 14:54",
         "market": "US"
     },
     "TSM": {
         "name": "TSMC",
         "entry_price": 414.0557861328125,
-        "highest_price": 420.25,
+        "highest_price": 423.05999755859375,
         "opened_at": "2026-08-18 15:59",
         "market": "US"
     },
     "META": {
         "name": "Meta",
         "entry_price": 544.739990234375,
-        "highest_price": 578.8350219726562,
+        "highest_price": 581.5123901367188,
         "opened_at": "2026-08-18 19:49",
         "market": "US"
     },
@@ -282,7 +282,7 @@
     "NVDA": {
         "name": "NVIDIA",
         "entry_price": 216.10000610351562,
-        "highest_price": 216.10000610351562,
+        "highest_price": 224.4199981689453,
         "opened_at": "2026-08-21 15:31",
         "market": "US"
     },
@@ -296,7 +296,7 @@
     "TSLA": {
         "name": "Tesla",
         "entry_price": 344.60150146484375,
-        "highest_price": 346.125,
+        "highest_price": 350.5050048828125,
         "opened_at": "2026-08-26 16:53",
         "market": "US"
     }
