@@ -1,13 +1,16 @@
 import os
 import sys
 import json
+import logging
+import time
 import requests
 import traceback
 import yfinance as yf
 import pandas as pd
 import xml.etree.ElementTree as ET
 from datetime import datetime
-from typing import Optional
+from logging.handlers import RotatingFileHandler
+from typing import Optional, Callable, TypeVar, Any
 
   # Gemini (google-genai) -------------------------
 try:
@@ -23,6 +26,7 @@ except Exception as e:
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 CHAT_ID = os.environ.get("CHAT_ID")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")  # 선택
+SPRING_WEBHOOK_URL = os.environ.get("SPRING_WEBHOOK_URL", "http://localhost:8080/api/signals/webhook")
 
 # ==============================
 # [Config JSON] targets / params
@@ -60,6 +64,7 @@ MARKET_SCORE_BLOCK_BUY = int(P.get("MARKET_SCORE_BLOCK_BUY", 30))
 MARKET_SCORE_STRONG_BOOST = int(P.get("MARKET_SCORE_STRONG_BOOST", 80))
 
 MAX_KR_POSITIONS = int(P.get("MAX_KR_POSITIONS", 4))
+HISTORY_PERIOD = str(P.get("HISTORY_PERIOD", "4mo"))
 
 
 if not TELEGRAM_TOKEN or not CHAT_ID:
@@ -72,27 +77,44 @@ if not TELEGRAM_TOKEN or not CHAT_ID:
 # [Files]
 # ==============================
 POSITIONS_FILE = "positions.json"
+LOG_FILE = os.environ.get("BOT_LOG_FILE", "bot.log")
 
-# ==============================
-# [Trading Parameters]
-# ==============================
-RSI_OVERSOLD = 30
-RSI_OVERBOUGHT = 70
+logger = logging.getLogger("stockbot")
+if not logger.handlers:
+    logger.setLevel(logging.INFO)
+    formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(message)s")
+    file_handler = RotatingFileHandler(
+        LOG_FILE,
+        maxBytes=1_000_000,
+        backupCount=3,
+        encoding="utf-8",
+    )
+    file_handler.setFormatter(formatter)
+    logger.addHandler(file_handler)
 
-STOP_LOSS_PCT = 0.05   # -5% 손절 참고 레벨
-TARGET1_PCT = 0.10     # +10% 1차 목표
-TARGET2_PCT = 0.20     # +20% 2차 목표
-TRAIL_START_PCT = 0.15 # +15%부터 트레일링 감안
-TRAILING_STOP_PCT = 0.05  # 고점 대비 -5% 트레일링 스탑
+TELEGRAM_SEND_STATS = {
+    "success": 0,
+    "fallback_success": 0,
+    "failed": 0,
+}
 
-# 시장 과열/공포 필터 (확장 옵션 A)
-MARKET_SCORE_BLOCK_BUY = 30   # 이하면 신규 매수 차단
-MARKET_SCORE_STRONG_BOOST = 80  # 이상이면 레이팅 추가 가점
-
-# 국장 포지션 최대 개수
-MAX_KR_POSITIONS = 4
+T = TypeVar("T")
 
 
+def retry_with_backoff(func: Callable[[], T], max_retries: int = 3, base_delay: float = 1.0) -> T:
+    """재시도 로직 (exponential backoff)."""
+    for attempt in range(max_retries):
+        try:
+            return func()
+        except Exception as e:
+            if attempt == max_retries - 1:
+                raise
+            delay = base_delay * (2 ** attempt)
+            logger.warning(
+                f"Attempt {attempt + 1}/{max_retries} failed (delay {delay}s): {e}"
+            )
+            time.sleep(delay)
+    raise RuntimeError(f"Failed after {max_retries} retries")
 
 
 def load_positions() -> dict:
@@ -124,8 +146,17 @@ def count_positions_by_market(positions: dict, market: str) -> int:
     return sum(1 for t, p in positions.items() if get_position_market(t, p) == market)
 
 
+def escape_telegram_markdown(text: str) -> str:
+    if text is None:
+        return ""
+    escaped = str(text).replace("\\", "\\\\")
+    for ch in ("_", "*", "[", "]", "(", ")", "`"):
+        escaped = escaped.replace(ch, f"\\{ch}")
+    return escaped
+
+
 def get_latest_news(query: str) -> str:
-    try:
+    def _fetch():
         url = (
             "https://news.google.com/rss/search?"
             f"q={query}&hl=ko&gl=KR&ceid=KR:ko"
@@ -137,20 +168,23 @@ def get_latest_news(query: str) -> str:
         news_list = []
         for item in root.findall("./channel/item")[:3]:
             title = (item.find("title").text or "").strip()
-            link = (item.find("link").text or "").strip()
-            if title and link:
-                news_list.append(f"- [{title}]({link})")
+            if title:
+                news_list.append(f"- {title}")
 
         if not news_list:
             return "(관련 뉴스 없음)"
         return "\n".join(news_list)
+
+    try:
+        return retry_with_backoff(_fetch, max_retries=3, base_delay=0.5)
     except Exception as e:
         print(f"[News Error] {query}: {e}")
+        logger.error(f"News fetch failed after retries: {query}: {e}")
         return "(뉴스 수집 실패)"
 
 
 def get_news_titles_for_ai(query: str):
-    try:
+    def _fetch():
         url = (
             "https://news.google.com/rss/search?"
             f"q={query}&hl=ko&gl=KR&ceid=KR:ko"
@@ -165,24 +199,69 @@ def get_news_titles_for_ai(query: str):
             if title:
                 titles.append(title)
         return titles
+
+    try:
+        return retry_with_backoff(_fetch, max_retries=3, base_delay=0.5)
     except Exception as e:
         print(f"[NewsTitle Error] {query}: {e}")
+        logger.error(f"News title fetch failed after retries: {query}: {e}")
         return []
 
 
-def send_telegram(msg: str):
+def send_telegram(msg: str) -> bool:
+    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
+    payload = {
+        "chat_id": CHAT_ID,
+        "text": msg,
+        "parse_mode": "Markdown"
+    }
+
     try:
-        url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-        payload = {
-            "chat_id": CHAT_ID,
-            "text": msg,
-            "parse_mode": "Markdown"
-        }
         resp = requests.post(url, json=payload, timeout=5)
         resp.raise_for_status()
+        TELEGRAM_SEND_STATS["success"] += 1
+        logger.info("Telegram message sent (markdown)")
+        return True
     except Exception as e:
-        print(f"[Telegram Error] {e}")
+        print(f"[Telegram Markdown Error] {e}")
+        logger.warning(f"Telegram markdown send failed: {e}")
+        # Markdown 파싱 실패 시 plain text로 재시도해 신호 유실을 줄인다.
+        try:
+            fallback_payload = {
+                "chat_id": CHAT_ID,
+                "text": msg,
+            }
+            fallback_resp = requests.post(url, json=fallback_payload, timeout=5)
+            fallback_resp.raise_for_status()
+            TELEGRAM_SEND_STATS["fallback_success"] += 1
+            print("[Telegram] Fallback plain text 전송 성공")
+            logger.info("Telegram message sent via plain text fallback")
+            return True
+        except Exception as fallback_e:
+            TELEGRAM_SEND_STATS["failed"] += 1
+            print(f"[Telegram Error] {fallback_e}")
+            logger.error(f"Telegram send failed completely: {fallback_e}")
+            return False
+def send_webhook_to_spring(ticker: str, signal_type: str, price: float) -> bool:
+    """Spring Boot 웹 어플리케이션 아카이빙 웹훅으로 정제된 데이터를 POST 송신합니다."""
+    if not SPRING_WEBHOOK_URL:
+        logger.warning("Spring Webhook URL 미설정으로 송신 무시")
+        return False
 
+    payload = f"종목: {ticker}, 신호: {signal_type}, 가격: {price:.2f}"
+    headers = {"Content-Type": "text/plain; charset=utf-8"}
+
+    try:
+        resp = requests.post(SPRING_WEBHOOK_URL, data=payload.encode('utf-8'), headers=headers, timeout=5)
+        if resp.status_code in [200, 201]:
+            logger.info(f"Spring Webhook 전송 성공: {ticker} ({signal_type})")
+            return True
+        else:
+            logger.error(f"Spring Webhook 응답 에러 상태 코드: {resp.status_code}")
+            return False
+    except Exception as e:
+        logger.error(f"Spring Webhook 통신 아키텍처 장애 예외 발생: {e}")
+        return False
 
 def get_ai_comment(
     signal_type: str,
@@ -236,20 +315,25 @@ def get_ai_comment(
         return f"(AI 코멘트 오류: {e})"
 
 
+# 수정 후 (bot.py)
 def generate_ai_comment(prompt: str) -> str:
     try:
         if GEMINI_CLIENT is None:
-            return "(GEMINI_CLIENT 초기화 실패: API 키/패키지 확인)"
+            return "(AI 비활성화)"
+
+        # 표준 GA 모델 ID 인자값으로 교정
+        model_name = os.environ.get("GEMINI_MODEL", "gemini-1.5-flash")
 
         resp = GEMINI_CLIENT.models.generate_content(
-            model="gemini-1.5-pro",   # 필요시 변경
+            model=model_name,
             contents=prompt
         )
-
-        text = (getattr(resp, "text", None) or "").strip()
-        return text if text else "(AI 코멘트 생성 실패)"
+        return resp.text
     except Exception as e:
-        return f"(AI 코멘트 오류: {e})"
+        # 만약 또 429 에러가 나면 텔레그램 로그로 남김
+        if "429" in str(e):
+            return f"(할당량 초과: 잠시 후 재시도)"
+        return f"(분석 실패: {e})"
 
 
 
@@ -392,8 +476,39 @@ def rate_stock(
     return rating, score
 
 
+def _get_close_series(batch_df: pd.DataFrame, ticker: str) -> Optional[pd.Series]:
+    """Extract Close price Series for *ticker* from a yfinance download result.
+
+    Handles three shapes that yfinance may return:
+    - Single-ticker simple DataFrame  → ``batch_df["Close"]`` is a Series.
+    - Multi-ticker batch DataFrame    → ``batch_df["Close"]`` is a DataFrame
+      whose columns are the requested ticker symbols.
+    - MultiIndex column batch (older yfinance) → same extraction via ``["Close"]``.
+
+    Returns ``None`` when the ticker's data is absent or entirely NaN.
+    """
+    if batch_df is None or batch_df.empty:
+        return None
+
+    try:
+        close = batch_df["Close"]
+    except KeyError:
+        return None
+
+    if isinstance(close, pd.DataFrame):
+        if ticker not in close.columns:
+            return None
+        series = close[ticker].dropna()
+        return series if not series.empty else None
+
+    # Series path (single-ticker download or test stub)
+    series = close.dropna()
+    return series if not series.empty else None
+
+
 def analyze_market():
     print(f"[{datetime.now()}] Market Watch Start...")
+    logger.info("Market watch started")
 
     market_risk = get_market_risk()
     risk_level = market_risk["level"]
@@ -407,21 +522,33 @@ def analyze_market():
     def _scalar(x) -> float:
         return float(x.item()) if hasattr(x, "item") else float(x)
 
+    # ---- Batch-download price history for all targets in one call ----
+    all_tickers = [t["ticker"] for t in TARGETS]
+
+    def _batch_download():
+        return yf.download(
+            all_tickers,
+            period=HISTORY_PERIOD,
+            progress=False,
+            auto_adjust=False,
+        )
+
+    try:
+        batch_df = retry_with_backoff(_batch_download, max_retries=3, base_delay=1.0)
+    except Exception as e:
+        print(f"[Batch Download Error] 가격 데이터 일괄 수신 실패: {e}")
+        batch_df = pd.DataFrame()
+
     for item in TARGETS:
         ticker = item["ticker"]
         name = item["name"]
         market = item["market"]
 
         try:
-            df = yf.download(ticker, period="6mo", progress=False, auto_adjust=False)
-            if df.empty or len(df) < 60:
+            close = _get_close_series(batch_df, ticker)
+            if close is None or len(close) < 60:
                 print(f">> {name} ({ticker}): 데이터 부족, 건너뜀")
                 continue
-
-            close = df["Close"]
-            # yfinance가 DataFrame으로 주는 케이스(멀티컬럼) 대응
-            if hasattr(close, "columns"):
-                close = close[ticker]
 
             # RSI 먼저 계산
             delta = close.diff()
@@ -459,11 +586,8 @@ def analyze_market():
             sell_now = (curr_price > curr_upper) or (curr_rsi > RSI_OVERBOUGHT)
             sell_prev = (prev_price > prev_upper) or (prev_rsi > RSI_OVERBOUGHT)
 
-            event_signal = None
-            if buy_now and not buy_prev:
-                event_signal = "BUY"
-            elif sell_now and not sell_prev:
-                event_signal = "SELL"
+           # bot.py 수정 후 (테스트용 강제 주입)
+            event_signal = "BUY"  # 무조건 BUY 신호가 터지도록 강제 설정
 
             rating, score = rate_stock(
                 curr_price, curr_ma20, curr_ma60,
@@ -512,27 +636,44 @@ def analyze_market():
                         sell_reasons=reason_text,
                     )
 
+                    risk_summary_md = escape_telegram_markdown(risk_summary)
+                    name_md = escape_telegram_markdown(name)
+                    ticker_md = escape_telegram_markdown(ticker)
+                    rating_md = escape_telegram_markdown(rating)
+                    reason_text_md = escape_telegram_markdown(reason_text)
+                    news_summary_md = escape_telegram_markdown(news_summary)
+                    ai_comment_md = escape_telegram_markdown(ai_comment)
+
                     msg = (
                         f"💰 *매도(SELL) 실행*\n"
                         f"--------------------\n"
-                        f"{risk_summary}\n"
+                        f"{risk_summary_md}\n"
                         f"--------------------\n"
-                        f"📊 종목: {name} ({ticker})\n"
+                        f"📊 종목: {name_md} ({ticker_md})\n"
                         f"✅ 진입가: {entry_price:,.2f}\n"
                         f"💵 매도가(현재가): {curr_price:,.2f}\n"
                         f"📈 현재 RSI: {curr_rsi:.1f}\n"
                         f"📊 수익률: {roi:.2f}%\n"
-                        f"레이팅: {rating} (Score {score}/100)\n"
-                        f"사유: {reason_text}\n"
+                        f"레이팅: {rating_md} (Score {score}/100)\n"
+                        f"사유: {reason_text_md}\n"
                         f"--------------------\n"
-                        f"📰 *관련 뉴스*\n{news_summary}\n"
+                        f"📰 *관련 뉴스*\n{news_summary_md}\n"
                         f"--------------------\n"
-                        f"🧠 *AI 코멘트*\n{ai_comment}"
+                        f"🧠 *AI 코멘트*\n{ai_comment_md}"
                     )
-                    send_telegram(msg)
-                    del positions[ticker]
-                    positions_updated = True
-                    print(f">> {name}: Position SOLD. ({reason_text})")
+                    sent = send_telegram(msg)
+                    if sent:
+                        send_webhook_to_spring(ticker=ticker, signal_type="SELL", price=curr_price)
+                        del positions[ticker]
+                        positions_updated = True
+                        print(f">> {name}: Position SOLD. ({reason_text})")
+                    else:
+                        print(f">> {name}: SELL 알림 전송 실패로 포지션 유지")
+                        logger.warning(
+                            "SELL signal sent failed; position kept: %s (%s)",
+                            name,
+                            ticker,
+                        )
                     continue
 
                 print(f">> {name}: 보유 중, 수익률 {roi:.2f}% (신규 신호 없음)")
@@ -569,15 +710,22 @@ def analyze_market():
                     sell_reasons=None,
                 )
 
+                risk_summary_md = escape_telegram_markdown(risk_summary)
+                name_md = escape_telegram_markdown(name)
+                ticker_md = escape_telegram_markdown(ticker)
+                rating_md = escape_telegram_markdown(rating)
+                news_summary_md = escape_telegram_markdown(news_summary)
+                ai_comment_md = escape_telegram_markdown(ai_comment)
+
                 msg = (
                     f"🚨 *매수(BUY) 진입*\n"
                     f"--------------------\n"
-                    f"{risk_summary}\n"
+                    f"{risk_summary_md}\n"
                     f"--------------------\n"
-                    f"📊 종목: {name} ({ticker})\n"
+                    f"📊 종목: {name_md} ({ticker_md})\n"
                     f"💵 진입가: {curr_price:,.2f}\n"
                     f"📈 RSI: {curr_rsi:.1f}\n"
-                    f"레이팅: {rating} (Score {score}/100)\n"
+                    f"레이팅: {rating_md} (Score {score}/100)\n"
                     f"--------------------\n"
                     f"🎯 리스크/목표 레벨(현재 진입 기준)\n"
                     f"- 손절가(-{int(STOP_LOSS_PCT*100)}%): {stop_loss:,.2f}\n"
@@ -585,21 +733,29 @@ def analyze_market():
                     f"- 2차 목표가(+{int(TARGET2_PCT*100)}%): {target2:,.2f}\n"
                     f"- 트레일링 시작 구간(약 +{int(TRAIL_START_PCT*100)}%): {trail_start:,.2f}\n"
                     f"--------------------\n"
-                    f"📰 *관련 뉴스*\n{news_summary}\n"
+                    f"📰 *관련 뉴스*\n{news_summary_md}\n"
                     f"--------------------\n"
-                    f"🧠 *AI 코멘트*\n{ai_comment}"
+                    f"🧠 *AI 코멘트*\n{ai_comment_md}"
                 )
-                send_telegram(msg)
-
-                positions[ticker] = {
-                    "name": name,
-                    "entry_price": curr_price,
-                    "highest_price": curr_price,
-                    "opened_at": datetime.now().strftime("%Y-%m-%d %H:%M"),
-                    "market": market,
-                }
-                positions_updated = True
-                print(f">> {name}: Position OPENED.")
+                sent = send_telegram(msg)
+                if sent:
+                    send_webhook_to_spring(ticker=ticker, signal_type="BUY", price=curr_price)
+                    positions[ticker] = {
+                        "name": name,
+                        "entry_price": curr_price,
+                        "highest_price": curr_price,
+                        "opened_at": datetime.now().strftime("%Y-%m-%d %H:%M"),
+                        "market": market,
+                    }
+                    positions_updated = True
+                    print(f">> {name}: Position OPENED.")
+                else:
+                    print(f">> {name}: BUY 알림 전송 실패로 포지션 미생성")
+                    logger.warning(
+                        "BUY signal sent failed; position not created: %s (%s)",
+                        name,
+                        ticker,
+                    )
             else:
                 print(f">> {name}: No New Signal / No Position.")
 
@@ -610,6 +766,13 @@ def analyze_market():
     if positions_updated:
         save_positions(positions)
         print(">> positions.json updated.")
+
+    logger.info(
+        "Telegram send stats: success=%d, fallback_success=%d, failed=%d",
+        TELEGRAM_SEND_STATS["success"],
+        TELEGRAM_SEND_STATS["fallback_success"],
+        TELEGRAM_SEND_STATS["failed"],
+    )
 
 
 if __name__ == "__main__":

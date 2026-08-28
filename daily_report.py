@@ -1,17 +1,89 @@
 import os
 import json
+import logging
+import time
 import requests
 import yfinance as yf
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
+from logging.handlers import RotatingFileHandler
+from typing import Callable, TypeVar
 
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 CHAT_ID = os.environ.get("CHAT_ID")
 POSITIONS_FILE = "positions.json"
+LOG_FILE = os.environ.get("BOT_DAILY_LOG_FILE", "daily_report.log")
 
-def send_telegram(msg: str):
+logger = logging.getLogger("daily_report")
+if not logger.handlers:
+    logger.setLevel(logging.INFO)
+    formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(message)s")
+    file_handler = RotatingFileHandler(
+        LOG_FILE,
+        maxBytes=500_000,
+        backupCount=2,
+        encoding="utf-8",
+    )
+    file_handler.setFormatter(formatter)
+    logger.addHandler(file_handler)
+
+TELEGRAM_SEND_STATS = {
+    "success": 0,
+    "fallback_success": 0,
+    "failed": 0,
+}
+
+T = TypeVar("T")
+
+
+def retry_with_backoff(func: Callable[[], T], max_retries: int = 3, base_delay: float = 1.0) -> T:
+    """재시도 로직 (exponential backoff)."""
+    for attempt in range(max_retries):
+        try:
+            return func()
+        except Exception as e:
+            if attempt == max_retries - 1:
+                raise
+            delay = base_delay * (2 ** attempt)
+            logger.warning(
+                f"Attempt {attempt + 1}/{max_retries} failed (delay {delay}s): {e}"
+            )
+            time.sleep(delay)
+    raise RuntimeError(f"Failed after {max_retries} retries")
+
+
+def escape_telegram_markdown(text: str) -> str:
+    if text is None:
+        return ""
+    escaped = str(text).replace("\\", "\\\\")
+    for ch in ("_", "*", "[", "]", "(", ")", "`"):
+        escaped = escaped.replace(ch, f"\\{ch}")
+    return escaped
+
+def send_telegram(msg: str) -> bool:
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     payload = {"chat_id": CHAT_ID, "text": msg, "parse_mode": "Markdown"}
-    requests.post(url, json=payload, timeout=5)
+    try:
+        resp = requests.post(url, json=payload, timeout=5)
+        resp.raise_for_status()
+        TELEGRAM_SEND_STATS["success"] += 1
+        logger.info("Daily Telegram message sent (markdown)")
+        return True
+    except Exception as e:
+        print(f"[Telegram Markdown Error] {e}")
+        logger.warning(f"Daily Telegram markdown send failed: {e}")
+        try:
+            fallback_payload = {"chat_id": CHAT_ID, "text": msg}
+            fallback_resp = requests.post(url, json=fallback_payload, timeout=5)
+            fallback_resp.raise_for_status()
+            TELEGRAM_SEND_STATS["fallback_success"] += 1
+            print("[Telegram] Fallback plain text 전송 성공")
+            logger.info("Daily Telegram message sent via plain text fallback")
+            return True
+        except Exception as fallback_e:
+            TELEGRAM_SEND_STATS["failed"] += 1
+            print(f"[Telegram Error] {fallback_e}")
+            logger.error(f"Daily Telegram send failed completely: {fallback_e}")
+            return False
 
 def get_market_overview():
     indices = {
@@ -22,12 +94,16 @@ def get_market_overview():
     lines = []
     for name, ticker in indices.items():
         try:
-            df = yf.download(ticker, period="5d", progress=False)
+            def _download():
+                return yf.download(ticker, period="5d", progress=False)
+            
+            df = retry_with_backoff(_download, max_retries=3, base_delay=1.0)
             close = df["Close"].iloc[-1]
             prev  = df["Close"].iloc[-2]
             change = (close - prev) / prev * 100
             lines.append(f"- {name}: {close:,.2f} ({change:+.2f}%)")
         except Exception as e:
+            logger.error(f"Market overview fetch failed for {ticker}: {e}")
             lines.append(f"- {name}: 데이터 오류 ({e})")
     return "\n".join(lines)
 
@@ -38,7 +114,9 @@ def load_positions():
         return json.load(f)
 
 def daily_briefing():
-    today = datetime.utcnow().strftime("%Y-%m-%d")
+    kst = timezone(timedelta(hours=9))
+    today = datetime.now(kst).strftime("%Y-%m-%d")
+    logger.info("Daily briefing started")
 
     # 1. 시장 요약
     market_text = get_market_overview()
@@ -50,29 +128,47 @@ def daily_briefing():
         name = info.get("name", ticker)
         entry = info.get("entry_price", None)
         try:
-            price = yf.Ticker(ticker).history(period="1d")["Close"].iloc[-1]
+            def _history():
+                return yf.Ticker(ticker).history(period="1d")["Close"].iloc[-1]
+            
+            price = retry_with_backoff(_history, max_retries=3, base_delay=0.5)
             if entry:
                 roi = (price - entry) / entry * 100
                 pos_lines.append(
-                    f"- {name} ({ticker}): 현재가 {price:,.2f}, 수익률 {roi:+.2f}%"
+                    f"- {name} ({ticker}): 서재가 {price:,.2f}, 수익률 {roi:+.2f}%"
                 )
             else:
                 pos_lines.append(
-                    f"- {name} ({ticker}): 현재가 {price:,.2f}"
+                    f"- {name} ({ticker}): 서재가 {price:,.2f}"
                 )
-        except Exception:
+        except Exception as e:
+            logger.error(f"Price fetch failed for {ticker}: {e}")
             pos_lines.append(f"- {name} ({ticker}): 가격 확인 실패")
 
     pos_block = "\n".join(pos_lines) if pos_lines else "보유 종목 없음"
 
+    today_md = escape_telegram_markdown(today)
+    market_text_md = escape_telegram_markdown(market_text)
+    pos_block_md = escape_telegram_markdown(pos_block)
+
     msg = (
-        f"☀️ *{today} 모닝 브리핑*\n\n"
-        f"🌍 *시장 요약*\n{market_text}\n\n"
-        f"💼 *포지션 현황* ({len(positions)}개)\n{pos_block}"
+        f"☀️ *{today_md} 모닝 브리핑*\n\n"
+        f"🌍 *시장 요약*\n{market_text_md}\n\n"
+        f"💼 *포지션 현황* ({len(positions)}개)\n{pos_block_md}"
     )
 
-    send_telegram(msg)
-    print("Daily briefing sent.")
+    sent = send_telegram(msg)
+    logger.info(
+        "Daily Telegram stats: success=%d, fallback_success=%d, failed=%d",
+        TELEGRAM_SEND_STATS["success"],
+        TELEGRAM_SEND_STATS["fallback_success"],
+        TELEGRAM_SEND_STATS["failed"],
+    )
+    if sent:
+        print("Daily briefing sent.")
+    else:
+        print("Daily briefing failed to send.")
+        logger.warning("Daily briefing message was not delivered")
 
 if __name__ == "__main__":
     daily_briefing()

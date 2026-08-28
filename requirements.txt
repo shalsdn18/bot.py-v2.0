@@ -3,3 +3,4 @@ yfinance
 requests
 lxml
 google-genai
+pytest
