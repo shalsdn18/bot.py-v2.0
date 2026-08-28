@@ -216,13 +216,6 @@
         "opened_at": "2026-06-16 13:05",
         "market": "US"
     },
-    "AAPL": {
-        "name": "Apple",
-        "entry_price": 301.9549865722656,
-        "highest_price": 318.5400085449219,
-        "opened_at": "2026-07-31 16:16",
-        "market": "US"
-    },
     "AMZN": {
         "name": "Amazon",
         "entry_price": 269.2749938964844,
@@ -233,7 +226,7 @@
     "PLTR": {
         "name": "Palantir",
         "entry_price": 168.6999969482422,
-        "highest_price": 185.92999267578125,
+        "highest_price": 186.2899932861328,
         "opened_at": "2026-08-12 14:59",
         "market": "US"
     },
@@ -242,13 +235,6 @@
         "entry_price": 340.0899963378906,
         "highest_price": 347.4849853515625,
         "opened_at": "2026-08-12 16:04",
-        "market": "US"
-    },
-    "MSFT": {
-        "name": "Microsoft",
-        "entry_price": 482.9700012207031,
-        "highest_price": 505.05999755859375,
-        "opened_at": "2026-08-17 14:54",
         "market": "US"
     },
     "TSM": {
@@ -284,13 +270,6 @@
         "entry_price": 216.10000610351562,
         "highest_price": 227.97999572753906,
         "opened_at": "2026-08-21 15:31",
-        "market": "US"
-    },
-    "COIN": {
-        "name": "Coinbase",
-        "entry_price": 179.47999572753906,
-        "highest_price": 190.72000122070312,
-        "opened_at": "2026-08-24 21:00",
         "market": "US"
     },
     "TSLA": {
