@@ -226,7 +226,7 @@
     "PLTR": {
         "name": "Palantir",
         "entry_price": 168.6999969482422,
-        "highest_price": 186.2899932861328,
+        "highest_price": 186.6649932861328,
         "opened_at": "2026-08-12 14:59",
         "market": "US"
     },
@@ -270,13 +270,6 @@
         "entry_price": 216.10000610351562,
         "highest_price": 227.97999572753906,
         "opened_at": "2026-08-21 15:31",
-        "market": "US"
-    },
-    "TSLA": {
-        "name": "Tesla",
-        "entry_price": 344.60150146484375,
-        "highest_price": 354.80999755859375,
-        "opened_at": "2026-08-26 16:53",
         "market": "US"
     }
 }
