@@ -12,6 +12,11 @@ from datetime import datetime
 from logging.handlers import RotatingFileHandler
 from typing import Optional, Callable, TypeVar, Any
 
+try:
+    from broker.sync_service import sync_positions as broker_sync_positions
+except Exception:  # pragma: no cover - feature is optional until configured
+    broker_sync_positions = None
+
   # Gemini (google-genai) -------------------------
 try:
     from google import genai
@@ -27,6 +32,9 @@ TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 CHAT_ID = os.environ.get("CHAT_ID")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")  # 선택
 SPRING_WEBHOOK_URL = os.environ.get("SPRING_WEBHOOK_URL", "http://localhost:8080/api/signals/webhook")
+TOSS_API_BASE_URL = os.environ.get("TOSS_API_BASE_URL")
+TOSS_ACCESS_TOKEN = os.environ.get("TOSS_ACCESS_TOKEN")
+TOSS_ACCOUNT_ID = os.environ.get("TOSS_ACCOUNT_ID")
 
 # ==============================
 # [Config JSON] targets / params
@@ -517,9 +525,32 @@ def rate_stock(
     return rating, score
 
 
+def synchronize_broker_positions() -> dict:
+    """Safely sync Toss account holdings before market analysis. Returns the broker sync result."""
+    if broker_sync_positions is None:
+        return {"result": type("SyncResult", (), {"status": "error", "failure_reason": "broker package unavailable"})(), "positions": load_positions()}
+
+    try:
+        local_positions = load_positions()
+        sync_result = broker_sync_positions(local_positions)
+        if sync_result["result"].status == "error":
+            logger.warning("Toss broker sync failed: %s", sync_result["result"].failure_reason)
+            return sync_result
+
+        if sync_result["result"].status in {"success", "success_no_positions"}:
+            save_positions(sync_result["positions"])
+            logger.info("Toss broker sync applied: %s", sync_result["result"].status)
+        return sync_result
+    except Exception as exc:
+        logger.warning("Toss broker sync exception: %s", exc)
+        return {"result": type("SyncResult", (), {"status": "error", "failure_reason": str(exc)})(), "positions": load_positions()}
+
+
 def analyze_market():
     print(f"[{datetime.now()}] Market Watch Start...")
     logger.info("Market watch started")
+
+    synchronize_broker_positions()
 
     market_risk = get_market_risk()
     risk_level = market_risk["level"]
