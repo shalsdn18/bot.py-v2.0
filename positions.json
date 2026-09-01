@@ -228,7 +228,8 @@
         "entry_price": 168.6999969482422,
         "highest_price": 186.6649932861328,
         "opened_at": "2026-08-12 14:59",
-        "market": "US"
+        "market": "US",
+        "target1_hit": true
     },
     "GOOG": {
         "name": "Alphabet C",
