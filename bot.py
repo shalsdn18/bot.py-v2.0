@@ -64,6 +64,7 @@ MARKET_SCORE_BLOCK_BUY = int(P.get("MARKET_SCORE_BLOCK_BUY", 30))
 MARKET_SCORE_STRONG_BOOST = int(P.get("MARKET_SCORE_STRONG_BOOST", 80))
 
 MAX_KR_POSITIONS = int(P.get("MAX_KR_POSITIONS", 4))
+HISTORY_PERIOD = str(P.get("HISTORY_PERIOD", "4mo"))
 
 
 if not TELEGRAM_TOKEN or not CHAT_ID:
@@ -152,6 +153,48 @@ def escape_telegram_markdown(text: str) -> str:
     for ch in ("_", "*", "[", "]", "(", ")", "`"):
         escaped = escaped.replace(ch, f"\\{ch}")
     return escaped
+
+
+def _get_close_series(df: pd.DataFrame, ticker: str) -> Optional[pd.Series]:
+    """Return the Close series for the requested ticker from either a plain
+    single-column DataFrame or a batch yfinance MultiIndex DataFrame."""
+    if df is None or getattr(df, "empty", True):
+        return None
+
+    try:
+        if isinstance(df.columns, pd.MultiIndex):
+            if ("Close", ticker) in df.columns:
+                close = df[("Close", ticker)]
+            else:
+                close = None
+                for col in df.columns:
+                    if len(col) >= 2 and col[0] == "Close" and col[1] == ticker:
+                        close = df[col]
+                        break
+                if close is None:
+                    candidate = df.xs("Close", level=0, axis=1, drop_level=False)
+                    if isinstance(candidate, pd.DataFrame) and ticker in candidate.columns:
+                        close = candidate[ticker]
+                    else:
+                        return None
+        elif "Close" in df.columns:
+            close = df["Close"]
+        else:
+            return None
+
+        if hasattr(close, "columns"):
+            if ticker in close.columns:
+                close = close[ticker]
+            elif len(close.columns) == 1:
+                close = close.iloc[:, 0]
+            else:
+                return None
+
+        close = pd.to_numeric(close, errors="coerce")
+        close = close.dropna()
+        return close if not close.empty else None
+    except Exception:
+        return None
 
 
 def get_latest_news(query: str) -> str:
@@ -497,17 +540,17 @@ def analyze_market():
 
         try:
             def _download():
-                return yf.download(ticker, period="6mo", progress=False, auto_adjust=False)
-            
+                return yf.download(ticker, period=HISTORY_PERIOD, progress=False, auto_adjust=False)
+
             df = retry_with_backoff(_download, max_retries=3, base_delay=1.0)
             if df.empty or len(df) < 60:
                 print(f">> {name} ({ticker}): 데이터 부족, 건너뜀")
                 continue
 
-            close = df["Close"]
-            # yfinance가 DataFrame으로 주는 케이스(멀티컬럼) 대응
-            if hasattr(close, "columns"):
-                close = close[ticker]
+            close = _get_close_series(df, ticker)
+            if close is None:
+                print(f">> {name} ({ticker}): Close 시리즈를 읽을 수 없어 건너뜀")
+                continue
 
             # RSI 먼저 계산
             delta = close.diff()
@@ -566,20 +609,51 @@ def analyze_market():
                 highest_price = pos.get("highest_price", entry_price)
 
                 if curr_price > highest_price:
-                    highest_price = curr_price
+                    highest_price = round(curr_price, 6)
                     pos["highest_price"] = highest_price
                     pos["market"] = market
                     positions_updated = True
 
                 roi = (curr_price - entry_price) / entry_price * 100
                 drop_from_high = (curr_price - highest_price) / highest_price
+                stop_loss_price = round(entry_price * (1 - STOP_LOSS_PCT), 6)
+                trail_start_price = round(entry_price * (1 + TRAIL_START_PCT), 6)
+                target1_price = round(entry_price * (1 + TARGET1_PCT), 6)
+                target2_price = round(entry_price * (1 + TARGET2_PCT), 6)
 
-                trailing_hit = drop_from_high <= -TRAILING_STOP_PCT
-                tech_sell_hit = (event_signal == "SELL")
+                stop_loss_hit = curr_price <= stop_loss_price
+                trail_active = highest_price >= trail_start_price
+                trailing_hit = trail_active and (drop_from_high <= -TRAILING_STOP_PCT)
+                target2_hit = curr_price >= target2_price
+                target1_hit = bool(pos.get("target1_hit", False))
+                target1_reached = highest_price >= target1_price
+
+                if target1_reached and not target1_hit:
+                    pos["target1_hit"] = True
+                    positions_updated = True
+                    # TARGET1 도달은 매도 조건이 아니며, 필요 시 알림만 남기고 포지션은 유지한다.
+                    try:
+                        send_telegram(
+                            f"🎯 *TARGET1 도달*\n"
+                            f"종목: {name} ({ticker})\n"
+                            f"진입가 대비 +{TARGET1_PCT * 100:.0f}% 도달\n"
+                            f"현재가: {curr_price:,.2f}"
+                        )
+                    except Exception:
+                        pass
+                elif target1_reached:
+                    pos["target1_hit"] = True
+                    positions_updated = True
+
+                tech_sell_hit = (event_signal == "SELL") and trail_active
 
                 sell_reasons = []
+                if stop_loss_hit:
+                    sell_reasons.append(f"손절가 도달 ({stop_loss_price:,.2f} 이하)")
+                if target2_hit:
+                    sell_reasons.append(f"2차 목표가 달성 (+{TARGET2_PCT * 100:.0f}% 도달)")
                 if trailing_hit:
-                    sell_reasons.append(f"트레일링 스탑 발동 (고점 대비 {drop_from_high*100:.1f}%)")
+                    sell_reasons.append(f"트레일링 스탑 발동 (고점 대비 {drop_from_high * 100:.1f}%)")
                 if tech_sell_hit:
                     sell_reasons.append("기술적 SELL 신호 (밴드 상단/RSI 과매수)")
 

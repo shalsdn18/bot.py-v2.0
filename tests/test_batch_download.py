@@ -133,6 +133,131 @@ class TestHistoryPeriod:
         assert mod.HISTORY_PERIOD == "3mo"
 
 
+class TestPositionPolicy:
+    """Holding-position risk policy should honor stop-loss, trailing, and target thresholds."""
+
+    def test_stop_loss_sells_when_price_drops_below_threshold(self, bot_module, monkeypatch, tmp_path):
+        ticker = "POL"
+        bot_module.TARGETS = [{"ticker": ticker, "name": "Policy", "market": "US"}]
+        bot_module.TICKER_MARKET_MAP = {ticker: "US"}
+        positions_path = tmp_path / "positions.json"
+        positions_path.write_text(
+            json.dumps({
+                ticker: {
+                    "name": "Policy",
+                    "entry_price": 100.0,
+                    "highest_price": 100.0,
+                    "opened_at": "2026-01-01 09:00",
+                    "market": "US",
+                }
+            }),
+            encoding="utf-8",
+        )
+        bot_module.POSITIONS_FILE = str(positions_path)
+
+        monkeypatch.setattr(bot_module, "get_market_risk", lambda: {"level": "Normal", "score": 50, "summary": "risk"})
+        monkeypatch.setattr(bot_module, "get_latest_news", lambda _name: "news")
+        monkeypatch.setattr(bot_module, "get_ai_comment", lambda **_kwargs: "ai")
+        monkeypatch.setattr(bot_module, "send_telegram", lambda _msg: True)
+        monkeypatch.setattr(bot_module.yf, "download", lambda *_a, **_kw: _simple_df([100.0] * 68 + [100.0, 92.0]))
+
+        bot_module.analyze_market()
+
+        final_positions = json.loads(positions_path.read_text(encoding="utf-8"))
+        assert ticker not in final_positions
+
+    def test_trailing_stop_activates_only_after_trail_start(self, bot_module, monkeypatch, tmp_path):
+        ticker = "POL"
+        bot_module.TARGETS = [{"ticker": ticker, "name": "Policy", "market": "US"}]
+        bot_module.TICKER_MARKET_MAP = {ticker: "US"}
+        positions_path = tmp_path / "positions.json"
+        positions_path.write_text(
+            json.dumps({
+                ticker: {
+                    "name": "Policy",
+                    "entry_price": 100.0,
+                    "highest_price": 100.0,
+                    "opened_at": "2026-01-01 09:00",
+                    "market": "US",
+                }
+            }),
+            encoding="utf-8",
+        )
+        bot_module.POSITIONS_FILE = str(positions_path)
+
+        monkeypatch.setattr(bot_module, "get_market_risk", lambda: {"level": "Normal", "score": 50, "summary": "risk"})
+        monkeypatch.setattr(bot_module, "get_latest_news", lambda _name: "news")
+        monkeypatch.setattr(bot_module, "get_ai_comment", lambda **_kwargs: "ai")
+        monkeypatch.setattr(bot_module, "send_telegram", lambda _msg: True)
+        monkeypatch.setattr(bot_module.yf, "download", lambda *_a, **_kw: _simple_df([100.0] * 68 + [100.0, 112.0]))
+
+        bot_module.analyze_market()
+
+        final_positions = json.loads(positions_path.read_text(encoding="utf-8"))
+        assert ticker in final_positions
+
+    def test_target2_take_profit_sells_position(self, bot_module, monkeypatch, tmp_path):
+        ticker = "POL"
+        bot_module.TARGETS = [{"ticker": ticker, "name": "Policy", "market": "US"}]
+        bot_module.TICKER_MARKET_MAP = {ticker: "US"}
+        positions_path = tmp_path / "positions.json"
+        positions_path.write_text(
+            json.dumps({
+                ticker: {
+                    "name": "Policy",
+                    "entry_price": 100.0,
+                    "highest_price": 115.0,
+                    "opened_at": "2026-01-01 09:00",
+                    "market": "US",
+                }
+            }),
+            encoding="utf-8",
+        )
+        bot_module.POSITIONS_FILE = str(positions_path)
+
+        monkeypatch.setattr(bot_module, "get_market_risk", lambda: {"level": "Normal", "score": 50, "summary": "risk"})
+        monkeypatch.setattr(bot_module, "get_latest_news", lambda _name: "news")
+        monkeypatch.setattr(bot_module, "get_ai_comment", lambda **_kwargs: "ai")
+        monkeypatch.setattr(bot_module, "send_telegram", lambda _msg: True)
+        monkeypatch.setattr(bot_module.yf, "download", lambda *_a, **_kw: _simple_df([100.0] * 68 + [100.0, 120.0]))
+
+        bot_module.analyze_market()
+
+        final_positions = json.loads(positions_path.read_text(encoding="utf-8"))
+        assert ticker not in final_positions
+
+    def test_target1_reached_marks_state_without_selling(self, bot_module, monkeypatch, tmp_path):
+        ticker = "POL"
+        bot_module.TARGETS = [{"ticker": ticker, "name": "Policy", "market": "US"}]
+        bot_module.TICKER_MARKET_MAP = {ticker: "US"}
+        positions_path = tmp_path / "positions.json"
+        positions_path.write_text(
+            json.dumps({
+                ticker: {
+                    "name": "Policy",
+                    "entry_price": 100.0,
+                    "highest_price": 105.0,
+                    "opened_at": "2026-01-01 09:00",
+                    "market": "US",
+                }
+            }),
+            encoding="utf-8",
+        )
+        bot_module.POSITIONS_FILE = str(positions_path)
+
+        monkeypatch.setattr(bot_module, "get_market_risk", lambda: {"level": "Normal", "score": 50, "summary": "risk"})
+        monkeypatch.setattr(bot_module, "get_latest_news", lambda _name: "news")
+        monkeypatch.setattr(bot_module, "get_ai_comment", lambda **_kwargs: "ai")
+        monkeypatch.setattr(bot_module, "send_telegram", lambda _msg: True)
+        monkeypatch.setattr(bot_module.yf, "download", lambda *_a, **_kw: _simple_df([100.0] * 68 + [100.0, 110.0]))
+
+        bot_module.analyze_market()
+
+        final_positions = json.loads(positions_path.read_text(encoding="utf-8"))
+        assert ticker in final_positions
+        assert final_positions[ticker].get("target1_hit") is True
+
+
 # ---------------------------------------------------------------------------
 # C) Signal detection unaffected with deterministic synthetic data
 # ---------------------------------------------------------------------------

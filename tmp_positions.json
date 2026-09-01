@@ -1,0 +1,9 @@
+{
+    "POL": {
+        "name": "Policy",
+        "entry_price": 100.0,
+        "highest_price": 110.0,
+        "opened_at": "2026-01-01 09:00",
+        "market": "US"
+    }
+}
