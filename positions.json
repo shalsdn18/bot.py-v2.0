@@ -241,9 +241,10 @@
     "META": {
         "name": "Meta",
         "entry_price": 544.739990234375,
-        "highest_price": 592.849976,
+        "highest_price": 616.649475,
         "opened_at": "2026-08-18 19:49",
-        "market": "US"
+        "market": "US",
+        "target1_hit": true
     },
     "GOOGL": {
         "name": "Alphabet A",
