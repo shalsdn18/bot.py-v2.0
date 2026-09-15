@@ -251,5 +251,12 @@
         "highest_price": 231.619995,
         "opened_at": "2026-08-21 15:31",
         "market": "US"
+    },
+    "AMZN": {
+        "name": "Amazon",
+        "entry_price": 248.35000610351562,
+        "highest_price": 248.35000610351562,
+        "opened_at": "2026-09-15 17:29",
+        "market": "US"
     }
 }
