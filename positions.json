@@ -227,21 +227,21 @@
     "GOOG": {
         "name": "Alphabet C",
         "entry_price": 340.0899963378906,
-        "highest_price": 348.065002,
+        "highest_price": 352.834991,
         "opened_at": "2026-08-12 16:04",
         "market": "US"
     },
     "TSM": {
         "name": "TSMC",
         "entry_price": 414.0557861328125,
-        "highest_price": 440.049988,
+        "highest_price": 440.549988,
         "opened_at": "2026-08-18 15:59",
         "market": "US"
     },
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 341.014892578125,
-        "highest_price": 352.040009,
+        "highest_price": 356.934998,
         "opened_at": "2026-08-20 16:33",
         "market": "US"
     },
@@ -255,7 +255,7 @@
     "AMZN": {
         "name": "Amazon",
         "entry_price": 248.35000610351562,
-        "highest_price": 254.703995,
+        "highest_price": 255.919998,
         "opened_at": "2026-09-15 17:29",
         "market": "US"
     }
