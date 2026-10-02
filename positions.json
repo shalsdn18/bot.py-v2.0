@@ -234,7 +234,7 @@
     "TSM": {
         "name": "TSMC",
         "entry_price": 414.0557861328125,
-        "highest_price": 459.200012,
+        "highest_price": 471.13501,
         "opened_at": "2026-08-18 15:59",
         "market": "US",
         "target1_hit": true
@@ -249,7 +249,7 @@
     "NVDA": {
         "name": "NVIDIA",
         "entry_price": 216.10000610351562,
-        "highest_price": 231.619995,
+        "highest_price": 234.604996,
         "opened_at": "2026-08-21 15:31",
         "market": "US"
     },
