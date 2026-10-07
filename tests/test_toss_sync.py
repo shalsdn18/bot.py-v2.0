@@ -24,15 +24,15 @@ def test_sync_success_updates_broker_fields_and_keeps_strategy_values():
     }
     client = StubTossClient({
         "status": "success",
-        "positions": [
+        "result": {"items": [
             {
-                "ticker": "AAPL",
+                "symbol": "AAPL",
                 "quantity": 4,
-                "average_price": 102.5,
-                "market": "US",
-                "last_updated_at": "2026-09-01T10:00:00Z",
+                "averagePurchasePrice": 102.5,
+                "marketCountry": "US",
+                "currency": "USD",
             }
-        ],
+        ]},
     })
 
     result = sync_positions(local_positions, client=client)
@@ -43,6 +43,8 @@ def test_sync_success_updates_broker_fields_and_keeps_strategy_values():
     assert result["positions"]["AAPL"]["entry_price"] == 90.0
     assert result["positions"]["AAPL"]["highest_price"] == 98.0
     assert result["positions"]["AAPL"]["target1_hit"] is True
+    assert result["positions"]["AAPL"]["broker_market"] == "US"
+    assert result["positions"]["AAPL"]["broker_currency"] == "USD"
 
 
 def test_sync_failure_preserves_existing_local_positions():
@@ -94,15 +96,14 @@ def test_sync_updates_partial_change_and_average_price_without_overwriting_strat
     }
     client = StubTossClient({
         "status": "success",
-        "positions": [
+        "result": {"items": [
             {
-                "ticker": "AAPL",
+                "symbol": "AAPL",
                 "quantity": 7,
-                "average_price": 96.0,
-                "market": "US",
-                "last_updated_at": "2026-09-01T11:00:00Z",
+                "averagePurchasePrice": 96.0,
+                "marketCountry": "US",
             }
-        ],
+        ]},
     })
 
     result = sync_positions(local_positions, client=client)

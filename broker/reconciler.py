@@ -32,6 +32,8 @@ def reconcile_positions(local_positions: Dict[str, Dict[str, Any]], broker_snaps
             entry["broker_quantity"] = float(broker.get("quantity", 0.0))
             entry["broker_average_price"] = float(broker.get("average_price", 0.0))
             entry["broker_market"] = broker.get("market") or entry.get("market") or "UNKNOWN"
+            if broker.get("currency") is not None:
+                entry["broker_currency"] = broker["currency"]
             entry["broker_last_updated_at"] = broker.get("last_updated_at")
             entry["broker_source"] = "toss"
             merged[ticker] = entry
@@ -47,6 +49,7 @@ def reconcile_positions(local_positions: Dict[str, Dict[str, Any]], broker_snaps
             "broker_quantity": float(broker.get("quantity", 0.0)),
             "broker_average_price": float(broker.get("average_price", 0.0)),
             "broker_market": broker.get("market") or "UNKNOWN",
+            "broker_currency": broker.get("currency"),
             "broker_last_updated_at": broker.get("last_updated_at"),
             "broker_source": "toss",
         }

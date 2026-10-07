@@ -34,6 +34,16 @@ class TossClient:
             return f"{normalized}/holdings"
         return f"{normalized}/api/v1/holdings"
 
+    def _build_accounts_url(self) -> str:
+        if not self.base_url:
+            raise ValueError("TOSS_API_BASE_URL is not configured")
+        normalized = self.base_url.rstrip("/")
+        if normalized.endswith("/api/v1/accounts"):
+            return normalized
+        if normalized.endswith("/api/v1"):
+            return f"{normalized}/accounts"
+        return f"{normalized}/api/v1/accounts"
+
     def _headers(self) -> Dict[str, str]:
         if not self.access_token:
             raise ValueError("TOSS_ACCESS_TOKEN is not configured")
@@ -110,6 +120,19 @@ class TossClient:
         payload["positions"] = list(raw_positions)
         return payload
 
+    def fetch_accounts(self) -> Dict[str, Any]:
+        """Fetch accounts; callers must use returned accountSeq as account_id."""
+        try:
+            response = self.session.get(self._build_accounts_url(), headers=self._headers(), timeout=self.timeout)
+        except requests.RequestException as exc:
+            return {"status": "error", "error_code": "NETWORK_ERROR", "message": str(exc)}
+        if response.status_code != 200:
+            return {"status": "error", "error_code": f"HTTP_{response.status_code}", "message": f"Toss API returned HTTP {response.status_code}"}
+        try:
+            return response.json()
+        except ValueError:
+            return {"status": "error", "error_code": "INVALID_JSON", "message": "Toss API returned non-JSON"}
+
 
 def normalize_ticker(value: Any) -> Optional[str]:
     if value is None:
@@ -122,7 +145,7 @@ def normalize_holdings(raw_response: Optional[Dict[str, Any]]) -> Dict[str, Any]
     if not isinstance(raw_response, dict):
         return {"status": "error", "error_code": "INVALID_RESPONSE", "message": "Broker response is not a dictionary"}
 
-    status = str(raw_response.get("status", "error")).lower()
+    status = str(raw_response.get("status", "success" if isinstance(raw_response.get("result"), dict) else "error")).lower()
     payload_data = raw_response.get("data")
     if "error" in status or raw_response.get("code") in {400, 401, 403, 429, 500}:
         return {
@@ -134,7 +157,11 @@ def normalize_holdings(raw_response: Optional[Dict[str, Any]]) -> Dict[str, Any]
     if status in {"success_no_positions", "success_no_holdings"}:
         return {"status": "success_no_positions", "positions": []}
 
-    if isinstance(payload_data, dict):
+    # Official Toss contract: {"result": {"items": [...]}}.
+    result_data = raw_response.get("result")
+    if isinstance(result_data, dict) and "items" in result_data:
+        raw_positions = result_data.get("items")
+    elif isinstance(payload_data, dict):
         raw_positions = payload_data.get("positions", payload_data.get("holdings", payload_data.get("items", [])))
     else:
         raw_positions = raw_response.get("positions", raw_response.get("holdings", payload_data or []))
@@ -155,16 +182,17 @@ def normalize_holdings(raw_response: Optional[Dict[str, Any]]) -> Dict[str, Any]
     for item in raw_positions:
         if not isinstance(item, dict):
             continue
-        ticker = normalize_ticker(item.get("ticker") or item.get("symbol") or item.get("code"))
+        ticker = normalize_ticker(item.get("symbol") or item.get("ticker") or item.get("code"))
         if not ticker:
             continue
         quantity = item.get("quantity", item.get("qty", item.get("count", 0)))
-        average_price = item.get("average_price", item.get("avg_price", item.get("avgPrice", item.get("averagePrice", 0.0))))
+        average_price = item.get("averagePurchasePrice", item.get("average_price", item.get("avg_price", item.get("avgPrice", item.get("averagePrice", 0.0)))))
         holdings[ticker] = {
             "ticker": ticker,
             "quantity": float(quantity or 0.0),
             "average_price": float(average_price or 0.0),
-            "market": item.get("market") or item.get("market_type") or "UNKNOWN",
+            "market": item.get("marketCountry") or item.get("market") or item.get("market_type") or "UNKNOWN",
+            "currency": item.get("currency"),
             "last_updated_at": item.get("last_updated_at") or item.get("updated_at") or item.get("timestamp"),
             "raw": item,
         }
