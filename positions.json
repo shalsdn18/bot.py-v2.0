@@ -216,60 +216,48 @@
         "opened_at": "2026-06-16 13:05",
         "market": "US"
     },
-    "AMZN": {
-        "name": "Amazon",
-        "entry_price": 269.2749938964844,
-        "highest_price": 269.2749938964844,
-        "opened_at": "2026-08-12 14:59",
-        "market": "US"
-    },
     "PLTR": {
         "name": "Palantir",
         "entry_price": 168.6999969482422,
-        "highest_price": 186.6649932861328,
+        "highest_price": 192.639999,
         "opened_at": "2026-08-12 14:59",
-        "market": "US"
+        "market": "US",
+        "target1_hit": true
     },
     "GOOG": {
         "name": "Alphabet C",
         "entry_price": 340.0899963378906,
-        "highest_price": 347.4849853515625,
+        "highest_price": 352.834991,
         "opened_at": "2026-08-12 16:04",
-        "market": "US"
-    },
-    "TSM": {
-        "name": "TSMC",
-        "entry_price": 414.0557861328125,
-        "highest_price": 427.29998779296875,
-        "opened_at": "2026-08-18 15:59",
-        "market": "US"
-    },
-    "META": {
-        "name": "Meta",
-        "entry_price": 544.739990234375,
-        "highest_price": 581.5123901367188,
-        "opened_at": "2026-08-18 19:49",
         "market": "US"
     },
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 341.014892578125,
-        "highest_price": 351.03009033203125,
+        "highest_price": 356.934998,
         "opened_at": "2026-08-20 16:33",
         "market": "US"
-    },
-    "068270.KS": {
-        "name": "셀트리온",
-        "entry_price": 190400.0,
-        "highest_price": 194800.0,
-        "opened_at": "2026-08-21 01:13",
-        "market": "KR"
     },
     "NVDA": {
         "name": "NVIDIA",
         "entry_price": 216.10000610351562,
-        "highest_price": 227.97999572753906,
+        "highest_price": 242.539993,
         "opened_at": "2026-08-21 15:31",
+        "market": "US",
+        "target1_hit": true
+    },
+    "AMZN": {
+        "name": "Amazon",
+        "entry_price": 248.35000610351562,
+        "highest_price": 258.450012,
+        "opened_at": "2026-09-15 17:29",
         "market": "US"
+    },
+    "068270.KS": {
+        "name": "셀트리온",
+        "entry_price": 178100.0,
+        "highest_price": 185100.0,
+        "opened_at": "2026-09-23 01:43",
+        "market": "KR"
     }
 }
