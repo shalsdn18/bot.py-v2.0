@@ -219,7 +219,7 @@
     "PLTR": {
         "name": "Palantir",
         "entry_price": 168.6999969482422,
-        "highest_price": 192.639999,
+        "highest_price": 193.360001,
         "opened_at": "2026-08-12 14:59",
         "market": "US",
         "target1_hit": true
@@ -249,7 +249,7 @@
     "AMZN": {
         "name": "Amazon",
         "entry_price": 248.35000610351562,
-        "highest_price": 258.450012,
+        "highest_price": 258.747314,
         "opened_at": "2026-09-15 17:29",
         "market": "US"
     },
