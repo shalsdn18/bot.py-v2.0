@@ -45,7 +45,12 @@ pip install -r requirements.txt
 선택:
 
 - `GEMINI_API_KEY`: Gemini 코멘트 사용 시 필요
-- `GEMINI_MODEL`: 기본값 `models/gemini-flash-latest`
+- `GEMINI_MODEL`: 사용할 Gemini API model identifier (미설정 시 현재 코드 기본값 `gemini-2.5-flash`)
+
+Gemini는 시장 신호의 선택적 자연어 코멘트 생성에만 사용됩니다. API key가 없거나
+quota/API 장애가 발생하면 fallback 코멘트로 Telegram 핵심 메시지를 계속 전송합니다.
+무료 티어의 다른 모델을 사용하려면 해당 Google AI Studio model identifier를 확인한 뒤
+`GEMINI_MODEL`에 명시적으로 설정하세요. 모델 표시명만으로 ID를 추측하지 않습니다.
 
 Windows PowerShell 예시:
 
@@ -53,7 +58,7 @@ Windows PowerShell 예시:
 $env:TELEGRAM_TOKEN="your_telegram_bot_token"
 $env:CHAT_ID="your_chat_id"
 $env:GEMINI_API_KEY="your_gemini_api_key"   # 선택
-$env:GEMINI_MODEL="models/gemini-flash-latest"  # 선택
+$env:GEMINI_MODEL="gemini-2.5-flash"  # 선택; 확인된 API model identifier
 ```
 
 ## 설정 파일

@@ -17,24 +17,31 @@ try:
 except Exception:  # pragma: no cover - feature is optional until configured
     broker_sync_positions = None
 
-  # Gemini (google-genai) -------------------------
-try:
-    from google import genai
-    GEMINI_CLIENT = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
-except Exception as e:
-    GEMINI_CLIENT = None
-
-
 # ==============================
 # [Config] GitHub Secrets
 # ==============================
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 CHAT_ID = os.environ.get("CHAT_ID")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")  # 선택
+GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash").strip()
 SPRING_WEBHOOK_URL = os.environ.get("SPRING_WEBHOOK_URL", "http://localhost:8080/api/signals/webhook")
 TOSS_API_BASE_URL = os.environ.get("TOSS_API_BASE_URL")
 TOSS_ACCESS_TOKEN = os.environ.get("TOSS_ACCESS_TOKEN")
 TOSS_ACCOUNT_ID = os.environ.get("TOSS_ACCOUNT_ID")
+
+# Gemini is an optional comment generator. Core analysis must not depend on it.
+try:
+    from google import genai
+except Exception:  # pragma: no cover - exercised when the optional package is absent
+    genai = None
+
+if genai is not None and GEMINI_API_KEY:
+    try:
+        GEMINI_CLIENT = genai.Client(api_key=GEMINI_API_KEY)
+    except Exception:
+        GEMINI_CLIENT = None
+else:
+    GEMINI_CLIENT = None
 
 # ==============================
 # [Config JSON] targets / params
@@ -325,7 +332,8 @@ def get_ai_comment(
     sell_reasons: Optional[str],
 ) -> str:
     if GEMINI_CLIENT is None:
-        return "(AI 코멘트 비활성화: GEMINI_CLIENT 초기화 실패 / API 키 확인)"
+        logger.info("Gemini disabled; using fallback comment")
+        return "(AI 코멘트 비활성화)"
 
     try:
         news_titles = get_news_titles_for_ai(name)
@@ -361,28 +369,84 @@ def get_ai_comment(
         """.strip()
 
         return generate_ai_comment(prompt)
-    except Exception as e:
-        return f"(AI 코멘트 오류: {e})"
+    except Exception:
+        logger.error("Gemini prompt preparation failed; using fallback comment")
+        return "(AI 코멘트 생성 실패)"
 
 
 # 수정 후 (bot.py)
 def generate_ai_comment(prompt: str) -> str:
-    try:
-        if GEMINI_CLIENT is None:
-            return "(AI 비활성화)"
+    """Generate an optional comment without allowing Gemini to stop the bot."""
+    fallback = "(AI 코멘트 생성 실패)"
+    if GEMINI_CLIENT is None:
+        logger.info("Gemini disabled; using fallback comment")
+        return "(AI 코멘트 비활성화)"
+    if not GEMINI_MODEL:
+        logger.warning("Gemini model is not configured; using fallback comment")
+        return fallback
 
-        # 기본 모델명을 최신 gemini-2.5-flash로 교체
-        model_name = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
+    max_attempts = 3
+    for attempt in range(max_attempts):
+        try:
+            resp = GEMINI_CLIENT.models.generate_content(
+                model=GEMINI_MODEL,
+                contents=prompt,
+            )
+            text = getattr(resp, "text", None)
+            if not isinstance(text, str) or not text.strip():
+                logger.warning("Gemini malformed or empty response; using fallback comment")
+                return "(AI 응답 내용 없음)"
+            return text.strip()
+        except Exception as exc:
+            category, retryable = _classify_gemini_error(exc)
+            if retryable and attempt < max_attempts - 1:
+                delay = 1.0 * (2 ** attempt)
+                logger.warning(
+                    "Gemini %s; retry %d/%d in %.1fs",
+                    category,
+                    attempt + 1,
+                    max_attempts - 1,
+                    delay,
+                )
+                time.sleep(delay)
+                continue
 
-        resp = GEMINI_CLIENT.models.generate_content(
-            model=model_name,
-            contents=prompt
-        )
-        return resp.text.strip() if resp.text else "(응답 내용 없음)"
-    except Exception as e:
-        if "429" in str(e):
-            return "(할당량 초과: 잠시 후 재시도)"
-        return f"(분석 실패: {e})"
+            logger.error(
+                "Gemini %s after %d attempt(s); using fallback comment",
+                category,
+                attempt + 1,
+            )
+            return "(할당량 초과: 잠시 후 재시도)" if category == "quota/rate limit" else fallback
+
+    return fallback
+
+
+def _classify_gemini_error(exc: Exception) -> tuple[str, bool]:
+    """Classify SDK/network failures without logging exception contents or secrets."""
+    code = getattr(exc, "code", None)
+    status_code = getattr(exc, "status_code", None)
+    if not isinstance(code, int):
+        code = status_code if isinstance(status_code, int) else None
+    message = str(exc).upper()
+
+    if code == 429 or any(
+        marker in message
+        for marker in ("429", "RESOURCE_EXHAUSTED", "RATE LIMIT", "TOO MANY REQUESTS")
+    ):
+        return "quota/rate limit", True
+    if code is not None and 500 <= code <= 599:
+        return "server error", True
+    if isinstance(exc, (TimeoutError, ConnectionError)) or any(
+        marker in message for marker in ("TIMEOUT", "TIMED OUT", "CONNECTION", "NETWORK")
+    ):
+        return "timeout/network", True
+    if code in (401, 403) or any(
+        marker in message for marker in ("UNAUTHENTICATED", "INVALID API KEY", "API KEY")
+    ):
+        return "auth", False
+    if code == 404 or "MODEL" in message or "NOT FOUND" in message:
+        return "model error", False
+    return "unknown API error", False
 
 
 
