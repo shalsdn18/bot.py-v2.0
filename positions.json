@@ -262,7 +262,7 @@
     "TSM": {
         "name": "TSMC",
         "entry_price": 408.20001220703125,
-        "highest_price": 422.25,
+        "highest_price": 430.0,
         "opened_at": "2026-10-15 13:58",
         "market": "US"
     }
