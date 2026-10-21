@@ -241,7 +241,7 @@
     "AMZN": {
         "name": "Amazon",
         "entry_price": 248.35000610351562,
-        "highest_price": 263.290009,
+        "highest_price": 263.595001,
         "opened_at": "2026-09-15 17:29",
         "market": "US"
     },
@@ -270,7 +270,7 @@
     "META": {
         "name": "Meta",
         "entry_price": 689.0800170898438,
-        "highest_price": 705.440002,
+        "highest_price": 707.43927,
         "opened_at": "2026-10-20 19:29",
         "market": "US"
     }
