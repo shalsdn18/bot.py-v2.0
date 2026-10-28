@@ -242,15 +242,8 @@
     "TSM": {
         "name": "TSMC",
         "entry_price": 408.20001220703125,
-        "highest_price": 437.480011,
+        "highest_price": 438.44989,
         "opened_at": "2026-10-15 13:58",
-        "market": "US"
-    },
-    "META": {
-        "name": "Meta",
-        "entry_price": 648.8499755859375,
-        "highest_price": 697.52002,
-        "opened_at": "2026-10-22 22:37",
         "market": "US"
     },
     "COIN": {
