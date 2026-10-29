@@ -252,5 +252,12 @@
         "highest_price": 164.449997,
         "opened_at": "2026-10-26 21:08",
         "market": "US"
+    },
+    "GOOGL": {
+        "name": "Alphabet A",
+        "entry_price": 284.9700012207031,
+        "highest_price": 284.9700012207031,
+        "opened_at": "2026-10-29 16:20",
+        "market": "US"
     }
 }
