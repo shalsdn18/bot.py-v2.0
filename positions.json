@@ -216,14 +216,6 @@
         "opened_at": "2026-06-16 13:05",
         "market": "US"
     },
-    "NVDA": {
-        "name": "NVIDIA",
-        "entry_price": 216.10000610351562,
-        "highest_price": 242.539993,
-        "opened_at": "2026-08-21 15:31",
-        "market": "US",
-        "target1_hit": true
-    },
     "AMZN": {
         "name": "Amazon",
         "entry_price": 248.35000610351562,
@@ -253,5 +245,12 @@
         "opened_at": "2026-10-29 16:20",
         "market": "US",
         "target1_hit": true
+    },
+    "COIN": {
+        "name": "Coinbase",
+        "entry_price": 141.8699951171875,
+        "highest_price": 141.8699951171875,
+        "opened_at": "2026-10-30 19:51",
+        "market": "US"
     }
 }
