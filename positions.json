@@ -249,21 +249,21 @@
     "COIN": {
         "name": "Coinbase",
         "entry_price": 141.8699951171875,
-        "highest_price": 143.539993,
+        "highest_price": 146.100006,
         "opened_at": "2026-10-30 19:51",
         "market": "US"
     },
     "NVDA": {
         "name": "NVIDIA",
         "entry_price": 202.05999755859375,
-        "highest_price": 202.05999755859375,
+        "highest_price": 207.820007,
         "opened_at": "2026-11-02 22:24",
         "market": "US"
     },
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 507.1199951171875,
-        "highest_price": 507.1199951171875,
+        "highest_price": 521.409973,
         "opened_at": "2026-11-02 22:25",
         "market": "US"
     },
@@ -272,6 +272,13 @@
         "entry_price": 178.33999633789062,
         "highest_price": 178.33999633789062,
         "opened_at": "2026-11-02 22:25",
+        "market": "US"
+    },
+    "AAPL": {
+        "name": "Apple",
+        "entry_price": 331.6700134277344,
+        "highest_price": 331.6700134277344,
+        "opened_at": "2026-11-03 19:05",
         "market": "US"
     }
 }
