@@ -223,13 +223,6 @@
         "opened_at": "2026-09-15 17:29",
         "market": "US"
     },
-    "TSM": {
-        "name": "TSMC",
-        "entry_price": 408.20001220703125,
-        "highest_price": 439.51001,
-        "opened_at": "2026-10-15 13:58",
-        "market": "US"
-    },
     "GOOGL": {
         "name": "Alphabet A",
         "entry_price": 284.9700012207031,
@@ -245,24 +238,10 @@
         "opened_at": "2026-10-30 19:51",
         "market": "US"
     },
-    "NVDA": {
-        "name": "NVIDIA",
-        "entry_price": 202.05999755859375,
-        "highest_price": 207.820007,
-        "opened_at": "2026-11-02 22:24",
-        "market": "US"
-    },
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 507.1199951171875,
         "highest_price": 555.799988,
-        "opened_at": "2026-11-02 22:25",
-        "market": "US"
-    },
-    "PLTR": {
-        "name": "Palantir",
-        "entry_price": 178.33999633789062,
-        "highest_price": 178.33999633789062,
         "opened_at": "2026-11-02 22:25",
         "market": "US"
     },
@@ -276,8 +255,16 @@
     "010120.KS": {
         "name": "LS ELECTRIC",
         "entry_price": 129800.0,
-        "highest_price": 129800.0,
+        "highest_price": 150700.0,
         "opened_at": "2026-11-05 08:59",
-        "market": "KR"
+        "market": "KR",
+        "target1_hit": true
+    },
+    "TSLA": {
+        "name": "Tesla",
+        "entry_price": 342.2799987792969,
+        "highest_price": 342.2799987792969,
+        "opened_at": "2026-11-05 17:17",
+        "market": "US"
     }
 }
