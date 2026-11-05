@@ -252,18 +252,10 @@
         "opened_at": "2026-11-03 19:05",
         "market": "US"
     },
-    "010120.KS": {
-        "name": "LS ELECTRIC",
-        "entry_price": 129800.0,
-        "highest_price": 150700.0,
-        "opened_at": "2026-11-05 08:59",
-        "market": "KR",
-        "target1_hit": true
-    },
     "TSLA": {
         "name": "Tesla",
         "entry_price": 342.2799987792969,
-        "highest_price": 342.2799987792969,
+        "highest_price": 343.690002,
         "opened_at": "2026-11-05 17:17",
         "market": "US"
     }
