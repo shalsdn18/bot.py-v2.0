@@ -231,13 +231,6 @@
         "market": "US",
         "target1_hit": true
     },
-    "COIN": {
-        "name": "Coinbase",
-        "entry_price": 141.8699951171875,
-        "highest_price": 151.5,
-        "opened_at": "2026-10-30 19:51",
-        "market": "US"
-    },
     "MSFT": {
         "name": "Microsoft",
         "entry_price": 507.1199951171875,
@@ -255,7 +248,7 @@
     "TSLA": {
         "name": "Tesla",
         "entry_price": 342.2799987792969,
-        "highest_price": 343.690002,
+        "highest_price": 358.605011,
         "opened_at": "2026-11-05 17:17",
         "market": "US"
     }
